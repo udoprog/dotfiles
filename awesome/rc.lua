@@ -40,6 +40,7 @@ beautiful.init("/usr/share/awesome/themes/default/theme.lua")
 terminal = "gnome-terminal"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
+screensaver_lock = "gnome-screensaver-command -l"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -84,10 +85,11 @@ myawesomemenu = {
    { "quit", awesome.quit }
 }
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
-                                  }
-                        })
+mymainmenu = awful.menu({ items = {
+        { "lock", screensaver_lock },
+        { "awesome", myawesomemenu, beautiful.awesome_icon },
+        { "open terminal", terminal },
+    }})
 
 mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
                                      menu = mymainmenu })
