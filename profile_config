@@ -1,0 +1,10 @@
+'profiles' => {
+    'home' => {
+        'NAME' => 'John-John Tedro',
+        'EMAIL' => 'johnjohn.tedro@gmail.com'
+    },
+    'work' => {
+        'NAME' => 'John-John Tedro',
+        'EMAIL' => 'udoprog@spotify.com'
+    }
+};
