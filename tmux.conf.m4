@@ -1,4 +1,4 @@
-set -g prefix TMUX_PREFIX
+set -g prefix PROFILE_TMUX_PREFIX
 set -g mode-keys vi
 set set-titles on
 bind-key a send-prefix

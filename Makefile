@@ -17,7 +17,7 @@ gen:
 
 submodules:
 	git submodule update --init --recursive
-	git submodule foreach --recursive git clean -fdx
+	git submodule foreach --recursive git clean -fd
 	git submodule foreach --recursive git reset --hard HEAD
 
 vim:
@@ -26,7 +26,7 @@ vim:
 vim/bundle/powerline: vim/bundle
 	mkdir -p $@
 
-vim/bundle/powerline/plugin:
+vim/bundle/powerline/plugin: vim/bundle/powerline
 	ln -fs $(CURDIR)/powerline/powerline/bindings/vim/plugin $@
 
 powerline: vim/bundle/powerline/plugin
@@ -40,7 +40,7 @@ $(HOME)/.gitconfig: gen/gitconfig.gen
 $(HOME)/.zshrc_custom: gen/zshrc_custom.gen
 	ln -fs $(CURDIR)/$< $@
 
-$(HOME)/.zshrc: zshrc
+$(HOME)/.zshrc: gen/zshrc.gen
 	ln -fs $(CURDIR)/$< $@
 
 $(HOME)/.tmux.conf: gen/tmux.conf.gen

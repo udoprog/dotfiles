@@ -1,17 +1,20 @@
 'profiles' => {
     'home' => {
-        'NAME' => 'John-John Tedro',
-        'EMAIL' => 'johnjohn.tedro@gmail.com',
-        'TMUX_PREFIX' => 'C-a'
+        'PROFILE_NAME' => 'John-John Tedro',
+        'PROFILE_EMAIL' => 'johnjohn.tedro@gmail.com',
+        'PROFILE_TMUX_PREFIX' => 'C-a',
+        'PROFILE_ZSH_THEME' => 'robbyrussell'
     },
     'remote' => {
-        'NAME' => 'John-John Tedro',
-        'EMAIL' => 'johnjohn.tedro@gmail.com',
-        'TMUX_PREFIX' => 'C-b'
+        'PROFILE_NAME' => 'John-John Tedro',
+        'PROFILE_EMAIL' => 'johnjohn.tedro@gmail.com',
+        'PROFILE_TMUX_PREFIX' => 'C-b',
+        'PROFILE_ZSH_THEME' => 'afowler'
     },
     'work' => {
-        'NAME' => 'John-John Tedro',
-        'EMAIL' => 'udoprog@spotify.com',
-        'TMUX_PREFIX' => 'C-a'
+        'PROFILE_NAME' => 'John-John Tedro',
+        'PROFILE_EMAIL' => 'udoprog@spotify.com',
+        'PROFILE_TMUX_PREFIX' => 'C-a',
+        'PROFILE_ZSH_THEME' => 'robbyrussell'
     }
 };
