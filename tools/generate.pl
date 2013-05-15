@@ -63,7 +63,12 @@ sub select_profile {
 }
 
 sub main {
-    exit 1 unless -f $PROFILE_CONFIG;
+    die "Missing file: $PROFILE_CONFIG" unless -f $PROFILE_CONFIG;
+
+    my $target = $ARGV[0];
+    my $source = $ARGV[1];
+
+    die "Missing source: $source" unless -f $source;
 
     my %config = do $PROFILE_CONFIG;
     my $profiles = $config{'profiles'};
@@ -78,14 +83,8 @@ sub main {
 
     my $args = join ' ', map { "-D$_=\"$profile->{$_}\"" } keys(%$profile);
 
-    for (glob '*.m4') {
-        my $template = $_;
-        my $target = $template;
-        $target =~ s/\.m4$//;
-        say "generated: $template -> $target";
-        system "m4 $args $_ > $target";
-    }
-
+    say "Generating; $source -> $target";
+    system "m4 $args $source > $target";
     return 0;
 }
 
