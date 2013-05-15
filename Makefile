@@ -35,7 +35,7 @@ $(HOME)/.zshrc_custom: gen/zshrc_custom.gen
 $(HOME)/.zshrc: zshrc
 	ln -fs $(CURDIR)/$< $@
 
-$(HOME)/.tmux.conf: tmux.conf
+$(HOME)/.tmux.conf: gen/tmux.conf.gen
 	ln -fs $(CURDIR)/$< $@
 
 configs: gen ${CONFIGS}

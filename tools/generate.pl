@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 
 use strict;
+use Cwd;
 
 use feature 'say';
 
@@ -81,10 +82,14 @@ sub main {
 
     die "No such profile: $profile_name" unless $profile;
 
-    my $args = join ' ', map { "-D$_=\"$profile->{$_}\"" } keys(%$profile);
+    my $cwd = getcwd;
+    my @args = map { "-D$_=\"$profile->{$_}\"" } keys(%$profile);
+    push @args, "-DPWD=$cwd";
+
+    my $m4_args = join ' ', @args;
 
     say "Generating; $source -> $target";
-    system "m4 $args $source > $target";
+    system "m4 $m4_args $source > $target";
     return 0;
 }
 
