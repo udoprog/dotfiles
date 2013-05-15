@@ -1,10 +1,17 @@
 'profiles' => {
     'home' => {
         'NAME' => 'John-John Tedro',
-        'EMAIL' => 'johnjohn.tedro@gmail.com'
+        'EMAIL' => 'johnjohn.tedro@gmail.com',
+        'TMUX_PREFIX' => 'C-a'
+    },
+    'remote' => {
+        'NAME' => 'John-John Tedro',
+        'EMAIL' => 'johnjohn.tedro@gmail.com',
+        'TMUX_PREFIX' => 'C-b'
     },
     'work' => {
         'NAME' => 'John-John Tedro',
-        'EMAIL' => 'udoprog@spotify.com'
+        'EMAIL' => 'udoprog@spotify.com',
+        'TMUX_PREFIX' => 'C-a'
     }
 };
