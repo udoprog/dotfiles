@@ -1,4 +1,4 @@
-.PHONY: submodules vim awesome configs
+.PHONY: submodules vim powerline awesome configs
 
 .SUFFIXES: .m4.gen
 
@@ -7,13 +7,13 @@ CONFIGS+=$(HOME)/.zshrc_custom
 CONFIGS+=$(HOME)/.zshrc
 CONFIGS+=$(HOME)/.tmux.conf
 
-gen:
-	mkdir $@
-
 gen/%.gen: %.m4
 	tools/generate.pl $@ $<
 
-all: configs submodules vim awesome
+all: configs submodules vim powerline awesome
+
+gen:
+	mkdir $@
 
 submodules:
 	git submodule update --init --recursive
@@ -22,6 +22,14 @@ submodules:
 
 vim:
 	cd vim && make
+
+vim/bundle/powerline: vim/bundle
+	mkdir -p $@
+
+vim/bundle/powerline/plugin:
+	ln -fs $(CURDIR)/powerline/powerline/bindings/vim/plugin $@
+
+powerline: vim/bundle/powerline/plugin
 
 awesome:
 	cd awesome && make

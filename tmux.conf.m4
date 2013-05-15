@@ -1,5 +1,3 @@
-source PWD/vim/powerline/powerline/bindings/tmux/powerline.conf
-
 set -g prefix C-a
 set -g mode-keys vi
 set set-titles on
@@ -21,4 +19,8 @@ set-environment SSH_AUTH_SOCK ~/.cache/ssh_auth_sock
     bind -r M-j swap-pane -D
     bind -r M-k swap-pane -U
     bind -r M-l swap-window -t :+
+# }
+
+# powerline {
+    source PWD/powerline/powerline/bindings/tmux/powerline.conf
 # }
