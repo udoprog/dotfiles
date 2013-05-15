@@ -5,7 +5,7 @@ export CORRECT_IGNORE='_*:.*'
 
 export DEBEMAIL="EMAIL"
 export DEBFULLNAME="NAME"
-export TERM=screen-256color
+#export TERM=screen-256color
 
 if [[ -f /etc/debian_version ]]; then
     PS1="(squeeze $(cat /etc/debian_version)) $PS1"
