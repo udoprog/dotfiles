@@ -5,18 +5,17 @@ export CORRECT_IGNORE='_*:.*'
 
 export DEBEMAIL="EMAIL"
 export DEBFULLNAME="NAME"
-#export TERM=screen-256color
 
-if [[ -f /etc/debian_version ]]; then
-    PS1="(squeeze $(cat /etc/debian_version)) $PS1"
+if [[ -n $SCHROOT_CHROOT_NAME ]]; then
+    export PS1="<$SCHROOT_CHROOT_NAME> $PS1"
 fi
 
-VIRTUAL_SSH_AUTH_SOCK=$HOME/.cache/ssh_auth_sock
+if [[ -n $TMUX ]]; then
+    link="$HOME/ssh_auth_sock"
 
-if [[ $SSH_AUTH_SOCK != $VIRTUAL_SSH_AUTH_SOCK ]]; then
-    if [[ $(readlink $VIRTUAL_SSH_AUTH_SOCK) != $SSH_AUTH_SOCK ]]; then
-        ln -sf $SSH_AUTH_SOCK $VIRTUAL_SSH_AUTH_SOCK
+    if [[ ! -L $link ]]; then
+        ln -sf "$SSH_AUTH_SOCK" "$link"
     fi
 
-    export SSH_AUTH_SOCK=$VIRTUAL_SSH_AUTH_SOCK
+    export SSH_AUTH_SOCK="$link"
 fi
