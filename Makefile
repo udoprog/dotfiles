@@ -19,10 +19,6 @@ gen:
 
 submodules:
 	git submodule update --init --recursive
-	git submodule foreach --recursive git fetch -a origin
-	git submodule foreach --recursive git clean -fdx
-	git submodule foreach --recursive git reset --hard origin/master
-	cd powerline && git reset --hard origin/develop
 
 vim:
 	cd vim && make
