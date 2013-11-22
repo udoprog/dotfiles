@@ -12,11 +12,10 @@ gen/%.gen: %.m4
 
 all: configs submodules vim powerline awesome
 
-update:
-	git submodule foreach --recursive git fetch -a origin
+clean:
+	git submodule foreach --recursive git submodule update --init
 	git submodule foreach --recursive git clean -fdx
-	git submodule foreach --recursive git reset --hard origin/master
-	cd powerline && git reset --hard origin/develop
+	git submodule foreach --recursive git reset --hard HEAD
 
 gen:
 	mkdir $@
