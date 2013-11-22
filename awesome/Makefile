@@ -1,3 +1,5 @@
+.PHONY: all
+
 all: ${HOME}/.config ${HOME}/.config/awesome 
 
 ${HOME}/.config:
