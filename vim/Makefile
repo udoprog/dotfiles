@@ -1,13 +1,6 @@
-all:
-	make vim
-	git submodule update --init --recursive
-	make -f YouCompleteMe.mk all
-	make -f command-t.mk all
+all: vim
 	vim +BundleInstall +qall
-
-clean:
-	git submodule foreach --recursive git clean -fdx
-	git submodule foreach --recursive git reset --hard HEAD
+	build/make all
 
 .PHONY: vim
 
