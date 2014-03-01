@@ -39,9 +39,10 @@ syntax on
 filetype plugin on
 filetype indent on
 
-if exists("g:lucius_style")
+try
   colorscheme lucius
-endif
+catch /^Vim\%((\a\+)\)\=:E185/
+endtry
 
 set t_Co=256
 set sw=4
