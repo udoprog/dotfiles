@@ -1,78 +1,81 @@
 [submodule "powerline"]
 	path = powerline
 	url = https://github.com/Lokaltog/powerline
-[submodule "bundle/nerdtree"]
-	path = bundle/nerdtree
+[submodule "vim/bundle/nerdtree"]
+	path = vim/bundle/nerdtree
 	url = https://github.com/scrooloose/nerdtree.git
-[submodule "bundle/tabular"]
-	path = bundle/tabular
+[submodule "vim/bundle/tabular"]
+	path = vim/bundle/tabular
 	url = https://github.com/godlygeek/tabular.git
-[submodule "bundle/zencoding"]
-	path = bundle/zencoding
+[submodule "vim/bundle/zencoding"]
+	path = vim/bundle/zencoding
 	url = https://github.com/mattn/zencoding-vim.git
-[submodule "bundle/ack"]
-	path = bundle/ack
+[submodule "vim/bundle/ack"]
+	path = vim/bundle/ack
 	url = https://github.com/mileszs/ack.vim
-[submodule "bundle/nerdcommenter"]
-	path = bundle/nerdcommenter
+[submodule "vim/bundle/nerdcommenter"]
+	path = vim/bundle/nerdcommenter
 	url = https://github.com/scrooloose/nerdcommenter.git
-[submodule "bundle/snippets"]
-	path = bundle/snippets
+[submodule "vim/bundle/snippets"]
+	path = vim/bundle/snippets
 	url = https://github.com/carlosvillu/coffeScript-VIM-Snippets
-[submodule "bundle/neco-ghc"]
-	path = bundle/neco-ghc
+[submodule "vim/bundle/neco-ghc"]
+	path = vim/bundle/neco-ghc
 	url = https://github.com/ujihisa/neco-ghc.git
-[submodule "bundle/neocomplcache"]
-	path = bundle/neocomplcache
+[submodule "vim/bundle/neocomplcache"]
+	path = vim/bundle/neocomplcache
 	url = https://github.com/tosik/neocomplcache.git
-[submodule "bundle/mako"]
-	path = bundle/mako
+[submodule "vim/bundle/mako"]
+	path = vim/bundle/mako
 	url = https://github.com/sophacles/vim-bundle-mako.git
-[submodule "bundle/command-t"]
-	path = bundle/command-t
+[submodule "vim/bundle/command-t"]
+	path = vim/bundle/command-t
 	url = https://github.com/wincent/Command-T
-[submodule "bundle/vim-orgmode"]
-	path = bundle/vim-orgmode
+[submodule "vim/bundle/vim-orgmode"]
+	path = vim/bundle/vim-orgmode
 	url = https://github.com/jceb/vim-orgmode
-[submodule "bundle/vim-fugutive"]
-	path = bundle/vim-fugutive
+[submodule "vim/bundle/vim-fugutive"]
+	path = vim/bundle/vim-fugutive
 	url = git://github.com/tpope/vim-fugitive.git
-[submodule "bundle/vim-surround"]
-	path = bundle/vim-surround
+[submodule "vim/bundle/vim-surround"]
+	path = vim/bundle/vim-surround
 	url = git://github.com/tpope/vim-surround.git
-[submodule "bundle/pyflakes"]
-	path = bundle/pyflakes
+[submodule "vim/bundle/pyflakes"]
+	path = vim/bundle/pyflakes
 	url = https://github.com/kevinw/pyflakes-vim.git
-[submodule "bundle/vim-puppet"]
-	path = bundle/vim-puppet
+[submodule "vim/bundle/vim-puppet"]
+	path = vim/bundle/vim-puppet
 	url = git://github.com/rodjek/vim-puppet.git
-[submodule "bundle/syntastic"]
-	path = bundle/syntastic
+[submodule "vim/bundle/syntastic"]
+	path = vim/bundle/syntastic
 	url = git://github.com/scrooloose/syntastic.git
-[submodule "bundle/python-mode"]
-	path = bundle/python-mode
+[submodule "vim/bundle/python-mode"]
+	path = vim/bundle/python-mode
 	url = https://github.com/klen/python-mode
+[submodule "vim/bundle/YouCompleteMe"]
+	path = vim/bundle/YouCompleteMe
+	url = https://github.com/Valloric/YouCompleteMe
+[submodule "vim/bundle/rainbow_parentheses.vim"]
+	path = vim/bundle/rainbow_parentheses.vim
+	url = https://github.com/kien/rainbow_parentheses.vim
+[submodule "vim/bundle/vim-clojure-static"]
+	path = vim/bundle/vim-clojure-static
+	url = https://github.com/guns/vim-clojure-static
+[submodule "vim/bundle/vim-fireplace"]
+	path = vim/bundle/vim-fireplace
+	url = https://github.com/tpope/vim-fireplace
+[submodule "vim/bundle/vim-classpath"]
+	path = vim/bundle/vim-classpath
+	url = https://github.com/tpope/vim-classpath
+[submodule "vim/bundle/paredit"]
+	path = vim/bundle/paredit
+	url = https://github.com/vim-scripts/paredit.vim
+[submodule "vim/bundle/vim-lucius"]
+	path = vim/bundle/vim-lucius
+	url = https://github.com/jonathanfilip/vim-lucius
 [submodule "vim/pathogen"]
 	path = vim/pathogen
 	url = https://github.com/tpope/vim-pathogen
-[submodule "bundle/YouCompleteMe"]
-	path = bundle/YouCompleteMe
-	url = https://github.com/Valloric/YouCompleteMe
-[submodule "bundle/rainbow_parentheses.vim"]
-	path = bundle/rainbow_parentheses.vim
-	url = https://github.com/kien/rainbow_parentheses.vim
-[submodule "bundle/vim-clojure-static"]
-	path = bundle/vim-clojure-static
-	url = https://github.com/guns/vim-clojure-static
-[submodule "bundle/vim-fireplace"]
-	path = bundle/vim-fireplace
-	url = https://github.com/tpope/vim-fireplace
-[submodule "bundle/vim-classpath"]
-	path = bundle/vim-classpath
-	url = https://github.com/tpope/vim-classpath
-[submodule "bundle/paredit"]
-	path = bundle/paredit
-	url = https://github.com/vim-scripts/paredit.vim
-[submodule "bundle/vim-lucius"]
-    path = bundle/vim-lucius
-    url = https://github.com/jonathanfilip/vim-lucius
+[submodule "vim/bundle/emmet-vim"]
+	path = vim/bundle/emmet-vim
+	url = https://github.com/mattn/emmet-vim
