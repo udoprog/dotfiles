@@ -1,9 +1,11 @@
+" vim: sw=2 foldmethod=marker
+
+" {{{ Bundles
 set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-" Bundles
 Bundle "Valloric/YouCompleteMe"
 Bundle "wincent/Command-T"
 Bundle "carlosvillu/coffeScript-VIM-Snippets"
@@ -30,33 +32,29 @@ Bundle "tpope/vim-pathogen"
 Bundle "tpope/vim-surround"
 Bundle "ujihisa/neco-ghc"
 Bundle "vim-scripts/paredit.vim"
+""" }}}
 
+" {{{ Basic Settings
 syntax on
 filetype plugin on
 filetype indent on
 
-try
-    colorscheme lucius
-catch /^Vim\%((\a\+)\)\=:E185/
-endtry
+if exists("g:lucius_style")
+  colorscheme lucius
+endif
 
 set t_Co=256
-
 set sw=4
 set tabstop=4
 set expandtab
 set number
-
 set guifont=Inconsolata\ for\ Powerline
-
 set modelines=5
 set novisualbell
 set t_vb=
 set updatetime=1000
-
 set laststatus=2
 set history=1000
-
 " Set some default stuff that allows for better integration
 set autoindent
 set autoread
@@ -99,17 +97,12 @@ set synmaxcol=800
 set notimeout
 set ttimeout
 set ttimeoutlen=10
-
 " Make Vim able to edit crontab files again.
 set backupskip=/tmp/*,/private/tmp/*"
-
 " Better Completion
 set complete=.,w,b,u,t
 set completeopt=longest,menuone,preview
-
-"
 "Make line wrapping act sanely
-"
 set wrap
 set textwidth=79
 set formatoptions=qrn1
@@ -134,17 +127,71 @@ else
   set number
 endif
 
-"
-" PLUGINS
-"
+" Learn vim the hard way.
+" Disable movement keys and escape.
+noremap <Left> <NOP>
+inoremap <Left> <NOP>
+noremap <Right> <NOP>
+inoremap <Right> <NOP>
+noremap <Up> <NOP>
+inoremap <Up> <NOP>
+noremap <Down> <NOP>
+inoremap <Down> <NOP>
+inoremap <Esc> <NOP>
 
-" Add fugitive statusline if available.
-" set statusline+=%{fugitive#statusline()}
+" Save when losing focus
+au FocusLost * :silent! wall
 
-" let g:Powerline_coloscheme = 'badwolf'
+" Resize splits when the window is resized
+au VimResized * :wincmd =
+
+" Custom Highlights
+highlight NonText guifg=#909090
+highlight SpecialKey guifg=#909090
+
+" Improved search
+nnoremap / /\v
+vnoremap / /\v
+nnoremap <leader><space> :noh<CR>
+nnoremap <tab> %
+vnoremap <tab> %
+
+" Highlight trailing whitespace.
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+
+" tab navigation like firefox
+nmap <C-h> :tabp<CR>
+nmap <C-l> :tabn<CR>
+" }}}
+
+" {{{ Plugin Settings
 let g:Powerline_cache_enabled = 0
 let g:Powerline_symbols = 'fancy'
 
+let NERDTreeIgnore=['\.o$', '\.pyc$', '\~$']
+let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+let mapleader = ","
+let maplocalleader = '\'
+
+" {{{ Syntastic
+if exists("g:loaded_syntastic_plugin")
+  let g:syntastic_enable_signs = 1
+  let g:syntastic_check_on_open = 0
+  let g:syntastic_disabled_filetypes = ['html', 'rst', 'css']
+  let g:syntastic_stl_format = '[%E{%e Errors}%B{, }%W{%w Warnings}]'
+  let g:syntastic_javascript_jslint_conf = "--maxerr 1000 --white --undef --nomen --regexp --plusplus --bitwise --newcap --sloppy --vars --continue"
+  let g:syntastic_python_checker = 'flake8'
+  let g:syntastic_python_checker_args = '--ignore=E501'  " Ignore line too long
+endif
+" }}}
+
+nnoremap <leader>t :CommandT<cr>
+nnoremap <leader>r :NERDTreeFind<cr>
+map <F2> :NERDTreeToggle<CR>
+" }}}
+
+" {{{ FileType Setup
 function! SetupJava()
   set path=src/main/java,src/test/java,$JAVA_HOME/src
   set suffixesadd=.java
@@ -155,16 +202,8 @@ function! SetupPHP()
   set suffixesadd=.php
 endfunction
 
-function! SetupNGT()
-  set tabstop=2
-  set shiftwidth=2
-  set filetype=html
-  set suffixesadd=.ngt
-endfunction
-
 function! SetupPython()
   nmap <leader>d :!pydoc <cfile><CR>
-  nmap <leader>x :w<cr>!python %<CR>
   set suffixesadd=.py
 endfunction
 
@@ -178,6 +217,20 @@ function! SetupEPL()
   set filetype=sql
 endfunction
 
+function! SetupNGT()
+  set tabstop=2
+  set shiftwidth=2
+  set filetype=html
+  set suffixesadd=.ngt
+endfunction
+
+function! SetupCLJ()
+  au VimEnter * RainbowParenthesesToggle
+  au Syntax * RainbowParenthesesLoadRound
+  au Syntax * RainbowParenthesesLoadSquare
+  au Syntax * RainbowParenthesesLoadBraces
+endfunction
+
 if has("autocmd")
   " do all autocmd stuff here
   " autocmd FileType javascript <cmd>
@@ -189,94 +242,6 @@ if has("autocmd")
   autocmd BufNewFile,BufRead *.epl :call SetupEPL()
   autocmd BufNewFile,BufRead *.pp set filetype=puppet
   autocmd BufNewFile,BufRead *.ngt :call SetupNGT()
+  autocmd BufNewFile,BufRead *.clj :call SetupCLJ()
 endif
-
-" Save when losing focus
-au FocusLost * :silent! wall
-
-" Resize splits when the window is resized
-au VimResized * :wincmd =
-
-map <F2> :NERDTreeToggle<CR>
-let NERDTreeIgnore=['\.o$', '\.pyc$', '\~$']
-
-" tab navigation like firefox
-nmap <C-h> :tabp<CR>
-nmap <C-l> :tabn<CR>
-
-noremap <Left>  <NOP>
-inoremap <Left>  <NOP>
-noremap <Right> <NOP>
-inoremap <Right> <NOP>
-noremap <Up>    <NOP>
-inoremap <Up>    <NOP>
-noremap <Down>  <NOP>
-inoremap <Down>  <NOP>
-
-" :inoremap <Esc>   <NOP>
-" :inoremap kj <Esc>
-
-"
-" Custom Highlights
-"
-highlight NonText guifg=#909090
-highlight SpecialKey guifg=#909090
-
-let g:ackprg="ack-grep -H --nocolor --nogroup --column"
-
-let mapleader = ","
-let maplocalleader = '\'
-
-
-"
-" Improve search
-"
-nnoremap / /\v
-vnoremap / /\v
-nnoremap <leader><space> :noh<CR>
-nnoremap <tab> %
-vnoremap <tab> %
-
-"
-" orgmode settings
-"
-if exists("g:loaded_org")
-  let g:org_agenda_files = ['~/.vim/org/index.org']
-  let g:pymode_rope = 1
-  let g:pymode_folding = 1
-endif
-
-"
-" Highlight extra whitespace.
-"
-highlight ExtraWhitespace ctermbg=red guibg=red
-match ExtraWhitespace /\s\+$/
-
-"
-" Syntastic
-"
-
-if exists("g:loaded_syntastic_plugin")
-  let g:syntastic_enable_signs = 1
-  let g:syntastic_check_on_open = 0
-  let g:syntastic_disabled_filetypes = ['html', 'rst', 'css']
-  let g:syntastic_stl_format = '[%E{%e Errors}%B{, }%W{%w Warnings}]'
-  let g:syntastic_javascript_jslint_conf = "--maxerr 1000 --white --undef --nomen --regexp --plusplus --bitwise --newcap --sloppy --vars --continue"
-  let g:syntastic_python_checker = 'flake8'
-  let g:syntastic_python_checker_args = '--ignore=E501'  " Ignore line too long
-endif
-
-"
-" Custom mappings
-"
-nnoremap <leader>t :CommandT<cr>
-nnoremap <leader>r :NERDTreeFind<cr>
-
-"
-" Enable rainbow parameters.
-"
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
-
+" }}}
