@@ -3,6 +3,7 @@ all:
 	git submodule update --init --recursive
 	make -f YouCompleteMe.mk all
 	make -f command-t.mk all
+	vim +BundleInstall +qall
 
 clean:
 	git submodule foreach --recursive git clean -fdx

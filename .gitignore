@@ -1,3 +1,5 @@
 profile_id
 gen/*.gen
 .*.un~
+vim/bundle/*
+!vim/bundle/vundle

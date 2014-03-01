@@ -1,4 +1,36 @@
-execute pathogen#infect()
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" Bundles
+Bundle "Valloric/YouCompleteMe"
+Bundle "carlosvillu/coffeScript-VIM-Snippets"
+Bundle "gmarik/vundle"
+Bundle "godlygeek/tabular"
+Bundle "guns/vim-clojure-static"
+Bundle "jceb/vim-orgmode"
+Bundle "jonathanfilip/vim-lucius"
+Bundle "kevinw/pyflakes-vim"
+Bundle "kien/rainbow_parentheses.vim"
+Bundle "klen/python-mode"
+Bundle "mattn/emmet-vim"
+Bundle "mileszs/ack.vim"
+Bundle "rodjek/vim-puppet"
+Bundle "scrooloose/nerdcommenter"
+Bundle "scrooloose/nerdtree"
+Bundle "scrooloose/syntastic"
+Bundle "sophacles/vim-bundle-mako"
+Bundle "tosik/neocomplcache"
+Bundle "tpope/vim-classpath"
+Bundle "tpope/vim-fireplace"
+Bundle "tpope/vim-fugitive"
+Bundle "tpope/vim-pathogen"
+Bundle "tpope/vim-surround"
+Bundle "ujihisa/neco-ghc"
+Bundle "vim-scripts/paredit.vim"
+Bundle "wincent/Command-T"
+
 syntax on
 filetype plugin on
 filetype indent on
@@ -21,9 +53,7 @@ set updatetime=1000
 set laststatus=2
 set history=1000
 
-"
 " Set some default stuff that allows for better integration
-"
 set autoindent
 set autoread
 set autowrite
