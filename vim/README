@@ -1,0 +1,12 @@
+Install:
+
+Install vim 7.3 with --enable-multibyte
+
+Clone this repo to ~/.vim
+
+cd into ~/.vim and run:
+
+git submodule init
+git submodule update
+
+ln -fs .vim/vimrc .vimrc
