@@ -1,6 +1,3 @@
-[submodule "vim"]
-	path = vim
-	url = https://github.com/udoprog/dotvim.git
 [submodule "powerline"]
 	path = powerline
 	url = https://github.com/Lokaltog/powerline
