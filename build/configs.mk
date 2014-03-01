@@ -9,7 +9,7 @@ all: gen ${CONFIGS}
 
 .SUFFIXES: .m4.gen
 
-gen/%.gen: %.m4
+gen/%.gen: configs/%.m4
 	tools/generate.pl $@ $<
 
 gen:

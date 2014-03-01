@@ -2,6 +2,9 @@ all: vim
 	vim +BundleInstall +qall
 	build/make all
 
+clean:
+	build/make clean
+
 .PHONY: vim
 
 vim: $(HOME)/.vim $(HOME)/.vimrc

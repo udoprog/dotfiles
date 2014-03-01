@@ -35,7 +35,11 @@ syntax on
 filetype plugin on
 filetype indent on
 
-colorscheme lucius
+try
+    colorscheme lucius
+catch /^Vim\%((\a\+)\)\=:E185/
+endtry
+
 set t_Co=256
 
 set sw=4

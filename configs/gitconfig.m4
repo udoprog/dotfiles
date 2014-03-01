@@ -1,3 +1,4 @@
+# vim: filetype=gitconfig
 [core]
     excludesfile = ~/.gitignore
 [user]

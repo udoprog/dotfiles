@@ -89,6 +89,7 @@ sub main {
     my $m4_args = join ' ', @args;
 
     say "Generating; $source -> $target";
+    print "m4 $m4_args $source > $target\n";
     system "m4 $m4_args $source > $target";
     return 0;
 }
