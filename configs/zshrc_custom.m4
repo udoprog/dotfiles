@@ -24,5 +24,5 @@ fi
 
 # Color terminals (gnome-terminal).
 if [[ -n $COLORTERM ]]; then
-    export TERM="xterm-256color"
+    export TERM="screen-256color"
 fi
