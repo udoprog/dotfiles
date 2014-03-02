@@ -10,7 +10,7 @@ all: gen ${CONFIGS}
 .SUFFIXES: .m4.gen
 
 gen/%: configs/%.m4
-	tools/generate.pl $@ $<
+	build/m4tpl $@ $<
 
 gen:
 	mkdir $@
