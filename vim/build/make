@@ -1,9 +1,0 @@
-#!/bin/bash
-
-while read build; do
-    if ! make -f $build "$@"; then
-        exit $?
-    fi
-done < <(find build -name '*.mk')
-
-exit 0

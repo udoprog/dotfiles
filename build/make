@@ -1,6 +1,7 @@
 #!/bin/bash
 
 while read build; do
+    echo make -f $build "$@"
     if ! make -f $build "$@"; then
         exit $?
     fi
