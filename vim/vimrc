@@ -129,6 +129,9 @@ else
   set number
 endif
 
+let mapleader = ","
+let maplocalleader = '\'
+
 " Learn vim the hard way.
 " Disable movement keys and escape.
 noremap <Left> <NOP>
@@ -173,8 +176,6 @@ let g:Powerline_symbols = 'fancy'
 
 let NERDTreeIgnore=['\.o$', '\.pyc$', '\~$']
 let g:ackprg="ack-grep -H --nocolor --nogroup --column"
-let mapleader = ","
-let maplocalleader = '\'
 
 " {{{ Syntastic
 if exists("g:loaded_syntastic_plugin")
