@@ -9,20 +9,20 @@ all: gen ${CONFIGS}
 
 .SUFFIXES: .m4.gen
 
-gen/%.gen: configs/%.m4
+gen/%: configs/%.m4
 	tools/generate.pl $@ $<
 
 gen:
 	mkdir $@
 
-$(HOME)/.gitconfig: gen/gitconfig.gen
+$(HOME)/.gitconfig: gen/gitconfig
 	ln -fs $(CURDIR)/$< $@
 
-$(HOME)/.zshrc_custom: gen/zshrc_custom.gen
+$(HOME)/.zshrc_custom: gen/zshrc_custom
 	ln -fs $(CURDIR)/$< $@
 
-$(HOME)/.zshrc: gen/zshrc.gen
+$(HOME)/.zshrc: gen/zshrc
 	ln -fs $(CURDIR)/$< $@
 
-$(HOME)/.tmux.conf: gen/tmux.conf.gen
+$(HOME)/.tmux.conf: gen/tmux.conf
 	ln -fs $(CURDIR)/$< $@
