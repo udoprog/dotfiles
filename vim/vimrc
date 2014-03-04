@@ -98,7 +98,7 @@ set synmaxcol=800
 " Time out on key codes but not mappings
 set notimeout
 set ttimeout
-set ttimeoutlen=10
+set ttimeoutlen=1
 " Make Vim able to edit crontab files again.
 set backupskip=/tmp/*,/private/tmp/*"
 " Better Completion
@@ -131,18 +131,6 @@ endif
 
 let mapleader = ","
 let maplocalleader = '\'
-
-" Learn vim the hard way.
-" Disable movement keys and escape.
-noremap <Left> <NOP>
-inoremap <Left> <NOP>
-noremap <Right> <NOP>
-inoremap <Right> <NOP>
-noremap <Up> <NOP>
-inoremap <Up> <NOP>
-noremap <Down> <NOP>
-inoremap <Down> <NOP>
-inoremap <Esc> <NOP>
 
 " Save when losing focus
 au FocusLost * :silent! wall
@@ -247,4 +235,20 @@ if has("autocmd")
   autocmd BufNewFile,BufRead *.ngt :call SetupNGT()
   autocmd BufNewFile,BufRead *.clj :call SetupCLJ()
 endif
+" }}}
+
+" {{{ Learn Vim The Hard Way
+" Learn vim the hard way.
+" Disable movement keys and escape.
+noremap <Left> <NOP>
+inoremap <Left> <NOP>
+noremap <Right> <NOP>
+inoremap <Right> <NOP>
+noremap <Up> <NOP>
+inoremap <Up> <NOP>
+noremap <Down> <NOP>
+inoremap <Down> <NOP>
+
+" Escape remapping to tab.
+inoremap jk <Esc>
 " }}}
