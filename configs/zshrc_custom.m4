@@ -17,9 +17,13 @@ fi
 SSH_AUTH_SOCK_LINK="$HOME/ssh_auth_sock"
 
 if [[ -n $TMUX ]]; then
+    echo "Exporting: SSH_AUTH_SOCK=$SSH_AUTH_SOCK_LINK"
     export SSH_AUTH_SOCK="$SSH_AUTH_SOCK_LINK"
 else
-    ln -sf "$SSH_AUTH_SOCK" "$SSH_AUTH_SOCK_LINK"
+    if [[ -n $SSH_AUTH_SOCK ]]; then
+        echo "Linking: $SSH_AUTH_SOCK_LINK -> $SSH_AUTH_SOCK"
+        ln -sf "$SSH_AUTH_SOCK" "$SSH_AUTH_SOCK_LINK"
+    fi
 fi
 
 # Color terminals (gnome-terminal).
