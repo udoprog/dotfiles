@@ -1,5 +1,6 @@
 B=$(CURDIR)/build/make
 M=$(CURDIR)/build/m4tpl
+VIMINIT=$(CURDIR)/vimrc.mini
 
 .PHONY: all clean
 
@@ -11,8 +12,4 @@ all:
 clean:
 	$(B) clean
 	cd vim && make B="$(B)" clean
-	cd awesome && make B="$(B)" all
-	git submodule foreach git submodule update --init
-	git submodule foreach git clean -fdx
-	git submodule foreach git reset --hard HEAD
-	git clean -ffdx
+	cd awesome && make B="$(B)" clean

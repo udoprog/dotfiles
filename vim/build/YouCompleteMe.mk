@@ -3,4 +3,5 @@
 all: bundle/YouCompleteMe/python/ycm_core.so
 
 bundle/YouCompleteMe/python/ycm_core.so:
+	cd bundle/YouCompleteMe && git submodule update --init --recursive
 	cd bundle/YouCompleteMe && ./install.sh

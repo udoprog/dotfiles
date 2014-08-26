@@ -17,52 +17,6 @@ sub read_profile_name {
     return $value;
 }
 
-sub pick_one {
-    my $alts = shift;
-
-    my $i = 0;
-
-    say "Pick one:";
-
-    for (@$alts) {
-        say "$i) $_";
-        ++$i;
-    }
-
-    while (1) {
-        print "Pick one: ";
-
-        my $input = undef;
-
-        unless ($input = <STDIN>) {
-            die "abort";
-        }
-
-        if (my $choice = $alts->[$input]) {
-            return $choice;
-        }
-
-        say "Not a valid choice: $input, try again";
-    }
-}
-
-sub select_profile {
-    my $profiles = shift;
-
-    my $i = 0;
-
-    my @alts = keys %$profiles;
-
-    my $choice = pick_one \@alts;
-
-    say "writing choice to $PROFILE_NAME";
-    open my $fp, '>', $PROFILE_NAME;
-    print $fp "$choice\n";
-    close $fp;
-
-    return $choice;
-}
-
 sub main {
     die "Missing file: $PROFILE_CONFIG" unless -f $PROFILE_CONFIG;
 
@@ -76,7 +30,7 @@ sub main {
 
     my $profile_name = read_profile_name;
 
-    $profile_name = select_profile $profiles unless $profile_name;
+    die "No profile configured: $PROFILE_NAME" unless $profile_name;
 
     my $profile = $config{ 'profiles' }->{ $profile_name };
 
