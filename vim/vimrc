@@ -49,7 +49,6 @@ set t_Co=256
 set sw=4
 set tabstop=4
 set expandtab
-set number
 set guifont=Inconsolata\ for\ Powerline
 set modelines=5
 set novisualbell
@@ -114,6 +113,9 @@ set wildignore+=**/.svn
 set wildignore+=*.class
 set wildignore+=**/tmp
 
+let mapleader = ","
+let maplocalleader = '\'
+
 if exists('+colorcolumn')
   set colorcolumn=+1
 endif
@@ -124,13 +126,10 @@ if exists('+undofile')
 endif
 
 if exists('+relativenumber')
-  set relativenumber
+  nnoremap <leader>l :set relativenumber!<cr>
 else
-  set number
+  nnoremap <leader>l :set number!<cr>
 endif
-
-let mapleader = ","
-let maplocalleader = '\'
 
 " Save when losing focus
 au FocusLost * :silent! wall
