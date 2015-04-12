@@ -3,9 +3,10 @@
 " {{{ Bundles
 set nocompatible
 filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.dotfiles/vim/bundle/vundle/
+call vundle#rc('~/.dotfiles/vim/bundle')
 
+Bundle "bling/vim-airline"
 Bundle "carlosvillu/coffeScript-VIM-Snippets"
 Bundle "gmarik/vundle"
 Bundle "godlygeek/tabular"
@@ -22,6 +23,7 @@ Bundle "scrooloose/nerdcommenter"
 Bundle "scrooloose/nerdtree"
 Bundle "scrooloose/syntastic"
 Bundle "sophacles/vim-bundle-mako"
+Bundle "tomasr/molokai"
 Bundle "tosik/neocomplcache"
 Bundle "tpope/vim-classpath"
 Bundle "tpope/vim-fireplace"
@@ -31,7 +33,6 @@ Bundle "tpope/vim-surround"
 Bundle "ujihisa/neco-ghc"
 Bundle "vim-scripts/paredit.vim"
 Bundle "wincent/Command-T"
-Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 """ }}}
 
 " {{{ Basic Settings
@@ -39,16 +40,12 @@ syntax on
 filetype plugin on
 filetype indent on
 
-try
-  colorscheme lucius
-catch /^Vim\%((\a\+)\)\=:E185/
-endtry
+colorscheme molokai
 
 set t_Co=256
 set sw=4
 set tabstop=4
 set expandtab
-set guifont=Inconsolata\ for\ Powerline
 set modelines=5
 set novisualbell
 set t_vb=
@@ -157,22 +154,26 @@ nmap <C-l> :tabn<CR>
 " }}}
 
 " {{{ Plugin Settings
-let g:Powerline_cache_enabled = 0
-let g:Powerline_symbols = 'fancy'
-
 let NERDTreeIgnore=['\.o$', '\.pyc$', '\~$']
 let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 
+" {{{ Airline
+let g:airline_powerline_fonts = 1
+" }}}
+
 " {{{ Syntastic
-if exists("g:loaded_syntastic_plugin")
-  let g:syntastic_enable_signs = 1
-  let g:syntastic_check_on_open = 0
-  let g:syntastic_disabled_filetypes = ['html', 'rst', 'css']
-  let g:syntastic_stl_format = '[%E{%e Errors}%B{, }%W{%w Warnings}]'
-  let g:syntastic_javascript_jslint_conf = "--maxerr 1000 --white --undef --nomen --regexp --plusplus --bitwise --newcap --sloppy --vars --continue"
-  let g:syntastic_python_checker = 'flake8'
-  let g:syntastic_python_checker_args = '--ignore=E501'  " Ignore line too long
-endif
+"if exists("g:loaded_syntastic_plugin")
+  set statusline+=%#warningmsg#
+  set statusline+=%{SyntasticStatuslineFlag()}
+  set statusline+=%*
+
+  let g:syntastic_auto_loc_list = 1
+  let g:syntastic_always_populate_loc_list = 1
+  let g:syntastic_check_on_open = 1
+  let g:syntastic_check_on_wq = 0
+
+  let g:syntastic_javascript_checkers = ['jshint']
+"endif
 " }}}
 
 nnoremap <leader>t :CommandT<cr>

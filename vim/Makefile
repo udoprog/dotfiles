@@ -6,16 +6,12 @@ CONFIGS+=$(HOME)/.vimrc
 
 all: $(CONFIGS)
 	$(B) all
-	#env VIMINIT=$(VIMINIT) vim +BundleInstall +qall
-	nvim +BundleInstall +qall
+	env VIMINIT=$(VIMINIT) vim +BundleInstall +qall
 
 clean:
 	$(B) clean
 
 ${HOME}/.vimrc: $(PWD)/vimrc
-	ln -sf $< $@
-
-${HOME}/.nvimrc: $(PWD)/nvimrc
 	ln -sf $< $@
 
 ${HOME}/.vim: $(PWD)
