@@ -1,6 +1,5 @@
 set -g prefix PROFILE_TMUX_PREFIX
 set -g mode-keys vi
-set set-titles on
 bind-key a send-prefix
 set-environment SSH_AUTH_SOCK ~/.cache/ssh_auth_sock
 

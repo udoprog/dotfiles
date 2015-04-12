@@ -31,12 +31,15 @@ Bundle "tpope/vim-surround"
 Bundle "ujihisa/neco-ghc"
 Bundle "vim-scripts/paredit.vim"
 Bundle "wincent/Command-T"
+Bundle "tomasr/molokai"
 """ }}}
 
 " {{{ Basic Settings
 syntax on
 filetype plugin on
 filetype indent on
+
+colorscheme molokai
 
 set t_Co=256
 set sw=4
