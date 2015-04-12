@@ -1,6 +1,7 @@
 # vim: filetype=zsh
 
-PATH=$PATH:/home/udoprog/usr/bin
+PATH=$PATH:$HOME/usr/bin
+PATH=$PATH:$HOME/node_modules/.bin
 
 export PATH
 export CORRECT_IGNORE='_*:.*'

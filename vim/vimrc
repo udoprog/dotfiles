@@ -6,7 +6,6 @@ filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-Bundle "Valloric/YouCompleteMe"
 Bundle "carlosvillu/coffeScript-VIM-Snippets"
 Bundle "gmarik/vundle"
 Bundle "godlygeek/tabular"
