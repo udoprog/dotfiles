@@ -1,7 +1,6 @@
 O=$(CURDIR)/build/optional
 B=$(CURDIR)/build/make
 M=$(CURDIR)/build/m4tpl
-VIMINIT=$(CURDIR)/vimrc.mini
 
 .PHONY: all clean
 

@@ -6,7 +6,7 @@ CONFIGS+=$(HOME)/.vimrc
 
 all: $(CONFIGS)
 	$(B) all
-	env VIMINIT=$(VIMINIT) vim +BundleInstall +qall
+	vim +BundleInstall +qall
 
 clean:
 	$(B) clean
