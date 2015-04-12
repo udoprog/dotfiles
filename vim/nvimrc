@@ -1,0 +1,251 @@
+" vim: sw=2 foldmethod=marker
+
+" {{{ Bundles
+set nocompatible
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle "carlosvillu/coffeScript-VIM-Snippets"
+Bundle "gmarik/vundle"
+Bundle "godlygeek/tabular"
+Bundle "guns/vim-clojure-static"
+Bundle "jceb/vim-orgmode"
+Bundle "jonathanfilip/vim-lucius"
+Bundle "kevinw/pyflakes-vim"
+Bundle "kien/rainbow_parentheses.vim"
+Bundle "klen/python-mode"
+Bundle "mattn/emmet-vim"
+Bundle "mileszs/ack.vim"
+Bundle "rodjek/vim-puppet"
+Bundle "scrooloose/nerdcommenter"
+Bundle "scrooloose/nerdtree"
+Bundle "scrooloose/syntastic"
+Bundle "sophacles/vim-bundle-mako"
+Bundle "tosik/neocomplcache"
+Bundle "tpope/vim-classpath"
+Bundle "tpope/vim-fireplace"
+Bundle "tpope/vim-fugitive"
+Bundle "tpope/vim-pathogen"
+Bundle "tpope/vim-surround"
+Bundle "ujihisa/neco-ghc"
+Bundle "vim-scripts/paredit.vim"
+Bundle "wincent/Command-T"
+""" }}}
+
+" {{{ Basic Settings
+syntax on
+filetype plugin on
+filetype indent on
+
+try
+  colorscheme lucius
+catch /^Vim\%((\a\+)\)\=:E185/
+endtry
+
+set t_Co=256
+set sw=4
+set tabstop=4
+set expandtab
+set guifont=Inconsolata\ for\ Powerline
+set modelines=5
+set novisualbell
+set t_vb=
+set updatetime=1000
+set laststatus=2
+set history=1000
+" Set some default stuff that allows for better integration
+set autoindent
+set autoread
+set autowrite
+set backspace=indent,eol,start
+set cursorline
+set dictionary=/usr/share/dict/words
+set encoding=utf-8
+set fillchars=diff:⣿,vert:│
+set gdefault
+set hidden
+set hlsearch
+set ignorecase
+set incsearch
+set laststatus=2
+set lazyredraw
+set linebreak
+set list
+set listchars=tab:▸\ ,trail:¬,extends:❯,precedes:❮
+set matchtime=3
+set modeline
+set ruler
+set scrolloff=3
+set shiftround
+set showbreak=↪
+set showcmd
+set showmatch
+set showmode
+set smartcase
+set spellfile=~/.vim/custom-dictionary.utf-8.add
+set splitbelow
+set splitright
+set title
+set ttyfast
+set wildmenu
+set wildmode=list:longest
+" Don't try to highlight lines longer than 800 characters.
+set synmaxcol=800
+" Time out on key codes but not mappings
+set notimeout
+set ttimeout
+set ttimeoutlen=1
+" Make Vim able to edit crontab files again.
+set backupskip=/tmp/*,/private/tmp/*"
+" Better Completion
+set complete=.,w,b,u,t
+set completeopt=longest,menuone,preview
+"Make line wrapping act sanely
+set wrap
+set textwidth=79
+set formatoptions=qrn1
+set colorcolumn=80
+
+set wildignore+=**/.svn
+set wildignore+=*.class
+set wildignore+=**/tmp
+
+let mapleader = ","
+let maplocalleader = '\'
+
+if exists('+colorcolumn')
+  set colorcolumn=+1
+endif
+
+if exists('+undofile')
+  set undofile
+  set undoreload=10000
+endif
+
+if exists('+relativenumber')
+  nnoremap <leader>l :set relativenumber!<cr>
+else
+  nnoremap <leader>l :set number!<cr>
+endif
+
+" Save when losing focus
+au FocusLost * :silent! wall
+
+" Resize splits when the window is resized
+au VimResized * :wincmd =
+
+" Custom Highlights
+highlight NonText guifg=#909090
+highlight SpecialKey guifg=#909090
+
+" Improved search
+nnoremap / /\v
+vnoremap / /\v
+nnoremap <leader><space> :noh<CR>
+nnoremap <tab> %
+vnoremap <tab> %
+
+" Highlight trailing whitespace.
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+
+" tab navigation like firefox
+nmap <C-h> :tabp<CR>
+nmap <C-l> :tabn<CR>
+" }}}
+
+" {{{ Plugin Settings
+let g:Powerline_cache_enabled = 0
+let g:Powerline_symbols = 'fancy'
+
+let NERDTreeIgnore=['\.o$', '\.pyc$', '\~$']
+let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+
+" {{{ Syntastic
+if exists("g:loaded_syntastic_plugin")
+  let g:syntastic_enable_signs = 1
+  let g:syntastic_check_on_open = 0
+  let g:syntastic_disabled_filetypes = ['html', 'rst', 'css']
+  let g:syntastic_stl_format = '[%E{%e Errors}%B{, }%W{%w Warnings}]'
+  let g:syntastic_javascript_jslint_conf = "--maxerr 1000 --white --undef --nomen --regexp --plusplus --bitwise --newcap --sloppy --vars --continue"
+  let g:syntastic_python_checker = 'flake8'
+  let g:syntastic_python_checker_args = '--ignore=E501'  " Ignore line too long
+endif
+" }}}
+
+nnoremap <leader>t :CommandT<cr>
+nnoremap <leader>r :NERDTreeFind<cr>
+map <F2> :NERDTreeToggle<CR>
+" }}}
+
+" {{{ FileType Setup
+function! SetupJava()
+  set path=src/main/java,src/test/java,$JAVA_HOME/src
+  set suffixesadd=.java
+endfunction
+
+function! SetupPHP()
+  set noexpandtab
+  set suffixesadd=.php
+endfunction
+
+function! SetupPython()
+  nmap <leader>d :!pydoc <cfile><CR>
+  set suffixesadd=.py
+endfunction
+
+function! SetupRuby()
+  set tabstop=2
+  set shiftwidth=2
+  set suffixesadd=.rb
+endfunction
+
+function! SetupEPL()
+  set filetype=sql
+endfunction
+
+function! SetupNGT()
+  set tabstop=2
+  set shiftwidth=2
+  set filetype=html
+  set suffixesadd=.ngt
+endfunction
+
+function! SetupCLJ()
+  au VimEnter * RainbowParenthesesToggle
+  au Syntax * RainbowParenthesesLoadRound
+  au Syntax * RainbowParenthesesLoadSquare
+  au Syntax * RainbowParenthesesLoadBraces
+endfunction
+
+if has("autocmd")
+  " do all autocmd stuff here
+  " autocmd FileType javascript <cmd>
+  autocmd BufNewFile * silent! 0r ~/.vim/skel/tmpl.%:e
+  autocmd BufNewFile,BufRead *.java :call SetupJava()
+  autocmd BufNewFile,BufRead *.py :call SetupPython()
+  autocmd BufNewFile,BufRead *.php :call SetupPHP()
+  autocmd BufNewFile,BufRead *.rb :call SetupRuby()
+  autocmd BufNewFile,BufRead *.epl :call SetupEPL()
+  autocmd BufNewFile,BufRead *.pp set filetype=puppet
+  autocmd BufNewFile,BufRead *.ngt :call SetupNGT()
+  autocmd BufNewFile,BufRead *.clj :call SetupCLJ()
+endif
+" }}}
+
+" {{{ Learn Vim The Hard Way
+" Learn vim the hard way.
+" Disable movement keys and escape.
+noremap <Left> <NOP>
+inoremap <Left> <NOP>
+noremap <Right> <NOP>
+inoremap <Right> <NOP>
+noremap <Up> <NOP>
+inoremap <Up> <NOP>
+noremap <Down> <NOP>
+inoremap <Down> <NOP>
+
+" Escape remapping to tab.
+inoremap jk <Esc>
+" }}}

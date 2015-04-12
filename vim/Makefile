@@ -1,5 +1,6 @@
 CONFIGS+=$(HOME)/.vim
 CONFIGS+=$(HOME)/.vimrc
+CONFIGS+=$(HOME)/.nvimrc
 
 .PHONY: all clean
 
@@ -11,6 +12,9 @@ clean:
 	$(B) clean
 
 ${HOME}/.vimrc: $(PWD)/vimrc
+	ln -sf $< $@
+
+${HOME}/.nvimrc: $(PWD)/nvimrc
 	ln -sf $< $@
 
 ${HOME}/.vim: $(PWD)
