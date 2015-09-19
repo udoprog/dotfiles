@@ -1,7 +1,7 @@
 #======================================================#
 # Boring details
-set realname = 'PROFILE_NAME'
-set from = 'PROFILE_EMAIL'
+set realname = '{{PROFILE_NAME}}'
+set from = '{{PROFILE_EMAIL}}'
 set use_from = yes
 set envelope_from = "yes"
 
@@ -50,8 +50,8 @@ set pager_context=5  # Retain 5 lines of previous page when scrolling.
 set status_on_top    # Status bar on top.
 push <show-version>  # Shows mutt version at startup
 
-set smtp_url = 'SMTP_URL'
-set smtp_pass = 'SMTP_PASS'
+set smtp_url = '{{SMTP_URL}}'
+set smtp_pass = '{{SMTP_PASS}}'
 
 set header_cache = ~/.mutt/cache/headers
 set message_cachedir = ~/.mutt/cache/bodies

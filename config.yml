@@ -20,3 +20,4 @@ profiles:
 
 secrets:
     - SMTP_PASS
+    - IMAP_PASS

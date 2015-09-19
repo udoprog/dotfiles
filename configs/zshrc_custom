@@ -8,8 +8,8 @@ export GNUPGHOME=/media/$USER/pkudo/gnupg
 export PATH
 export CORRECT_IGNORE='_*:.*'
 
-export DEBEMAIL="EMAIL"
-export DEBFULLNAME="NAME"
+export DEBEMAIL="{{EMAIL}}"
+export DEBFULLNAME="{{NAME}}"
 
 # Prefix PS1 with current schroot name if viable.
 if [[ -n $SCHROOT_CHROOT_NAME ]]; then

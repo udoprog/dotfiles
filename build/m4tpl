@@ -3,6 +3,7 @@
 import os
 import sys
 import stat
+import re
 
 try:
     import yaml
@@ -56,28 +57,40 @@ def open_secrets(root):
     return data
 
 
-def load_variables(config, loc):
+def load_replacements(config, secrets):
     p = config['profiles']
 
-    if loc['id'] not in p:
-        raise Exception('profile ({}) does not exist'.format(loc['id']))
+    if secrets['id'] not in p:
+        raise Exception('profile ({}) does not exist'.format(secrets['id']))
 
-    variables = dict(p[loc['id']])
-    variables.update(dict((s, loc['secrets'][s]) for s in config['secrets']))
+    secret_id = secrets['id']
+    secret_values = secrets['secrets']
 
-    return variables
+    variables = dict(p[secret_id])
+    variables.update(secret_values)
+
+    return list((re.compile('[{{][{{]{}[}}][}}]'.format(k)), v) for (k, v) in variables.items())
 
 
-def replace_all(variables, line):
-    for key, value in variables.items():
-        line = line.replace(key, value)
+def replace_all(reps, line):
+    string = line
 
-    return line
+    while True:
+        pre = string
+
+        for rep, value in reps:
+            string = rep.sub(value, string)
+
+        # something changed
+        if string == pre:
+            break
+
+    return string
 
 
 def main(args):
     root = os.path.dirname(os.path.dirname(sys.argv[0]))
-    variables = load_variables(open_config(root), open_secrets(root))
+    replacements = load_replacements(open_config(root), open_secrets(root))
 
     target = args[0]
     source = args[1]
@@ -87,7 +100,7 @@ def main(args):
     with open(source, 'r') as s:
         with open(target, 'w') as t:
             for line in s:
-                  t.write(replace_all(variables, line))
+                  t.write(replace_all(replacements, line))
 
 
 if __name__ == "__main__":
