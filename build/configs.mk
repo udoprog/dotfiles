@@ -28,7 +28,9 @@ $(HOME)/.tmux.conf: gen/tmux.conf
 	ln -fs $(CURDIR)/$< $@
 
 $(HOME)/.muttrc: gen/muttrc
+	chmod 0400 $(CURDIR)/$<
 	ln -fs $(CURDIR)/$< $@
 
 $(HOME)/.offlineimaprc: gen/offlineimaprc
+	chmod 0400 $(CURDIR)/$<
 	ln -fs $(CURDIR)/$< $@

@@ -7,7 +7,7 @@ remoterepository = Remote
 
 [Repository Local]
 type = Maildir
-localfolders = ~/Mail/Gmail
+localfolders = ~/Mail
 
 [Repository Remote]
 type = Gmail
@@ -16,4 +16,12 @@ remotepass = {{IMAP_PASS}}
 realdelete = no
 maxconnections = 3
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
-folderfilter = lambda folder: folder != 'INBOX' and not folder.startswith('[Gmail]')
+folderfilter = lambda folder: folder == '[Gmail]/Sent Mail' or not folder.startswith('[Gmail]')
+
+[mbnames]
+enabled = yes
+filename = ~/.mutt/mailboxes
+header = "mailboxes "
+peritem = "+%(foldername)s"
+sep = " "
+footer = "\n"
