@@ -11,8 +11,9 @@ localfolders = ~/Mail/Gmail
 
 [Repository Remote]
 type = Gmail
-remoteuser = {{USER_EMAIL}}
+remoteuser = {{PROFILE_EMAIL}}
 remotepass = {{IMAP_PASS}}
 realdelete = no
 maxconnections = 3
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+folderfilter = lambda folder: folder != 'INBOX' and not folder.startswith('[Gmail]')

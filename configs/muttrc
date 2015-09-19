@@ -9,19 +9,17 @@ set envelope_from = "yes"
 set spoolfile = /var/spool/mail/USER
 
 set folder = ~/Mail/Gmail
-set spoolfile = '+INBOX'
-set mbox = "+[Gmail]/All Mail"
-set postponed = '+[Gmail]/Drafts'
-set trash = '+[Gmail]/Trash'
+set mbox = "~/Mail/spool"
+set postponed = 'postponed'
 
 unset record
 
 set postponed="+postponed"
 set move = no
 
-mailboxes +INBOX
+mailboxes INBOX
 
-set sort_browser = alpha    # Sort mailboxes by alpha(bet)
+set sort_browser = date
 
 #======================================================#
 # Order of headers and what to show
