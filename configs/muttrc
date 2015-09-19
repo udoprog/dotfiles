@@ -6,7 +6,7 @@ set use_from = yes
 set envelope_from = "yes"
 
 # If not set in environment variables:
-set spoolfile = /var/spool/mail/udoprog
+set spoolfile = /var/spool/mail/USER
 
 set folder = ~/Mail/Gmail
 set spoolfile = '+INBOX'
