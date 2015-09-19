@@ -1,0 +1,18 @@
+[general]
+accounts = udoprog
+
+[Account udoprog]
+localrepository = Local
+remoterepository = Remote
+
+[Repository Local]
+type = Maildir
+localfolders = ~/Mail/Gmail
+
+[Repository Remote]
+type = Gmail
+remoteuser = USER_EMAIL
+remotepass = SMTP_PASS
+realdelete = no
+maxconnections = 3
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt

@@ -1,5 +1,5 @@
 .*
-profile_id
+secrets.yml
 gen
 vim/bundle/*
 !vim/bundle/vundle

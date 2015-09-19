@@ -1,51 +1,94 @@
-#!/usr/bin/env perl
+#!/usr/bin/env python3
 
-use strict;
-use Cwd;
+import os
+import sys
+import stat
 
-use feature 'say';
+try:
+    import yaml
+except ImportError:
+    print('Could not import: yaml', file=sys.stderr)
+    print('You might have to install it through:', file=sys.stderr)
+    print('$ pip3 install --user pyyaml', file=sys.stderr)
+    raise
 
-my $PROFILE_CONFIG = 'profile_config';
-my $PROFILE_NAME = 'profile_id';
 
-sub read_profile_name {
-    return undef unless -f $PROFILE_NAME;
-    open my $fp, '<', $PROFILE_NAME;
-    my $value = <$fp>;
-    close $fp;
-    chomp $value;
-    return $value;
+secrets_template = {
+  'template': True,
+  'id': 'changeme',
+  'secrets': {  }
 }
 
-sub main {
-    die "Missing file: $PROFILE_CONFIG" unless -f $PROFILE_CONFIG;
 
-    my $target = $ARGV[0];
-    my $source = $ARGV[1];
+def open_config(root):
+    with open(os.path.join(root, 'config.yml')) as f:
+        return yaml.load(f)
 
-    die "Missing source: $source" unless -f $source;
 
-    my %config = do $PROFILE_CONFIG;
-    my $profiles = $config{'profiles'};
+def open_secrets(root):
+    p = os.path.join(root, 'secrets.yml')
 
-    my $profile_name = read_profile_name;
+    if not os.path.isfile(p):
+        with open(p, 'w') as f:
+            os.fchmod(f.fileno(), 0o400)
+            yaml.dump(secrets_template, f)
 
-    die "No profile configured: $PROFILE_NAME" unless $profile_name;
+        raise Exception(
+            ('secrets does not exist, creating an empty one in ' +
+             '{}').format(p))
 
-    my $profile = $config{ 'profiles' }->{ $profile_name };
+    with open(p, 'r') as f:
+        if (os.fstat(f.fileno()).st_mode & 0o777) != 0o400:
+            raise Exception(
+                ('secrets ({}) must have 0400 permission since it contains ' +
+                 'sensitive data!').format(p))
 
-    die "No such profile: $profile_name" unless $profile;
+        data = yaml.load(f)
 
-    my $cwd = getcwd;
-    my @args = map { "-D$_=\"$profile->{$_}\"" } keys(%$profile);
-    push @args, "-DPWD=$cwd";
+    if 'template' in data:
+        raise Exception(
+            ('secrets is currently a template, modify it here and remove ' +
+             '(template: true): {}').format(p))
 
-    my $m4_args = join ' ', @args;
+    if 'id' not in data:
+        raise Exception('secrets does not contain (id: myid)')
 
-    say "Generating; $source -> $target";
-    print "m4 $m4_args $source > $target\n";
-    system "m4 $m4_args $source > $target";
-    return 0;
-}
+    return data
 
-exit main unless caller;
+
+def load_variables(config, loc):
+    p = config['profiles']
+
+    if loc['id'] not in p:
+        raise Exception('profile ({}) does not exist'.format(loc['id']))
+
+    variables = dict(p[loc['id']])
+    variables.update(dict((s, loc['secrets'][s]) for s in config['secrets']))
+
+    return variables
+
+
+def replace_all(variables, line):
+    for key, value in variables.items():
+        line = line.replace(key, value)
+
+    return line
+
+
+def main(args):
+    root = os.path.dirname(os.path.dirname(sys.argv[0]))
+    variables = load_variables(open_config(root), open_secrets(root))
+
+    target = args[0]
+    source = args[1]
+
+    print('{} -> {}'.format(source, target))
+
+    with open(source, 'r') as s:
+        with open(target, 'w') as t:
+            for line in s:
+                  t.write(replace_all(variables, line))
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])

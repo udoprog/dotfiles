@@ -33,6 +33,7 @@ Bundle "tpope/vim-surround"
 Bundle "ujihisa/neco-ghc"
 Bundle "vim-scripts/paredit.vim"
 Bundle "wincent/Command-T"
+Bundle "plasticboy/vim-markdown"
 """ }}}
 
 " {{{ Basic Settings
@@ -173,6 +174,8 @@ let g:airline_powerline_fonts = 1
   let g:syntastic_check_on_wq = 0
 
   let g:syntastic_javascript_checkers = ['jshint']
+  let g:syntastic_cpp_compiler = 'g++'
+  let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 "endif
 " }}}
 

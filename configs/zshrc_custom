@@ -3,6 +3,8 @@
 PATH=$PATH:$HOME/usr/bin
 PATH=$PATH:$HOME/node_modules/.bin
 
+export GNUPGHOME=/media/$USER/pkudo/gnupg
+
 export PATH
 export CORRECT_IGNORE='_*:.*'
 
