@@ -82,7 +82,6 @@ set showcmd
 set showmatch
 set showmode
 set smartcase
-set spellfile=~/.vim/custom-dictionary.utf-8.add
 set splitbelow
 set splitright
 set title
@@ -109,6 +108,10 @@ set colorcolumn=80
 set wildignore+=**/.svn
 set wildignore+=*.class
 set wildignore+=**/tmp
+
+set spell spelllang=en_us
+set dictionary=/usr/share/dict/words
+set spellfile=~/.vim/dictionary.add
 
 let mapleader = ","
 let maplocalleader = '\'
