@@ -145,8 +145,6 @@ highlight SpecialKey guifg=#909090
 nnoremap / /\v
 vnoremap / /\v
 nnoremap <leader><space> :noh<CR>
-nnoremap <tab> %
-vnoremap <tab> %
 
 " Highlight trailing whitespace.
 highlight ExtraWhitespace ctermbg=red guibg=red
