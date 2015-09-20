@@ -1,23 +1,23 @@
 [general]
-accounts = {{USER}}-private, {{USER}}-work
+accounts = {{USER}}-personal, {{USER}}-work
 
 [mbnames]
 enabled = yes
 filename = ~/.mutt/mailboxes
 header = "mailboxes "
-peritem = "+$(accountname)/%(foldername)s"
+peritem = "+%(accountname)s/%(foldername)s"
 sep = " "
 footer = "\n"
 
-[Account {{USER}}-private]
-localrepository = {{USER}}-local-private
-remoterepository = {{USER}}-gmail-private
+[Account {{USER}}-personal]
+localrepository = {{USER}}-local-personal
+remoterepository = {{USER}}-gmail-personal
 
-[Repository {{USER}}-local-private]
+[Repository {{USER}}-local-personal]
 type = Maildir
-localfolders = ~/Mail/private
+localfolders = ~/Mail/{{USER}}-personal
 
-[Repository {{USER}}-gmail-private]
+[Repository {{USER}}-gmail-personal]
 type = Gmail
 remoteuser = {{EMAIL}}
 remotepass = {{IMAP_PASS}}
@@ -25,6 +25,7 @@ realdelete = no
 maxconnections = 3
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 folderfilter = lambda folder: folder == '[Gmail]/Sent Mail' or not folder.startswith('[Gmail]')
+nametrans = lambda name: name == '[Gmail]/Sent Mail' and 'sent' or name.replace(' ', '_').replace('.', '_').lower()
 
 [Account {{USER}}-work]
 localrepository = {{USER}}-local-work
@@ -32,7 +33,7 @@ remoterepository = {{USER}}-gmail-work
 
 [Repository {{USER}}-local-work]
 type = Maildir
-localfolders = ~/Mail/work
+localfolders = ~/Mail/{{USER}}-work
 
 [Repository {{USER}}-gmail-work]
 type = Gmail
@@ -42,3 +43,4 @@ realdelete = no
 maxconnections = 3
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 folderfilter = lambda folder: folder == '[Gmail]/Sent Mail' or not folder.startswith('[Gmail]')
+nametrans = lambda name: name == '[Gmail]/Sent Mail' and 'sent' or name.replace(' ', '_').replace('.', '_').lower()

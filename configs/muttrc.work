@@ -1,4 +1,6 @@
-set from = '{{WORK_EMAIL}}'
+set from = '{{PROFILE_NAME}} <{{WORK_EMAIL}}>'
+set realname = '{{PROFILE_NAME}}'
 set smtp_url = '{{WORK_SMTP_URL}}'
 set smtp_pass = '{{WORK_SMTP_PASS}}'
-set postponed = "+work/Drafts"
+set postponed = +{{USER}}-work/drafts
+set record = +{{USER}}-work/sent

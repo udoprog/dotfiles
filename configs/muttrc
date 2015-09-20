@@ -1,20 +1,19 @@
-set realname = '{{PROFILE_NAME}}'
+set folder = ~/Mail
 
-set use_from = yes
-set envelope_from = yes
+source ~/.mutt/accounts/personal
 
-set folder = "~/Mail"
-
-folder-hook +personal/* source ~/.mutt/accounts/personal
-folder-hook +work/* source ~/.mutt/accounts/work
+folder-hook '+{{USER}}-work/*' source ~/.mutt/accounts/work
 
 source ~/.mutt/mailboxes
 
-set spoolfile = "+personal/INBOX"
-
-unset record
+set spoolfile = +{{USER}}-personal/inbox
 
 set move = no
+set copy = no
+
+set realname = '{{PROFILE_NAME}}'
+set use_from = yes
+set envelope_from = yes
 
 set sort_browser = date
 
@@ -53,6 +52,7 @@ bind index J next-unread
 bind index K previous-unread
 bind index gg first-entry
 bind index G last-entry
+bind index o display-message
 
 bind pager j next-line
 bind pager k previous-line
@@ -61,8 +61,19 @@ bind pager K previous-undeleted
 bind pager gg top
 bind pager G bottom
 
+bind index,pager \Cj sidebar-next
+bind index,pager \Ck sidebar-prev
+bind index,pager \Co sidebar-open
+
 bind index,pager gr group-reply
 bind index,pager \Cu half-up
 bind index,pager \Cd half-down
 
 macro index,pager \CL '<pipe-message> cd ~/repo/linux && git am -<enter>'
+
+set sidebar_width=24
+set sidebar_visible=yes
+set sidebar_delim='|'
+set sidebar_sort=yes
+
+color sidebar_new yellow default
