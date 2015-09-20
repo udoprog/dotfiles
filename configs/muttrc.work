@@ -1,0 +1,4 @@
+set from = '{{WORK_EMAIL}}'
+set smtp_url = '{{WORK_SMTP_URL}}'
+set smtp_pass = '{{WORK_SMTP_PASS}}'
+set postponed = "+work/Drafts"

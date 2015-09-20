@@ -4,6 +4,9 @@ CONFIGS+=$(HOME)/.zshrc
 CONFIGS+=$(HOME)/.tmux.conf
 CONFIGS+=$(HOME)/.muttrc
 CONFIGS+=$(HOME)/.offlineimaprc
+CONFIGS+=$(HOME)/.mutt/accounts
+CONFIGS+=$(HOME)/.mutt/accounts/personal
+CONFIGS+=$(HOME)/.mutt/accounts/work
 
 .PHONY: all
 
@@ -27,10 +30,22 @@ $(HOME)/.zshrc: gen/zshrc
 $(HOME)/.tmux.conf: gen/tmux.conf
 	ln -fs $(CURDIR)/$< $@
 
-$(HOME)/.muttrc: gen/muttrc
-	chmod 0400 $(CURDIR)/$<
+# offlineimaprc
+$(HOME)/.offlineimaprc: gen/offlineimaprc
+	chmod 0600 $(CURDIR)/$<
 	ln -fs $(CURDIR)/$< $@
 
-$(HOME)/.offlineimaprc: gen/offlineimaprc
-	chmod 0400 $(CURDIR)/$<
+# mutt
+$(HOME)/.mutt/accounts:
+	mkdir -p $@
+
+$(HOME)/.mutt/accounts/personal: gen/muttrc.personal
+	chmod 0600 $(CURDIR)/$<
+	ln -fs $(CURDIR)/$< $@
+
+$(HOME)/.mutt/accounts/work: gen/muttrc.work
+	chmod 0600 $(CURDIR)/$<
+	ln -fs $(CURDIR)/$< $@
+
+$(HOME)/.muttrc: gen/muttrc
 	ln -fs $(CURDIR)/$< $@

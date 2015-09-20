@@ -18,7 +18,14 @@ profiles:
         PROFILE_TMUX_PREFIX: C-a
         PROFILE_ZSH_THEME: robbyrussell
 
+
+
 secrets:
-    - SMTP_PASS
-    - IMAP_PASS
-    - SMTP_URL
+  - EMAIL
+  - SMTP_PASS
+  - IMAP_PASS
+  - SMTP_URL
+  - WORK_EMAIL
+  - WORK_SMTP_PASS
+  - WORK_IMAP_PASS
+  - WORK_SMTP_URL

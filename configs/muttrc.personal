@@ -1,0 +1,4 @@
+set from = '{{EMAIL}}'
+set smtp_url = '{{SMTP_URL}}'
+set smtp_pass = '{{SMTP_PASS}}'
+set postponed = "+personal/Drafts"
