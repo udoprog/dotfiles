@@ -26,6 +26,7 @@ maxconnections = 3
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 folderfilter = lambda folder: folder == '[Gmail]/Sent Mail' or not folder.startswith('[Gmail]')
 nametrans = lambda name: name == '[Gmail]/Sent Mail' and 'sent' or name.replace(' ', '_').replace('.', '_').lower()
+createfolders = false
 
 [Account {{USER}}-work]
 localrepository = {{USER}}-local-work
@@ -44,3 +45,4 @@ maxconnections = 3
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 folderfilter = lambda folder: folder == '[Gmail]/Sent Mail' or not folder.startswith('[Gmail]')
 nametrans = lambda name: name == '[Gmail]/Sent Mail' and 'sent' or name.replace(' ', '_').replace('.', '_').lower()
+createfolders = false
