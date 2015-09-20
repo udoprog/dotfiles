@@ -257,3 +257,9 @@ inoremap <Down> <NOP>
 " Escape remapping to tab.
 inoremap jk <Esc>
 " }}}
+
+" {{{ source project-specific settings
+if filereadable('./.pvimrc')
+  source ./.pvimrc
+endif
+" }}}

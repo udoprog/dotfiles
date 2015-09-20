@@ -7,6 +7,7 @@ CONFIGS+=$(HOME)/.offlineimaprc
 CONFIGS+=$(HOME)/.mutt/accounts
 CONFIGS+=$(HOME)/.mutt/accounts/personal
 CONFIGS+=$(HOME)/.mutt/accounts/work
+CONFIGS+=$(HOME)/repo/linux/.pvimrc
 
 .PHONY: all
 
@@ -48,4 +49,8 @@ $(HOME)/.mutt/accounts/work: gen/muttrc.work
 	ln -fs $(CURDIR)/$< $@
 
 $(HOME)/.muttrc: gen/muttrc
+	ln -fs $(CURDIR)/$< $@
+
+# project-specific pvimrc
+$(HOME)/repo/linux/.pvimrc: gen/linux.pvimrc
 	ln -fs $(CURDIR)/$< $@
