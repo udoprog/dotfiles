@@ -1,0 +1,10 @@
+[Unit]
+Description=RedShift Screen Dimmer
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/redshift -l 59.32:18.06 -b 1.0:0.5
+Environment=DISPLAY=:0
+
+[Install]
+WantedBy=default.target

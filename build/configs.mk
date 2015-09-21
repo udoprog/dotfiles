@@ -1,22 +1,37 @@
-CONFIGS+=$(HOME)/.gitconfig
-CONFIGS+=$(HOME)/.zshrc_custom
-CONFIGS+=$(HOME)/.zshrc
-CONFIGS+=$(HOME)/.tmux.conf
-CONFIGS+=$(HOME)/.muttrc
-CONFIGS+=$(HOME)/.offlineimaprc
-CONFIGS+=$(HOME)/.mutt/accounts
-CONFIGS+=$(HOME)/.mutt/accounts/personal
-CONFIGS+=$(HOME)/.mutt/accounts/work
-CONFIGS+=$(HOME)/repo/linux/.pvimrc
+# vim: filetype=make
+
+REPO=$(HOME)/repo
+
+DEST+=$(HOME)/.gitconfig
+DEST+=$(HOME)/.zshrc_custom
+DEST+=$(HOME)/.zshrc
+DEST+=$(HOME)/.tmux.conf
+DEST+=$(HOME)/.muttrc
+DEST+=$(HOME)/.offlineimaprc
+DEST+=$(HOME)/.mutt/accounts
+DEST+=$(HOME)/.mutt/accounts/personal
+DEST+=$(HOME)/.mutt/accounts/work
+DEST+=$(HOME)/repo/linux/.pvimrc
+
+SYSTEMD_USER=$(HOME)/.local/systemd/user
+
+DEST+=$(SYSTEMD_USER)
+DEST+=$(SYSTEMD_USER)/offlineimap.service
+DEST+=$(SYSTEMD_USER)/offlineimap.timer
+DEST+=$(SYSTEMD_USER)/default.target.wants
+DEST+=$(SYSTEMD_USER)/default.target.wants/offlineimap.timer
 
 .PHONY: all
 
-all: gen ${CONFIGS}
+all: gen gen/systemd ${DEST}
 
 gen/%: configs/%
 	$(M) $@ $<
 
 gen:
+	mkdir $@
+
+gen/systemd:
 	mkdir $@
 
 $(HOME)/.gitconfig: gen/gitconfig
@@ -54,3 +69,19 @@ $(HOME)/.muttrc: gen/muttrc
 # project-specific pvimrc
 $(HOME)/repo/linux/.pvimrc: gen/linux.pvimrc
 	ln -fs $(CURDIR)/$< $@
+
+# systemd
+$(SYSTEMD_USER):
+	mkdir -p $@
+
+$(SYSTEMD_USER)/default.target.wants:
+	mkdir -p $@
+
+$(SYSTEMD_USER)/offlineimap.service: gen/systemd/offlineimap.service
+	ln -fs $(CURDIR)/$< $@
+
+$(SYSTEMD_USER)/offlineimap.timer: gen/systemd/offlineimap.timer
+	ln -fs $(CURDIR)/$< $@
+
+$(SYSTEMD_USER)/default.target.wants/offlineimap.timer:
+	ln -s ../offlineimap.timer $@
