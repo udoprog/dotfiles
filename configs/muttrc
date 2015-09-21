@@ -36,6 +36,9 @@ set edit_headers          # See the headers when editing
 
 set sort_alias=alias     # sort aliases in alpha order by alias name
 
+alternative_order text/plain text/enriched text/html text
+auto_view text/html
+
 #======================================================#
 # Odds and ends
 set markers          # mark wrapped lines of text in the pager with a +
