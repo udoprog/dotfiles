@@ -3,6 +3,7 @@ profiles:
         GPG_KEY: 3ECA40B9
         PRIMARY_MAIL: personal
         SECONDARY_MAIL: work
+        SECONDARY_MAILBOX: w
         USER: udoprog
         PROFILE_NAME: John-John Tedro
         PROFILE_EMAIL: johnjohn.tedro@gmail.com
@@ -12,6 +13,7 @@ profiles:
         GPG_KEY: 3ECA40B9
         PRIMARY_MAIL: personal
         SECONDARY_MAIL: work
+        SECONDARY_MAILBOX: w
         USER: udoprog
         PROFILE_NAME: John-John Tedro
         PROFILE_EMAIL: johnjohn.tedro@gmail.com
@@ -21,6 +23,7 @@ profiles:
         GPG_KEY: 3ECA40B9
         PRIMARY_MAIL: work
         SECONDARY_MAIL: personal
+        SECONDARY_MAILBOX: p
         USER: udoprog
         PROFILE_NAME: John-John Tedro
         PROFILE_EMAIL: udoprog@spotify.com

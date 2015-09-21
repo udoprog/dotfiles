@@ -2,7 +2,7 @@ set folder = ~/Mail
 
 source ~/.mutt/accounts/{{PRIMARY_MAIL}}
 
-folder-hook '+{{SECONDARY_MAIL}}/*' source ~/.mutt/accounts/{{SECONDARY_MAIL}}
+folder-hook '+{{SECONDARY_MAILBOX}}/*' source ~/.mutt/accounts/{{SECONDARY_MAIL}}
 
 source ~/.mutt/mailboxes
 
