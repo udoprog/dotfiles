@@ -1,99 +1,104 @@
 # vim: filetype=make
 
-REPO=$(HOME)/repo
+repo=$(HOME)/repo
+mutt=$(HOME)/.mutt
+systemd_user=$(HOME)/.local/systemd/user
+gen=$(CURDIR)/gen
+secrets=$(CURDIR)/secrets.yml
+config=$(CURDIR)/config.yml
 
-DEST+=$(HOME)/.gitconfig
-DEST+=$(HOME)/.zshrc_custom
-DEST+=$(HOME)/.zshrc
-DEST+=$(HOME)/.tmux.conf
-DEST+=$(HOME)/.muttrc
-DEST+=$(HOME)/.offlineimaprc
+build+=$(HOME)/.gitconfig
+build+=$(HOME)/.zshrc_custom
+build+=$(HOME)/.zshrc
+build+=$(HOME)/.tmux.conf
+build+=$(HOME)/.muttrc
+build+=$(HOME)/.offlineimaprc
 
-MUTT=$(HOME)/.mutt
+dirs+=$(mutt)
+dirs+=$(mutt)/accounts
 
-DEST+=$(MUTT)
-DEST+=$(MUTT)/gpg
-DEST+=$(MUTT)/accounts
-DEST+=$(MUTT)/accounts/personal
-DEST+=$(MUTT)/accounts/work
+build+=$(mutt)
+build+=$(mutt)/gpg
+build+=$(mutt)/signature
+build+=$(mutt)/accounts/personal
+build+=$(mutt)/accounts/work
 
-SYSTEMD_USER=$(HOME)/.local/systemd/user
+dirs+=$(systemd_user)
+dirs+=$(systemd_user)/default.target.wants
 
-DEST+=$(SYSTEMD_USER)
-DEST+=$(SYSTEMD_USER)/offlineimap.service
-DEST+=$(SYSTEMD_USER)/offlineimap.timer
-DEST+=$(SYSTEMD_USER)/default.target.wants
-DEST+=$(SYSTEMD_USER)/default.target.wants/offlineimap.timer
+build+=$(systemd_user)
+build+=$(systemd_user)/offlineimap.service
+build+=$(systemd_user)/offlineimap.timer
+build+=$(systemd_user)/default.target.wants/offlineimap.timer
 
-DEST+=$(HOME)/repo/linux/.pvimrc
+build+=$(repo)/linux/.pvimrc
 
-.PHONY: all
+# generated directories
+dirs+=$(gen)
+dirs+=$(gen)/mutt
+dirs+=$(gen)/mutt/accounts
+dirs+=$(gen)/systemd
 
-all: gen gen/systemd ${DEST}
+link=ln -sf
 
-gen/%: configs/%
+.PHONY: all generated
+
+all: $(dirs) $(build)
+
+$(gen)/%: configs/% $(secrets) $(config)
 	$(M) $@ $<
 
-gen:
-	mkdir $@
+$(dirs):
+	mkdir -p $@
 
-gen/systemd:
-	mkdir $@
+# git
+$(HOME)/.gitconfig: $(gen)/gitconfig
+	$(link) $< $@
 
-$(HOME)/.gitconfig: gen/gitconfig
-	ln -fs $(CURDIR)/$< $@
+# zsh
+$(HOME)/.zshrc_custom: $(gen)/zshrc_custom
+	$(link) $< $@
 
-$(HOME)/.zshrc_custom: gen/zshrc_custom
-	ln -fs $(CURDIR)/$< $@
+$(HOME)/.zshrc: $(gen)/zshrc
+	$(link) $< $@
 
-$(HOME)/.zshrc: gen/zshrc
-	ln -fs $(CURDIR)/$< $@
-
-$(HOME)/.tmux.conf: gen/tmux.conf
-	ln -fs $(CURDIR)/$< $@
+# tmux
+$(HOME)/.tmux.conf: $(gen)/tmux.conf
+	$(link) $< $@
 
 # offlineimaprc
-$(HOME)/.offlineimaprc: gen/offlineimaprc
-	chmod 0600 $(CURDIR)/$<
-	ln -fs $(CURDIR)/$< $@
+$(HOME)/.offlineimaprc: $(gen)/offlineimaprc
+	chmod 0600 $<
+	$(link) $< $@
 
 # mutt
-$(MUTT):
-	mkdir -p $@
+$(mutt)/gpg: $(gen)/mutt/gpg
+	$(link) $< $@
 
-$(MUTT)/accounts:
-	mkdir -p $@
+$(mutt)/signature: $(gen)/mutt/signature
+	$(link) $< $@
 
-$(MUTT)/gpg: gen/muttrc.gpg
-	ln -fs $(CURDIR)/$< $@
+$(mutt)/accounts/personal: $(gen)/mutt/accounts/personal
+	chmod 0600 $<
+	$(link) $< $@
 
-$(HOME)/.mutt/accounts/personal: gen/muttrc.personal
-	chmod 0600 $(CURDIR)/$<
-	ln -fs $(CURDIR)/$< $@
+$(mutt)/accounts/work: $(gen)/mutt/accounts/work
+	chmod 0600 $<
+	$(link) $< $@
 
-$(HOME)/.mutt/accounts/work: gen/muttrc.work
-	chmod 0600 $(CURDIR)/$<
-	ln -fs $(CURDIR)/$< $@
-
-$(HOME)/.muttrc: gen/muttrc
-	ln -fs $(CURDIR)/$< $@
+$(HOME)/.muttrc: $(gen)/muttrc
+	$(link) $< $@
 
 # project-specific pvimrc
-$(HOME)/repo/linux/.pvimrc: gen/linux.pvimrc
-	ln -fs $(CURDIR)/$< $@
+$(repo)/linux/.pvimrc: $(gen)/linux.pvimrc
+	$(link) $< $@
 
 # systemd
-$(SYSTEMD_USER):
-	mkdir -p $@
+$(systemd_user)/offlineimap.service: $(gen)/systemd/offlineimap.service
+	$(link) $< $@
 
-$(SYSTEMD_USER)/default.target.wants:
-	mkdir -p $@
+$(systemd_user)/offlineimap.timer: $(gen)/systemd/offlineimap.timer
+	$(link) $< $@
 
-$(SYSTEMD_USER)/offlineimap.service: gen/systemd/offlineimap.service
-	ln -fs $(CURDIR)/$< $@
-
-$(SYSTEMD_USER)/offlineimap.timer: gen/systemd/offlineimap.timer
-	ln -fs $(CURDIR)/$< $@
-
-$(SYSTEMD_USER)/default.target.wants/offlineimap.timer:
-	ln -s ../offlineimap.timer $@
+$(systemd_user)/default.target.wants/offlineimap.timer:
+	$(link) ../offlineimap.timer $@

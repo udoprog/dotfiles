@@ -32,6 +32,8 @@ unignore Date: From: User-Agent: X-Mailer  \
 set editor="vim -c 'set tw=70 et'"
 set edit_headers          # See the headers when editing
 
+set signature = ~/.mutt/signature
+
 #======================================================#
 # Aliases
 
