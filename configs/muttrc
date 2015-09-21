@@ -15,6 +15,7 @@ set realname = '{{PROFILE_NAME}}'
 set use_from = yes
 set envelope_from = yes
 
+set sort = threads
 set sort_browser = date
 
 #======================================================#
@@ -51,6 +52,7 @@ set header_cache = ~/.mutt/cache/headers
 set message_cachedir = ~/.mutt/cache/bodies
 set certificate_file = ~/.mutt/certificates
 
+bind index O sort
 bind index J next-unread
 bind index K previous-unread
 bind index gg first-entry
