@@ -1,24 +1,31 @@
 profiles:
     home:
+        GPG_KEY: 83294CE6
+        PRIMARY_MAIL: personal
+        SECONDARY_MAIL: work
         USER: udoprog
         PROFILE_NAME: John-John Tedro
         PROFILE_EMAIL: johnjohn.tedro@gmail.com
         PROFILE_TMUX_PREFIX: C-a
         PROFILE_ZSH_THEME: robbyrussell
     remote:
+        GPG_KEY: 83294CE6
+        PRIMARY_MAIL: personal
+        SECONDARY_MAIL: work
         USER: udoprog
         PROFILE_NAME: John-John Tedro
         PROFILE_EMAIL: johnjohn.tedro@gmail.com
         PROFILE_TMUX_PREFIX: C-b
         PROFILE_ZSH_THEME: afowler
     work:
+        GPG_KEY: 83294CE6
+        PRIMARY_MAIL: work
+        SECONDARY_MAIL: personal
         USER: udoprog
         PROFILE_NAME: John-John Tedro
         PROFILE_EMAIL: udoprog@spotify.com
         PROFILE_TMUX_PREFIX: C-a
         PROFILE_ZSH_THEME: robbyrussell
-
-
 
 secrets:
   - EMAIL

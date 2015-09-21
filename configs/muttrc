@@ -1,12 +1,12 @@
 set folder = ~/Mail
 
-source ~/.mutt/accounts/personal
+source ~/.mutt/accounts/{{PRIMARY_MAIL}}
 
-folder-hook '+{{USER}}-work/*' source ~/.mutt/accounts/work
+folder-hook '+{{SECONDARY_MAIL}}/*' source ~/.mutt/accounts/{{SECONDARY_MAIL}}
 
 source ~/.mutt/mailboxes
 
-set spoolfile = +{{USER}}-personal/inbox
+set spoolfile = +p/inbox
 
 set move = no
 set copy = no
@@ -79,4 +79,37 @@ set sidebar_visible=yes
 set sidebar_delim='|'
 set sidebar_sort=yes
 
+# gpg
+
+source ~/.mutt/gpg
+
+set pgp_use_gpg_agent = yes
+set pgp_sign_as = {{GPG_KEY}}
+set pgp_timeout = 3600
+set crypt_autosign = yes
+set crypt_replyencrypt = yes
+
+# colors
+
 color sidebar_new yellow default
+
+color normal      white          black
+color hdrdefault  green          default
+color quoted      green          default
+color quoted1     yellow         default
+color quoted2     red            default
+color signature   cyan           default
+color indicator   brightyellow   red
+color error       brightred      default
+color status      brightwhite    blue
+color tree        brightmagenta  black
+color tilde       blue           default
+color attachment  brightyellow   default
+color markers     brightred      default
+color message     white          black
+color search      brightwhite    magenta
+color bold        brightyellow   default
+
+# if you don't like the black progress bar at the bottom of the screen,
+# comment out the following line
+color progress    white          black

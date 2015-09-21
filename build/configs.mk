@@ -8,10 +8,14 @@ DEST+=$(HOME)/.zshrc
 DEST+=$(HOME)/.tmux.conf
 DEST+=$(HOME)/.muttrc
 DEST+=$(HOME)/.offlineimaprc
-DEST+=$(HOME)/.mutt/accounts
-DEST+=$(HOME)/.mutt/accounts/personal
-DEST+=$(HOME)/.mutt/accounts/work
-DEST+=$(HOME)/repo/linux/.pvimrc
+
+MUTT=$(HOME)/.mutt
+
+DEST+=$(MUTT)
+DEST+=$(MUTT)/gpg
+DEST+=$(MUTT)/accounts
+DEST+=$(MUTT)/accounts/personal
+DEST+=$(MUTT)/accounts/work
 
 SYSTEMD_USER=$(HOME)/.local/systemd/user
 
@@ -20,6 +24,8 @@ DEST+=$(SYSTEMD_USER)/offlineimap.service
 DEST+=$(SYSTEMD_USER)/offlineimap.timer
 DEST+=$(SYSTEMD_USER)/default.target.wants
 DEST+=$(SYSTEMD_USER)/default.target.wants/offlineimap.timer
+
+DEST+=$(HOME)/repo/linux/.pvimrc
 
 .PHONY: all
 
@@ -52,8 +58,14 @@ $(HOME)/.offlineimaprc: gen/offlineimaprc
 	ln -fs $(CURDIR)/$< $@
 
 # mutt
-$(HOME)/.mutt/accounts:
+$(MUTT):
 	mkdir -p $@
+
+$(MUTT)/accounts:
+	mkdir -p $@
+
+$(MUTT)/gpg: gen/muttrc.gpg
+	ln -fs $(CURDIR)/$< $@
 
 $(HOME)/.mutt/accounts/personal: gen/muttrc.personal
 	chmod 0600 $(CURDIR)/$<
