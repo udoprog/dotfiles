@@ -14,6 +14,9 @@ except ImportError:
     raise
 
 
+VALID_VAR = re.compile('^[a-zA-Z_.]+$')
+
+
 secrets_mode = 0o600
 
 
@@ -36,11 +39,16 @@ def open_config(root):
         raise Exception('{}: does not contain .profiles'.format(path))
 
     try:
+        variables = data['variables']
+    except IndexError:
+        raise Exception('{}: does not contain .variables'.format(path))
+
+    try:
         secret_keys = data['secrets']
     except IndexError:
         raise Exception('{}: does not contain .secrets'.format(path))
 
-    return path, profiles, secret_keys
+    return path, profiles, variables, secret_keys
 
 
 def open_secrets(root):
@@ -85,22 +93,27 @@ def open_secrets(root):
 
 
 def load_replacements(profiles, secrets):
-    c_path, profiles, secret_keys = profiles
+    c_path, profiles, variables, secret_keys = profiles
     s_path, profile_id, secrets = secrets
 
+    variables = dict(variables)
     secrets = dict(secrets)
 
     try:
-        variables = dict(profiles[profile_id])
+        variables.update(profiles[profile_id])
     except KeyError:
         raise Exception('{}: does not contain profile ({})'.format(c_path, profile_id))
 
     for k in secret_keys:
+        if not VALID_VAR.match(k):
+            raise Exception('{}: secret ({}) contains illegal characters, valid ones are: [_a-zA-Z.]'.format(s_path, k))
+
         try:
             variables[k] = secrets.pop(k)
         except KeyError:
             raise Exception('{}: secret ({}) is not available'.format(s_path, k))
 
+    k = k.replace('.', '\\.').replace('[', '\\[').replace(']', '\\]')
     return list((re.compile('[{{][{{]{}[}}][}}]'.format(k)), v) for (k, v) in variables.items())
 
 
