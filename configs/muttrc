@@ -1,8 +1,12 @@
 set folder = ~/Mail
 
+folder-hook '+{{PRIMARY_MAILBOX}}/*' source ~/.mutt/accounts/{{PRIMARY_MAIL}}
+folder-hook '+{{SECONDARY_MAILBOX}}/*' source ~/.mutt/accounts/{{SECONDARY_MAIL}}
+
 source ~/.mutt/accounts/{{PRIMARY_MAIL}}
 
-folder-hook '+{{SECONDARY_MAILBOX}}/*' source ~/.mutt/accounts/{{SECONDARY_MAIL}}
+macro index <f2> '<change-folder>={{PRIMARY_MAILBOX}}/inbox<enter>'
+macro index <f3> '<change-folder>={{SECONDARY_MAILBOX}}/inbox<enter>'
 
 source ~/.mutt/mailboxes
 
@@ -54,7 +58,6 @@ set header_cache = ~/.mutt/cache/headers
 set message_cachedir = ~/.mutt/cache/bodies
 set certificate_file = ~/.mutt/certificates
 
-bind index O sort
 bind index J next-unread
 bind index K previous-unread
 bind index gg first-entry
@@ -113,7 +116,3 @@ color markers     brightred      default
 color message     white          black
 color search      brightwhite    magenta
 color bold        brightyellow   default
-
-# if you don't like the black progress bar at the bottom of the screen,
-# comment out the following line
-color progress    white          black

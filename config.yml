@@ -6,6 +6,7 @@ variables:
     GPG_KEY: 3ECA40B9
     PRIMARY_MAIL: personal
     SECONDARY_MAIL: work
+    PRIMARY_MAILBOX: p
     SECONDARY_MAILBOX: w
 
 profiles:
@@ -18,6 +19,7 @@ profiles:
     work:
         PRIMARY_MAIL: work
         SECONDARY_MAIL: personal
+        PRIMARY_MAILBOX: w
         SECONDARY_MAILBOX: p
         USER: udoprog
         PROFILE_NAME: John-John Tedro
