@@ -6,4 +6,3 @@ udoprog
 Tedro
 IMAP
 returns
-It looks like create_move_resize_view_transition (and others?) returns NULL if 

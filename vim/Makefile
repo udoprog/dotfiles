@@ -6,7 +6,7 @@ CONFIGS+=$(HOME)/.vimrc
 
 all: $(CONFIGS)
 	$(B) all
-	vim +BundleInstall +qall
+	vim +NeoBundleInstall +qall
 
 clean:
 	$(B) clean

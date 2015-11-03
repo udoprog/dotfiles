@@ -3,37 +3,48 @@
 " {{{ Bundles
 set nocompatible
 filetype off
-set rtp+=~/.dotfiles/vim/bundle/vundle/
-call vundle#rc('~/.dotfiles/vim/bundle')
+set rtp+=~/.dotfiles/vim/bundle/neobundle.vim/
+call neobundle#begin(expand('~/.dotfiles/vim/bundle/'))
 
-Bundle "bling/vim-airline"
-Bundle "carlosvillu/coffeScript-VIM-Snippets"
-Bundle "gmarik/vundle"
-Bundle "godlygeek/tabular"
-Bundle "guns/vim-clojure-static"
-Bundle "jceb/vim-orgmode"
-Bundle "jonathanfilip/vim-lucius"
-Bundle "kevinw/pyflakes-vim"
-Bundle "kien/rainbow_parentheses.vim"
-Bundle "klen/python-mode"
-Bundle "mattn/emmet-vim"
-Bundle "mileszs/ack.vim"
-Bundle "rodjek/vim-puppet"
-Bundle "scrooloose/nerdcommenter"
-Bundle "scrooloose/nerdtree"
-Bundle "scrooloose/syntastic"
-Bundle "sophacles/vim-bundle-mako"
-Bundle "tomasr/molokai"
-Bundle "tosik/neocomplcache"
-Bundle "tpope/vim-classpath"
-Bundle "tpope/vim-fireplace"
-Bundle "tpope/vim-fugitive"
-Bundle "tpope/vim-pathogen"
-Bundle "tpope/vim-surround"
-Bundle "ujihisa/neco-ghc"
-Bundle "vim-scripts/paredit.vim"
-Bundle "wincent/Command-T"
-Bundle "plasticboy/vim-markdown"
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+NeoBundle "bling/vim-airline"
+NeoBundle "carlosvillu/coffeScript-VIM-Snippets"
+NeoBundle "gmarik/vundle"
+NeoBundle "godlygeek/tabular"
+NeoBundle "guns/vim-clojure-static"
+NeoBundle "jceb/vim-orgmode"
+NeoBundle "jonathanfilip/vim-lucius"
+NeoBundle "kevinw/pyflakes-vim"
+NeoBundle "kien/rainbow_parentheses.vim"
+NeoBundle "klen/python-mode"
+NeoBundle "mattn/emmet-vim"
+NeoBundle "mileszs/ack.vim"
+NeoBundle "rodjek/vim-puppet"
+NeoBundle "scrooloose/nerdcommenter"
+NeoBundle "scrooloose/nerdtree"
+NeoBundle "scrooloose/syntastic"
+NeoBundle "sophacles/vim-bundle-mako"
+NeoBundle "tomasr/molokai"
+NeoBundle "tosik/neocomplcache"
+NeoBundle "tpope/vim-classpath"
+NeoBundle "tpope/vim-fireplace"
+NeoBundle "tpope/vim-fugitive"
+NeoBundle "tpope/vim-pathogen"
+NeoBundle "tpope/vim-surround"
+NeoBundle "ujihisa/neco-ghc"
+NeoBundle "vim-scripts/paredit.vim"
+NeoBundle "wincent/Command-T"
+NeoBundle "plasticboy/vim-markdown"
+NeoBundle 'Shougo/vimproc.vim'
+
+" rust
+NeoBundle 'rust-lang/rust.vim'
+NeoBundle 'racer-rust/vim-racer'
+
+call neobundle#end()
+
+NeoBundleCheck
 """ }}}
 
 " {{{ Basic Settings
