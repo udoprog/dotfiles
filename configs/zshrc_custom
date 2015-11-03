@@ -3,7 +3,7 @@
 PATH=$PATH:$HOME/usr/bin
 PATH=$PATH:$HOME/node_modules/.bin
 
-export RUST_SRC_PATH=$HOME/repo/rust
+export RUST_SRC_PATH=$HOME/repo/rust/src
 
 export PATH
 export CORRECT_IGNORE='_*:.*'
