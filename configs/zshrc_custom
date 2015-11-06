@@ -11,6 +11,8 @@ export CORRECT_IGNORE='_*:.*'
 export DEBEMAIL="{{EMAIL}}"
 export DEBFULLNAME="{{NAME}}"
 
+export GOPATH=$HOME/usr/go
+
 # Prefix PS1 with current schroot name if viable.
 if [[ -n $SCHROOT_CHROOT_NAME ]]; then
     export PS1="<$SCHROOT_CHROOT_NAME> $PS1"
