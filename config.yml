@@ -1,7 +1,7 @@
 variables:
     MUTT_SIGNATURE: John-John Tedro
     PROFILE_NAME: John-John Tedro
-    PROFILE_EMAIL: johnjohn.tedro@gmail.com
+    PROFILE_EMAIL: udoprog@tedro.se
     USER: udoprog
     GPG_KEY: 3ECA40B9
     PRIMARY_MAIL: personal
