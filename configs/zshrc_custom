@@ -47,3 +47,6 @@ _zsh_terminal_set_256color()
 
 _zsh_terminal_set_256color
 unset -f _zsh_terminal_set_256color
+
+alias system-install="sudo emerge --newuse --with-bdeps=y -tavunD --verbose-conflicts @world"
+alias system-update="sudo eix-sync"
