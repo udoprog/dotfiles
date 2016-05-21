@@ -50,3 +50,7 @@ unset -f _zsh_terminal_set_256color
 
 alias system-install="sudo emerge -tavuND --with-bdeps=y --verbose-conflicts @world"
 alias system-update="sudo eix-sync"
+
+if [[ -d $HOME/.cargo/bin ]]; then
+    export PATH="$HOME/.cargo/bin:$PATH"
+fi
