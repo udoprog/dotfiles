@@ -37,6 +37,7 @@ NeoBundle "vim-scripts/paredit.vim"
 NeoBundle "wincent/Command-T"
 NeoBundle "plasticboy/vim-markdown"
 NeoBundle 'Shougo/vimproc.vim'
+NeoBundle 'leafgarland/typescript-vim'
 
 " rust
 NeoBundle 'rust-lang/rust.vim'
