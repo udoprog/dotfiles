@@ -54,3 +54,7 @@ alias system-update="sudo eix-sync"
 if [[ -d $HOME/.cargo/bin ]]; then
     export PATH="$HOME/.cargo/bin:$PATH"
 fi
+
+if command -v nvim; then
+    alias vim=nvim
+fi

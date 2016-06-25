@@ -43,6 +43,8 @@ NeoBundle 'leafgarland/typescript-vim'
 NeoBundle 'rust-lang/rust.vim'
 NeoBundle 'racer-rust/vim-racer'
 
+NeoBundle 'neomake/neomake'
+
 call neobundle#end()
 
 NeoBundleCheck
@@ -230,7 +232,17 @@ function! SetupNGT()
   set suffixesadd=.ngt
 endfunction
 
-function! SetupCLJ()
+function! SetupRust()
+  set suffixesadd=.rs
+  set makeprg=cargo\ build
+  let errorformat =
+        \ '%E%f:%l:%c: %\d%#:%\d%# %.%\{-}error:%.%\{-} %m,'   .
+        \ '%W%f:%l:%c: %\d%#:%\d%# %.%\{-}warning:%.%\{-} %m,' .
+        \ '%C%f:%l %m,' .
+        \ '%-Z%.%#'
+endfunction
+
+function! SetupClojure()
   au VimEnter * RainbowParenthesesToggle
   au Syntax * RainbowParenthesesLoadRound
   au Syntax * RainbowParenthesesLoadSquare
@@ -248,7 +260,8 @@ if has("autocmd")
   autocmd BufNewFile,BufRead *.epl :call SetupEPL()
   autocmd BufNewFile,BufRead *.pp set filetype=puppet
   autocmd BufNewFile,BufRead *.ngt :call SetupNGT()
-  autocmd BufNewFile,BufRead *.clj :call SetupCLJ()
+  autocmd BufNewFile,BufRead *.rs :call SetupRust()
+  autocmd BufNewFile,BufRead *.clj :call SetupClojure()
 endif
 " }}}
 

@@ -2,7 +2,7 @@
 
 repo=$(HOME)/repo
 mutt=$(HOME)/.mutt
-systemd_user=$(HOME)/.local/systemd/user
+systemd_user=$(HOME)/.config/systemd/user
 gen=$(CURDIR)/gen
 secrets=$(CURDIR)/secrets.yml
 config=$(CURDIR)/config.yml
@@ -23,27 +23,39 @@ build+=$(mutt)/signature
 build+=$(mutt)/accounts/personal
 build+=$(mutt)/accounts/work
 
-dirs+=$(systemd_user)
-dirs+=$(systemd_user)/default.target.wants
-
-build+=$(systemd_user)
-build+=$(systemd_user)/offlineimap.service
-build+=$(systemd_user)/offlineimap.timer
-build+=$(systemd_user)/default.target.wants/offlineimap.timer
-
 build+=$(repo)/linux/.pvimrc
 
 # generated directories
+
 dirs+=$(gen)
 dirs+=$(gen)/mutt
 dirs+=$(gen)/mutt/accounts
 dirs+=$(gen)/systemd
+dirs+=$(gen)/systemd/default.target.wants
+
+systemd_configs+=$(gen)/systemd/offlineimap.service
+systemd_configs+=$(gen)/systemd/default.target.wants/offlineimap.service
+
+systemd_configs+=$(gen)/systemd/redshift.service
+systemd_configs+=$(gen)/systemd/default.target.wants/redshift.service
+
+build+=$(systemd_configs)
+build+=$(systemd_user)
 
 link=ln -sf
 
-.PHONY: all generated
+.PHONY: clean all generated
+
+clean:
+	rm -rf $(gen)
 
 all: $(dirs) $(build)
+
+$(gen)/systemd/default.target.wants/offlineimap.service:
+	$(link) ../offlineimap.service $@
+
+$(gen)/systemd/default.target.wants/redshift.service:
+	$(link) ../redshift.service $@
 
 $(gen)/%: configs/% $(secrets) $(config)
 	$(M) $@ $<
@@ -94,11 +106,5 @@ $(repo)/linux/.pvimrc: $(gen)/linux.pvimrc
 	$(link) $< $@
 
 # systemd
-$(systemd_user)/offlineimap.service: $(gen)/systemd/offlineimap.service
-	$(link) $< $@
-
-$(systemd_user)/offlineimap.timer: $(gen)/systemd/offlineimap.timer
-	$(link) $< $@
-
-$(systemd_user)/default.target.wants/offlineimap.timer:
-	$(link) ../offlineimap.timer $@
+$(systemd_user): $(gen)/systemd
+	$(link) $(gen)/systemd $@
