@@ -2,6 +2,7 @@
 
 PATH=$PATH:$HOME/usr/bin
 PATH=$PATH:$HOME/node_modules/.bin
+PATH=$PATH:$HOME/.local/bin
 
 export RUST_SRC_PATH=$HOME/repo/rust/src
 
@@ -55,6 +56,6 @@ if [[ -d $HOME/.cargo/bin ]]; then
     export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
-if command -v nvim; then
+if command -v nvim -> /dev/null; then
     alias vim=nvim
 fi

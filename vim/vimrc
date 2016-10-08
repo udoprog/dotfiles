@@ -232,6 +232,13 @@ function! SetupNGT()
   set suffixesadd=.ngt
 endfunction
 
+function! SetupPOM()
+  set tabstop=2
+  set shiftwidth=2
+  set filetype=xml
+  set expandtab
+endfunction
+
 function! SetupRust()
   set suffixesadd=.rs
   set makeprg=cargo\ build
@@ -262,6 +269,7 @@ if has("autocmd")
   autocmd BufNewFile,BufRead *.ngt :call SetupNGT()
   autocmd BufNewFile,BufRead *.rs :call SetupRust()
   autocmd BufNewFile,BufRead *.clj :call SetupClojure()
+  autocmd BufNewFile,BufRead pom.xml :call SetupPOM()
 endif
 " }}}
 
