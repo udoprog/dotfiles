@@ -256,6 +256,12 @@ function! SetupClojure()
   au Syntax * RainbowParenthesesLoadBraces
 endfunction
 
+function! SetupASM()
+  set tabstop=4
+  set shiftwidth=4
+  set noexpandtab
+endfunction
+
 if has("autocmd")
   " do all autocmd stuff here
   " autocmd FileType javascript <cmd>
@@ -269,6 +275,8 @@ if has("autocmd")
   autocmd BufNewFile,BufRead *.ngt :call SetupNGT()
   autocmd BufNewFile,BufRead *.rs :call SetupRust()
   autocmd BufNewFile,BufRead *.clj :call SetupClojure()
+  autocmd BufNewFile,BufRead *.s :call SetupASM()
+  autocmd BufNewFile,BufRead *.S :call SetupASM()
   autocmd BufNewFile,BufRead pom.xml :call SetupPOM()
 endif
 " }}}
