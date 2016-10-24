@@ -8,6 +8,7 @@ After=network.target
 Type=simple
 ExecStart=/usr/bin/offlineimap
 Restart=always
+RestartSec=2m
 
 [Install]
 WantedBy=default.target
