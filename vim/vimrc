@@ -38,6 +38,7 @@ NeoBundle "wincent/Command-T"
 NeoBundle "plasticboy/vim-markdown"
 NeoBundle 'Shougo/vimproc.vim'
 NeoBundle 'leafgarland/typescript-vim'
+NeoBundle 'joe-skb7/cscope-maps'
 
 " rust
 NeoBundle 'rust-lang/rust.vim'
@@ -300,5 +301,17 @@ inoremap jk <Esc>
 " {{{ source project-specific settings
 if filereadable('./.pvimrc')
   source ./.pvimrc
+endif
+
+if isdirectory('./include')
+  let &path=getcwd() . '/include' . ',' . &path
+endif
+" }}}
+
+" {{{ cscope
+set cscopetag
+
+if filereadable('cscope.out')
+  cs add cscope.out
 endif
 " }}}
