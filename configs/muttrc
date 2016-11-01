@@ -81,6 +81,10 @@ bind index,pager \Cd half-down
 
 macro index,pager \CL '<pipe-message> cd ~/repo/linux && git am -<enter>'
 
+macro index A \
+    "<tag-pattern>~N<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" \
+    "mark all new as read"<Paste>
+
 set sidebar_width=24
 set sidebar_visible=yes
 set sidebar_delim_chars='|'
