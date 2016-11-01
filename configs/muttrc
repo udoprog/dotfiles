@@ -83,8 +83,8 @@ macro index,pager \CL '<pipe-message> cd ~/repo/linux && git am -<enter>'
 
 set sidebar_width=24
 set sidebar_visible=yes
-set sidebar_delim='|'
-set sidebar_sort=yes
+set sidebar_delim_chars='|'
+set sidebar_sort_method=alpha
 
 # gpg
 
