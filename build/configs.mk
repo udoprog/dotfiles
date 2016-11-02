@@ -13,6 +13,7 @@ build+=$(HOME)/.zshrc
 build+=$(HOME)/.tmux.conf
 build+=$(HOME)/.muttrc
 build+=$(HOME)/.offlineimaprc
+build+=$(HOME)/.dput.cf
 
 dirs+=$(mutt)
 dirs+=$(mutt)/accounts
@@ -81,6 +82,9 @@ $(HOME)/.tmux.conf: $(gen)/tmux.conf
 # offlineimaprc
 $(HOME)/.offlineimaprc: $(gen)/offlineimaprc
 	chmod 0600 $<
+	$(link) $< $@
+
+$(HOME)/.dput.cf: $(gen)/dput.cf
 	$(link) $< $@
 
 # mutt
