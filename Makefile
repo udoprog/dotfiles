@@ -1,22 +1,20 @@
-O=$(CURDIR)/build/optional
-B=$(CURDIR)/build/make
-M=$(CURDIR)/build/m4tpl
+export PATH := $(CURDIR)/bin:$(PATH)
 
 .PHONY: all clean
 
 all: configs utils
-	cd vim && make B="$(B)" all
-	cd awesome && make B="$(B)" all
+	make -C vim all
+	make C awesome all
 
 clean:
-	$(B) clean
-	cd vim && make B="$(B)" clean
-	cd awesome && make B="$(B)" clean
+	buildall clean
+	make -C vim clean
+	make -C clean
 
 .PHONY: configs utils
 
 configs:
-	$(B) M="$(M)" all
+	buildall all
 
 utils:
-	cd ${HOME} && $(O) npm install jshint
+	cd ${HOME} && optional npm install jshint

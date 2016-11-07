@@ -5,11 +5,11 @@ CONFIGS+=$(HOME)/.vimrc
 .PHONY: all clean
 
 all: $(CONFIGS)
-	$(B) all
+	buildall all
 	vim +NeoBundleInstall +qall
 
 clean:
-	$(B) clean
+	buildall clean
 
 ${HOME}/.vimrc: $(PWD)/vimrc
 	ln -sf $< $@

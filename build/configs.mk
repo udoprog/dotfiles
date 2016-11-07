@@ -59,7 +59,7 @@ $(gen)/systemd/default.target.wants/redshift.service:
 	$(link) ../redshift.service $@
 
 $(gen)/%: configs/% $(secrets) $(config)
-	$(M) $@ $<
+	m4tpl $@ $<
 
 $(dirs):
 	mkdir -p $@
