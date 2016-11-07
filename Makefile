@@ -1,4 +1,5 @@
 export PATH := $(CURDIR)/bin:$(PATH)
+export ROOT := $(CURDIR)
 
 .PHONY: all clean
 
