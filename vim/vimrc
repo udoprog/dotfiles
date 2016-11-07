@@ -116,9 +116,9 @@ set complete=.,w,b,u,t
 set completeopt=longest,menuone,preview
 "Make line wrapping act sanely
 set wrap
-set textwidth=79
+set textwidth=99
 set formatoptions=qrn1
-set colorcolumn=80
+set colorcolumn=100
 
 set wildignore+=**/.svn
 set wildignore+=*.class
