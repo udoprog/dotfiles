@@ -6,36 +6,16 @@ build+=$(HOME)/.zshrc
 build+=$(HOME)/.tmux.conf
 build+=$(HOME)/.offlineimaprc
 build+=$(HOME)/.dput.cf
-
 build+=$(HOME)/repo/linux/.pvimrc
 
-# generated directories
+services+=offlineimap.service
+services+=redshift.service
 
 include $(ROOT)/config.mk
 
-# git
-$(HOME)/.gitconfig: $(gen)/gitconfig
-	$(copy) $< $@
-
-# zsh
-$(HOME)/.zshrc_custom: $(gen)/zshrc_custom
-	$(copy) $< $@
-
-$(HOME)/.zshrc: $(gen)/zshrc
-	$(copy) $< $@
-
-# tmux
-$(HOME)/.tmux.conf: $(gen)/tmux.conf
-	$(copy) $< $@
-
-# offlineimaprc
-$(HOME)/.offlineimaprc: $(gen)/offlineimaprc
+$(HOME)/.offlineimaprc: $(G)/offlineimaprc
 	chmod 0600 $<
 	$(copy) $< $@
 
-$(HOME)/.dput.cf: $(gen)/dput.cf
-	$(copy) $< $@
-
-# project-specific pvimrc
-$(repo)/linux/.pvimrc: $(gen)/linux.pvimrc
+$(HOME)/repo/linux/.pvimrc: $(G)/linux.pvimrc
 	$(copy) $< $@

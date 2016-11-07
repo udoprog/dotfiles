@@ -2,8 +2,8 @@ mutt=$(HOME)/.mutt
 
 dirs+=$(mutt)
 dirs+=$(mutt)/accounts
-dirs+=$(gen)/mutt
-dirs+=$(gen)/mutt/accounts
+dirs+=$(G)/mutt
+dirs+=$(G)/mutt/accounts
 
 build+=$(HOME)/.muttrc
 build+=$(mutt)
@@ -15,19 +15,19 @@ build+=$(mutt)/accounts/work
 include $(ROOT)/config.mk
 
 # mutt
-$(mutt)/gpg: $(gen)/mutt/gpg
+$(mutt)/gpg: $(G)/mutt/gpg
 	$(copy) $< $@
 
-$(mutt)/signature: $(gen)/mutt/signature
+$(mutt)/signature: $(G)/mutt/signature
 	$(copy) $< $@
 
-$(mutt)/accounts/personal: $(gen)/mutt/accounts/personal
+$(mutt)/accounts/personal: $(G)/mutt/accounts/personal
 	chmod 0600 $<
 	$(copy) $< $@
 
-$(mutt)/accounts/work: $(gen)/mutt/accounts/work
+$(mutt)/accounts/work: $(G)/mutt/accounts/work
 	chmod 0600 $<
 	$(copy) $< $@
 
-$(HOME)/.muttrc: $(gen)/muttrc
+$(HOME)/.muttrc: $(G)/muttrc
 	$(copy) $< $@

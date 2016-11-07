@@ -1,21 +1,23 @@
-CONFIGS+=$(HOME)/.vim
-CONFIGS+=$(HOME)/.config/nvim
-CONFIGS+=$(HOME)/.vimrc
+build+=$(HOME)/.vim
+build+=$(HOME)/.config/nvim
+build+=$(HOME)/.vimrc
+
+link=ln -sf
 
 .PHONY: all clean
 
-all: $(CONFIGS)
+all: $(build)
 	buildall all
 	vim +NeoBundleInstall +qall
 
 clean:
 	buildall clean
 
-${HOME}/.vimrc: $(PWD)/vimrc
-	ln -sf $< $@
+$(HOME)/.vimrc: $(CURDIR)/vimrc
+	$(link) $< $@
 
-${HOME}/.vim: $(PWD)
-	ln -sf $< $@
+$(HOME)/.vim: $(CURDIR)
+	$(link) $< $@
 
-${HOME}/.config/nvim: $(PWD)
-	ln -sf $< $@
+$(HOME)/.config/nvim: $(CURDIR)
+	$(link) $< $@
