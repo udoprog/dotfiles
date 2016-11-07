@@ -5,6 +5,7 @@ gen=$(CURDIR)/gen
 dirs+=$(gen)
 
 link=ln -sf
+copy=cp
 
 $(gen)/%: $(CURDIR)/configs/% $(secrets) $(config)
 	m4tpl $@ $<

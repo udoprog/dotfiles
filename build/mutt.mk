@@ -16,18 +16,18 @@ include $(ROOT)/config.mk
 
 # mutt
 $(mutt)/gpg: $(gen)/mutt/gpg
-	$(link) $< $@
+	$(copy) $< $@
 
 $(mutt)/signature: $(gen)/mutt/signature
-	$(link) $< $@
+	$(copy) $< $@
 
 $(mutt)/accounts/personal: $(gen)/mutt/accounts/personal
 	chmod 0600 $<
-	$(link) $< $@
+	$(copy) $< $@
 
 $(mutt)/accounts/work: $(gen)/mutt/accounts/work
 	chmod 0600 $<
-	$(link) $< $@
+	$(copy) $< $@
 
 $(HOME)/.muttrc: $(gen)/muttrc
-	$(link) $< $@
+	$(copy) $< $@
