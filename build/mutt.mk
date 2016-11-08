@@ -1,33 +1,26 @@
-mutt=$(HOME)/.mutt
+mutt_home=$(HOME)/.mutt
 
-dirs+=$(mutt)
-dirs+=$(mutt)/accounts
+dirs+=$(mutt_home)
+dirs+=$(mutt_home)/accounts
 dirs+=$(G)/mutt
 dirs+=$(G)/mutt/accounts
 
 build+=$(HOME)/.muttrc
-build+=$(mutt)
-build+=$(mutt)/gpg
-build+=$(mutt)/signature
-build+=$(mutt)/accounts/personal
-build+=$(mutt)/accounts/work
+build+=$(mutt_home)/gpg
+build+=$(mutt_home)/signature
+build+=$(mutt_home)/accounts/personal
+build+=$(mutt_home)/accounts/work
 
 include $(ROOT)/config.mk
 
 # mutt
-$(mutt)/gpg: $(G)/mutt/gpg
+$(mutt_home)/%: $(G)/mutt/%
 	$(copy) $< $@
 
-$(mutt)/signature: $(G)/mutt/signature
-	$(copy) $< $@
-
-$(mutt)/accounts/personal: $(G)/mutt/accounts/personal
+$(mutt_home)/accounts/personal: $(G)/mutt/accounts/personal
 	chmod 0600 $<
 	$(copy) $< $@
 
-$(mutt)/accounts/work: $(G)/mutt/accounts/work
+$(mutt_home)/accounts/work: $(G)/mutt/accounts/work
 	chmod 0600 $<
-	$(copy) $< $@
-
-$(HOME)/.muttrc: $(G)/muttrc
 	$(copy) $< $@
