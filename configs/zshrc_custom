@@ -3,7 +3,9 @@
 PATH=$PATH:$HOME/usr/bin
 PATH=$PATH:$HOME/node_modules/.bin
 PATH=$PATH:$HOME/.local/bin
+PATH=$PATH:$HOME/.gem/ruby/2.3.0/bin
 
+export EDITOR=nvim
 export RUST_SRC_PATH=$HOME/repo/rust/src
 
 export PATH
