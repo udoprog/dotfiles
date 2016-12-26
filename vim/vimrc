@@ -3,56 +3,67 @@
 " {{{ Bundles
 set nocompatible
 filetype off
-set rtp+=~/.dotfiles/vim/bundle/neobundle.vim/
-call neobundle#begin(expand('~/.dotfiles/vim/bundle/'))
 
-NeoBundleFetch 'Shougo/neobundle.vim'
+if &compatible
+  set nocompatible
+endif
 
-NeoBundle "bling/vim-airline"
-NeoBundle "carlosvillu/coffeScript-VIM-Snippets"
-NeoBundle "gmarik/vundle"
-NeoBundle "godlygeek/tabular"
-NeoBundle "guns/vim-clojure-static"
-NeoBundle "jceb/vim-orgmode"
-NeoBundle "jonathanfilip/vim-lucius"
-NeoBundle "kevinw/pyflakes-vim"
-NeoBundle "kien/rainbow_parentheses.vim"
-NeoBundle "klen/python-mode"
-NeoBundle "mattn/emmet-vim"
-NeoBundle "mileszs/ack.vim"
-NeoBundle "rodjek/vim-puppet"
-NeoBundle "scrooloose/nerdcommenter"
-NeoBundle "scrooloose/nerdtree"
-NeoBundle "scrooloose/syntastic"
-NeoBundle "sophacles/vim-bundle-mako"
-NeoBundle "tomasr/molokai"
-NeoBundle "tosik/neocomplcache"
-NeoBundle "tpope/vim-classpath"
-NeoBundle "tpope/vim-fireplace"
-NeoBundle "tpope/vim-fugitive"
-NeoBundle "tpope/vim-pathogen"
-NeoBundle "tpope/vim-surround"
-NeoBundle "ujihisa/neco-ghc"
-NeoBundle "vim-scripts/paredit.vim"
-NeoBundle "wincent/Command-T"
-NeoBundle "plasticboy/vim-markdown"
-NeoBundle 'Shougo/vimproc.vim'
-NeoBundle 'leafgarland/typescript-vim'
-NeoBundle 'joe-skb7/cscope-maps'
+set rtp+=~/.vim/bundle/repos/github.com/Shougo/dein.vim
+
+call dein#begin(resolve(expand("~/.vim/bundle")))
+
+call dein#add('Shougo/dein.vim')
+call dein#add('Shougo/neocomplete.vim')
+
+" basics
+" call dein#add("scrooloose/syntastic")
+call dein#add('neomake/neomake')
+
+call dein#add("bling/vim-airline")
+call dein#add("carlosvillu/coffeScript-VIM-Snippets")
+call dein#add("gmarik/vundle")
+call dein#add("godlygeek/tabular")
+call dein#add("guns/vim-clojure-static")
+call dein#add("jceb/vim-orgmode")
+call dein#add("jonathanfilip/vim-lucius")
+call dein#add("kevinw/pyflakes-vim")
+call dein#add("kien/rainbow_parentheses.vim")
+call dein#add("klen/python-mode")
+call dein#add("mattn/emmet-vim")
+call dein#add("mileszs/ack.vim")
+call dein#add("rodjek/vim-puppet")
+call dein#add("scrooloose/nerdcommenter")
+call dein#add("scrooloose/nerdtree")
+call dein#add("sophacles/vim-bundle-mako")
+call dein#add("tomasr/molokai")
+call dein#add("tosik/neocomplcache")
+call dein#add("tpope/vim-classpath")
+call dein#add("tpope/vim-fireplace")
+call dein#add("tpope/vim-fugitive")
+call dein#add("tpope/vim-pathogen")
+call dein#add("tpope/vim-surround")
+call dein#add("ujihisa/neco-ghc")
+call dein#add("vim-scripts/paredit.vim")
+call dein#add("wincent/command-t")
+call dein#add("plasticboy/vim-markdown")
+call dein#add('Shougo/vimproc.vim')
+call dein#add('leafgarland/typescript-vim')
+call dein#add('joe-skb7/cscope-maps')
 
 " rust
-NeoBundle 'rust-lang/rust.vim'
-NeoBundle 'racer-rust/vim-racer'
+call dein#add('mckinnsb/rust.vim')
+call dein#add('racer-rust/vim-racer')
 
-NeoBundle 'neomake/neomake'
+" javascript
+call dein#add('pangloss/vim-javascript')
+call dein#add('mxw/vim-jsx')
 
-call neobundle#end()
+call dein#end()
 
-NeoBundleCheck
 """ }}}
 
 " {{{ Basic Settings
-syntax on
+syntax enable
 filetype plugin on
 filetype indent on
 
@@ -179,7 +190,7 @@ let g:airline_powerline_fonts = 1
 " }}}
 
 " {{{ Syntastic
-"if exists("g:loaded_syntastic_plugin")
+if exists("g:loaded_syntastic_plugin")
   set statusline+=%#warningmsg#
   set statusline+=%{SyntasticStatuslineFlag()}
   set statusline+=%*
@@ -192,7 +203,7 @@ let g:airline_powerline_fonts = 1
   let g:syntastic_javascript_checkers = ['jshint']
   let g:syntastic_cpp_compiler = 'g++'
   let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
-"endif
+endif
 " }}}
 
 nnoremap <leader>t :CommandT<cr>
@@ -241,13 +252,14 @@ function! SetupPOM()
 endfunction
 
 function! SetupRust()
-  set suffixesadd=.rs
-  set makeprg=cargo\ build
-  let errorformat =
-        \ '%E%f:%l:%c: %\d%#:%\d%# %.%\{-}error:%.%\{-} %m,'   .
-        \ '%W%f:%l:%c: %\d%#:%\d%# %.%\{-}warning:%.%\{-} %m,' .
-        \ '%C%f:%l %m,' .
-        \ '%-Z%.%#'
+  "compiler cargo
+  "let g:rustfmt_autosave = 1
+  " let g:neomake_rust_enabled_makers = ['cargo']
+  "let g:syntastic_rust_checkers = ['cargo']
+  let g:racer_experimental_completer = 1
+  set hidden
+  let g:racer_cmd = resolve(expand("~/.cargo/bin/racer"))
+  let $RUST_SRC_PATH = resolve(expand("~/repo/rust/src"))
 endfunction
 
 function! SetupClojure()
@@ -261,6 +273,40 @@ function! SetupASM()
   set tabstop=4
   set shiftwidth=4
   set noexpandtab
+endfunction
+
+function! SetupJavaScript()
+  set tabstop=2
+  set shiftwidth=2
+  set expandtab
+endfunction
+
+function! SetupJSX()
+  set tabstop=2
+  set shiftwidth=2
+  set expandtab
+  let g:syntastic_javascript_checkers = ['eslint']
+endfunction
+
+function! SetupTSX()
+  set tabstop=2
+  set shiftwidth=2
+  set expandtab
+  let g:syntastic_javascript_checkers = ['eslint']
+endfunction
+
+function! SetupTS()
+  set tabstop=2
+  set shiftwidth=2
+  set expandtab
+  let g:syntastic_typescript_checkers = ['eslint']
+endfunction
+
+function! SetupTSDefs()
+  set tabstop=2
+  set shiftwidth=2
+  set expandtab
+  let g:syntastic_typescript_checkers = ['eslint']
 endfunction
 
 if has("autocmd")
@@ -278,7 +324,14 @@ if has("autocmd")
   autocmd BufNewFile,BufRead *.clj :call SetupClojure()
   autocmd BufNewFile,BufRead *.s :call SetupASM()
   autocmd BufNewFile,BufRead *.S :call SetupASM()
+  autocmd BufNewFile,BufRead *.js :call SetupJavaScript()
+  autocmd BufNewFile,BufRead *.jsx :call SetupJSX()
+  autocmd BufNewFile,BufRead *.tsx :call SetupTSX()
+  autocmd BufNewFile,BufRead *.d.ts :call SetupTSDefs()
+  autocmd BufNewFile,BufRead *.ts :call SetupTS()
   autocmd BufNewFile,BufRead pom.xml :call SetupPOM()
+
+  autocmd! BufWritePost *.rs Neomake! cargo
 endif
 " }}}
 

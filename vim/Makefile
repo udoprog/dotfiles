@@ -8,7 +8,6 @@ link=ln -sf
 
 all: $(build)
 	buildall all
-	vim +NeoBundleInstall +qall
 
 clean:
 	buildall clean
