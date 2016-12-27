@@ -253,7 +253,7 @@ endfunction
 
 function! SetupRust()
   "compiler cargo
-  "let g:rustfmt_autosave = 1
+  let g:rustfmt_autosave = 1
   " let g:neomake_rust_enabled_makers = ['cargo']
   "let g:syntastic_rust_checkers = ['cargo']
   let g:racer_experimental_completer = 1
