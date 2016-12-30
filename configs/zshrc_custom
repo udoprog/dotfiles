@@ -1,20 +1,5 @@
 # vim: filetype=zsh
-
-PATH=$PATH:$HOME/usr/bin
-PATH=$PATH:$HOME/node_modules/.bin
-PATH=$PATH:$HOME/.local/bin
-PATH=$PATH:$HOME/.gem/ruby/2.3.0/bin
-
-export EDITOR=nvim
-export RUST_SRC_PATH=$HOME/repo/rust/src
-
-export PATH
-export CORRECT_IGNORE='_*:.*'
-
-export DEBEMAIL="{{EMAIL}}"
-export DEBFULLNAME="{{NAME}}"
-
-export GOPATH=$HOME/usr/go
+source $HOME/.profile
 
 # Prefix PS1 with current schroot name if viable.
 if [[ -n $SCHROOT_CHROOT_NAME ]]; then
@@ -53,10 +38,6 @@ unset -f _zsh_terminal_set_256color
 
 alias system-install="sudo emerge -tavuND --with-bdeps=y --verbose-conflicts @world"
 alias system-update="sudo eix-sync"
-
-if [[ -d $HOME/.cargo/bin ]]; then
-    export PATH="$HOME/.cargo/bin:$PATH"
-fi
 
 if command -v nvim -> /dev/null; then
     alias vim=nvim

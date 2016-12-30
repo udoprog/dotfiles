@@ -1,6 +1,7 @@
 # vim: filetype=make
 
 build+=$(HOME)/.gitconfig
+build+=$(HOME)/.profile
 build+=$(HOME)/.zshrc_custom
 build+=$(HOME)/.zshrc
 build+=$(HOME)/.tmux.conf
