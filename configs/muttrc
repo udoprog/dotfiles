@@ -5,10 +5,10 @@ folder-hook '+{{SECONDARY_MAILBOX}}/*' source ~/.mutt/accounts/{{SECONDARY_MAIL}
 
 source ~/.mutt/accounts/{{PRIMARY_MAIL}}
 
-macro index <f2> '<change-folder>={{PRIMARY_MAILBOX}}/inbox<enter>'
-macro index <f3> '<change-folder>={{SECONDARY_MAILBOX}}/inbox<enter>'
+macro index <f2> "<enter-command>unmailboxes *<enter><enter-command>source ~/.mutt/mailboxes.personal<enter>"
+macro index <f3> "<enter-command>unmailboxes *<enter><enter-command>source ~/.mutt/mailboxes.work<enter>"
 
-source ~/.mutt/mailboxes
+source ~/.mutt/mailboxes.personal
 
 set spoolfile = +p/inbox
 
@@ -85,15 +85,16 @@ macro index A \
     "<tag-pattern>~N<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" \
     "mark all new as read"<Paste>
 
-set mail_check_stats=yes
+set mail_check_stats = yes
+
+set sidebar_folder_indent = yes
 set sidebar_format="%B%?F? [%F]?%* %?N?%N/?%S"
-set sidebar_width=60
-set sidebar_visible=yes
-set sidebar_delim_chars='|'
-set sidebar_sort_method=alpha
+set sidebar_short_path = yes
+set sidebar_sort_method = alpha
+set sidebar_visible = yes
+set sidebar_width = 50
 
 # gpg
-
 source ~/.mutt/gpg
 
 set pgp_use_gpg_agent = yes

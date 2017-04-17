@@ -7,7 +7,7 @@ dirs+=$(G)
 
 build+=$(systemd_user)
 build+=$(services:%=$(G)/systemd/%)
-build+=$(services:%=$(systemd_user)/default.target.wants/%)
+build+=$(enabled:%=$(systemd_user)/default.target.wants/%)
 
 link=ln -sf
 copy=cp
@@ -16,7 +16,7 @@ systemctl=systemctl --user
 $(systemd_user): $(G)/systemd
 	$(link) $(G)/systemd $@
 
-$(systemd_user)/default.target.wants/%: $(G)/systemd/%
+$(systemd_user)/default.target.wants/%:
 	$(systemctl) add-wants default.target $*
 
 $(HOME)/.%: $(ROOT)/configs/% $(secrets) $(config)
