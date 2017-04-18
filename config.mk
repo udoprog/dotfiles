@@ -6,7 +6,7 @@ dirs+=$(G)/systemd
 dirs+=$(G)
 
 build+=$(systemd_user)
-build+=$(services:%=$(G)/systemd/%)
+build+=$(units:%=$(G)/systemd/%)
 build+=$(enabled_services:%=$(systemd_user)/default.target.wants/%)
 build+=$(enabled_timers:%=$(systemd_user)/timer.target.wants/%)
 

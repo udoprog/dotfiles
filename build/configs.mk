@@ -12,8 +12,9 @@ build+=$(HOME)/repo/linux/.pvimrc
 
 dirs+=$(HOME)/.offlineimap
 
-services+=offlineimap@.service
-services+=redshift.service
+units+=offlineimap@.service
+units+=offlineimap@.timer
+units+=redshift.service
 
 enabled_services+=redshift.service
 

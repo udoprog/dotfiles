@@ -6,7 +6,7 @@ metadata = ~/.offlineimap/work
 enabled = yes
 filename = ~/.mutt/mailboxes.work
 header = "mailboxes "
-peritem = "+w/%(foldername)s"
+peritem = "+%(foldername)s"
 sep = " "
 footer = "\n"
 
@@ -16,7 +16,7 @@ remoterepository = gmail
 
 [Repository local]
 type = Maildir
-localfolders = ~/Mail/w
+localfolders = ~/Mail/work
 
 [Repository gmail]
 type = Gmail

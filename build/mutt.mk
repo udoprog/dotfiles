@@ -5,12 +5,13 @@ dirs+=$(mutt_home)/accounts
 dirs+=$(G)/mutt
 dirs+=$(G)/mutt/accounts
 
-build+=$(HOME)/.muttrc
-build+=$(mutt_home)/gpg
-build+=$(mutt_home)/colors
-build+=$(mutt_home)/signature
 build+=$(mutt_home)/accounts/personal
 build+=$(mutt_home)/accounts/work
+build+=$(mutt_home)/base
+build+=$(mutt_home)/colors
+build+=$(mutt_home)/gpg
+build+=$(mutt_home)/muttrc
+build+=$(mutt_home)/signature
 
 include $(ROOT)/config.mk
 

@@ -42,3 +42,6 @@ alias system-update="sudo eix-sync"
 if command -v nvim -> /dev/null; then
     alias vim=nvim
 fi
+
+alias mutt.{{PRIMARY_MAIL}}="mutt -F ~/.mutt/accounts/{{PRIMARY_MAIL}}"
+alias mutt.{{SECONDARY_MAIL}}="mutt -F ~/.mutt/accounts/{{SECONDARY_MAIL}}"
