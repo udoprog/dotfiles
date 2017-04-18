@@ -25,5 +25,5 @@ remotepass = {{WORK_IMAP_PASS}}
 realdelete = no
 maxconnections = 3
 sslcacertfile = /etc/ssl/certs/ca-certificates.crt
-folderfilter = lambda f: f not in ['[Gmail]/All Mail', '[Gmail]/Important', '[Gmail]/Starred', '[Gmail]/Trash', '[Gmail]/Bin', '[Gmail]/Spam']
+folderfilter = lambda f: f not in ['[Gmail]/All Mail', '[Gmail]/Important', '[Gmail]/Starred', '[Gmail]/Trash', '[Gmail]/Bin']
 createfolders = false
