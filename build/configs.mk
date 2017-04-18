@@ -14,9 +14,6 @@ dirs+=$(HOME)/.offlineimap
 
 units+=offlineimap@.service
 units+=offlineimap@.timer
-units+=redshift.service
-
-enabled_services+=redshift.service
 
 enabled_timers+=offlineimap@work.timer
 enabled_timers+=offlineimap@personal.timer
