@@ -4,17 +4,20 @@ export G=$(CURDIR)/gen
 
 .PHONY: all clean
 
-all: configs utils
+all: configs utils puppet
 	make -C vim all
 
 clean:
 	buildall clean
 	make -C vim clean
 
-.PHONY: configs utils
+.PHONY: configs utils puppet
 
 configs:
 	buildall all
 
 utils:
 	cd ${HOME} && optional npm install jshint
+
+puppet:
+	bin/puppet

@@ -1,0 +1,7 @@
+classes:
+  - base::packages
+  - mutt
+
+base::packages::debian::list:
+  - clusterssh
+  - git
