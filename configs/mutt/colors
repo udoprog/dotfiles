@@ -1,0 +1,135 @@
+# vim: filetype=muttrc
+
+# base
+color sidebar_new yellow default
+
+color attachment color254 color234
+color bold brightyellow default
+color error color160 color234
+color hdrdefault green default
+color indicator color234 color136
+color markers color160 color254
+color message color37 color234
+color normal color250 color234
+color quoted green default
+color quoted1 yellow default
+color quoted2 red default
+color search color61 color234
+color signature cyan default
+color status color241 color235
+color tilde color235 color234
+color tree color136 color234
+
+# mono
+mono bold bold
+mono underline underline
+mono indicator reverse
+mono error bold
+mono body bold "^gpg: Good signature"
+mono body bold "^gpg: BAD signature from.*"
+mono body underline "(^|[[:space:][:punct:]])/[^/]+/([[:space:][:punct:]]|$)"
+mono body underline "(^|[[:space:][:punct:]])_[^_]+_([[:space:][:punct:]]|$)"
+mono body bold "(^|[[:space:][:punct:]])\\*[^*]+\\*([[:space:][:punct:]]|$)"
+
+# body colors
+color body yellow default "^diff \-.*"
+color body yellow default "^index [a-f0-9].*"
+color body yellow default "^--- .*"
+color body yellow default "^[\+]{3} .*"
+color body green default "^[\+][^\+]+.*"
+color body red default "^\-[^\-]+.*"
+color body magenta default "^@@ .*"
+color body yellow default "^\-\- >8 \-\-$"
+
+color body cyan default "^Signed-off-by: .*$"
+color body cyan default "^Acked-by: .*$"
+color body cyan default "^Reported-by: .*$"
+color body cyan default "^Tested-by: .*$"
+color body cyan default "^Reviewed-by: .*$"
+color body cyan default "^Suggested-by: .*$"
+color body cyan default "^Cc: .*$"
+
+# gpg
+color body color160 color234 "(BAD signature)"
+color body color37 color234 "(Good signature)"
+color body color234 color234 "^gpg: Good signature .*"
+color body color241 color234 "^gpg: "
+color body color241 color160 "^gpg: BAD signature from.*"
+
+# deleted
+color index color160 color234 "~D(!~p|~p)"
+# flagged
+color index color235 color234 ~F
+# duplicate messages
+color index color166 color234 ~=
+# the rest
+color index color240 color234 "~A!~N!~T!~p!~Q!~F!~D!~P"
+# the rest, new
+color index color250 color234 "~A~N!~T!~p!~Q!~F!~D"
+# all messages
+color index color160 color234 "~A"
+# expired messages
+color index color166 color234 "~E"
+# new messages
+color index color33 color234 "~N"
+# old messages
+color index color33 color234 "~O"
+# messages that have been replied to
+color index color61 color234 "~Q"
+# read messages
+color index color240 color234 "~R"
+# unread messages
+color index color33 color234 "~U"
+# unread, unreferenced messages
+color index color33 color234 "~U~$"
+# messages part of a collapsed thread
+color index color241 color234 "~v"
+# messages from me
+color index color241 color234 "~P"
+# messages to me
+color index color37 color234 "~p!~F"
+# new messages to me
+color index color37 color234 "~N~p!~F"
+# unread messages to me
+color index color37 color234 "~U~p!~F"
+# messages to me
+color index color240 color234 "~R~p!~F"
+# flagged messages
+color index color160 color234 "~F"
+# flagged messages to me
+color index color160 color234 "~F~p"
+# new flagged messages
+color index color160 color234 "~N~F"
+# new flagged messages to me
+color index color160 color234 "~N~F~p"
+# new flagged messages to me
+color index color160 color234 "~U~F~p"
+# deleted messages
+color index color235 color160 "~D"
+# collapsed thread with no unread
+color index color245 color234 "~v~(!~N)"
+# collapsed thread with some unread
+color index color136 color234 "~v~(~N)"
+# collapsed thread with unread parent
+color index color64 color234 "~N~v~(~N)"
+
+# collapsed thread with flagged, no unread
+color index color160 color235 "~v~(~F)!~N"
+# collapsed thread with some unread & flagged
+color index color136 color235 "~v~(~F~N)"
+# collapsed thread with unread parent & flagged
+color index color64 color235 "~N~v~(~F~N)"
+# collapsed thread with unread parent, no unread inside, but some flagged
+color index color64 color235 "~N~v~(~F)"
+# collapsed thread with unread parent, no unread inside, some to me directly
+color index color37 color235 "~v~(~p)"
+# thread with deleted (doesn't differentiate between all or partial)
+color index color136 color160 "~v~(~D)"
+# messages in threads with some unread
+color index color136 color234 "~(~N)"
+# superseded messages
+color index color64 color234 "~S"
+# tagged messages
+color index color160 color234 "~T"
+# duplicated messages
+color index color166 color160 "~="

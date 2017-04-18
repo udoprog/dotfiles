@@ -7,6 +7,7 @@ dirs+=$(G)/mutt/accounts
 
 build+=$(HOME)/.muttrc
 build+=$(mutt_home)/gpg
+build+=$(mutt_home)/colors
 build+=$(mutt_home)/signature
 build+=$(mutt_home)/accounts/personal
 build+=$(mutt_home)/accounts/work
