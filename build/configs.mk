@@ -15,9 +15,10 @@ dirs+=$(HOME)/.offlineimap
 services+=offlineimap@.service
 services+=redshift.service
 
-enabled+=offlineimap@work.service
-enabled+=offlineimap@personal.service
-enabled+=redshift.service
+enabled_services+=redshift.service
+
+enabled_timers+=offlineimap@work.timer
+enabled_timers+=offlineimap@personal.timer
 
 include $(ROOT)/config.mk
 

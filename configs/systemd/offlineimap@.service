@@ -1,14 +1,7 @@
-# offlineimap.service
-
 [Unit]
-Description=OfflineIMAP
+Description=OfflineIMAP Sync
 After=network.target
 
 [Service]
-Type=simple
+Type=oneshot
 ExecStart=/usr/bin/offlineimap -c ~/.offlineimap/%i.rc
-Restart=always
-RestartSec=2m
-
-[Install]
-WantedBy=default.target
