@@ -8,6 +8,7 @@ build+=$(HOME)/.tmux.conf
 build+=$(HOME)/.offlineimap/work.rc
 build+=$(HOME)/.offlineimap/personal.rc
 build+=$(HOME)/.dput.cf
+build+=$(HOME)/.mailcap
 build+=$(HOME)/repo/linux/.pvimrc
 
 dirs+=$(HOME)/.offlineimap
