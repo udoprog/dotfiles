@@ -46,7 +46,7 @@ call dein#add("ujihisa/neco-ghc")
 call dein#add("vim-scripts/paredit.vim")
 call dein#add("wincent/command-t")
 call dein#add("plasticboy/vim-markdown")
-call dein#add('Shougo/vimproc.vim')
+call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
 call dein#add('leafgarland/typescript-vim')
 call dein#add('joe-skb7/cscope-maps')
 
@@ -331,7 +331,7 @@ if has("autocmd")
   autocmd BufNewFile,BufRead *.ts :call SetupTS()
   autocmd BufNewFile,BufRead pom.xml :call SetupPOM()
 
-  autocmd! BufWritePost *.rs Neomake! cargo
+  autocmd! BufWritePost *.rs Neomake cargo
 endif
 " }}}
 
