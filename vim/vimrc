@@ -18,6 +18,7 @@ call dein#add('Shougo/neocomplete.vim')
 " basics
 " call dein#add("scrooloose/syntastic")
 call dein#add('neomake/neomake')
+call dein#add('Shougo/vimproc.vim', {'build': 'make'})
 
 call dein#add("bling/vim-airline")
 call dein#add("carlosvillu/coffeScript-VIM-Snippets")
@@ -46,9 +47,9 @@ call dein#add("ujihisa/neco-ghc")
 call dein#add("vim-scripts/paredit.vim")
 call dein#add("wincent/command-t")
 call dein#add("plasticboy/vim-markdown")
-call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
 call dein#add('leafgarland/typescript-vim')
 call dein#add('joe-skb7/cscope-maps')
+call dein#add('reproto/reproto-vim')
 
 " rust
 call dein#add('mckinnsb/rust.vim')
@@ -182,6 +183,8 @@ nmap <C-l> :tabn<CR>
 " }}}
 
 " {{{ Plugin Settings
+let g:vim_markdown_folding_disabled = 1
+
 let NERDTreeIgnore=['\.o$', '\.pyc$', '\~$']
 let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 
@@ -254,12 +257,16 @@ endfunction
 function! SetupRust()
   "compiler cargo
   let g:rustfmt_autosave = 1
-  " let g:neomake_rust_enabled_makers = ['cargo']
-  "let g:syntastic_rust_checkers = ['cargo']
   let g:racer_experimental_completer = 1
   set hidden
   let g:racer_cmd = resolve(expand("~/.cargo/bin/racer"))
   let $RUST_SRC_PATH = resolve(expand("~/repo/rust/src"))
+  set expandtab
+
+  nmap gd <Plug>(rust-def)
+  nmap gs <Plug>(rust-def-split)
+  nmap gx <Plug>(rust-def-vertical)
+  nmap <leader>gd <Plug>(rust-doc)
 endfunction
 
 function! SetupClojure()

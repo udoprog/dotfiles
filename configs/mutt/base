@@ -43,11 +43,15 @@ set header_cache = ~/.mutt/cache/headers
 set message_cachedir = ~/.mutt/cache/bodies
 set certificate_file = ~/.mutt/certificates
 
+bind index g noop
+
 bind index J next-unread
 bind index K previous-unread
 bind index gg first-entry
 bind index G last-entry
 bind index o display-message
+
+bind pager g noop
 
 bind pager j next-line
 bind pager k previous-line

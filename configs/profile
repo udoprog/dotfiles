@@ -1,4 +1,5 @@
 export PATH=$PATH:$HOME/usr/bin
+export PATH=$PATH:$HOME/.npm/bin
 export PATH=$PATH:$HOME/node_modules/.bin
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/.gem/ruby/2.3.0/bin
