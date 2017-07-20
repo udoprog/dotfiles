@@ -1,16 +1,18 @@
-export PATH=$PATH:$HOME/usr/bin
-export PATH=$PATH:$HOME/.npm/bin
-export PATH=$PATH:$HOME/node_modules/.bin
-export PATH=$PATH:$HOME/.local/bin
-export PATH=$PATH:$HOME/.gem/ruby/2.3.0/bin
+paths=(
+    $HOME/usr/bin
+    $HOME/.npm/bin
+    $HOME/node_modules/.bin
+    $HOME/.local/bin
+    $HOME/.gem/ruby/2.3.0/bin
+    $HOME/.rvm/bin
+    $HOME/.cargo/bin
+)
 
-if [[ -d $HOME/.rvm/bin ]]; then
-    export PATH=$PATH:$HOME/.rvm/bin
-fi
-
-if [[ -d $HOME/.cargo/bin ]]; then
-    export PATH="$HOME/.cargo/bin:$PATH"
-fi
+for path in ${paths[*]}; do
+    if [[ -d $path ]]; then
+        export PATH="$path:$PATH"
+    fi
+done
 
 export EDITOR=nvim
 export RUST_SRC_PATH=$HOME/repo/rust/src

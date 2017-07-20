@@ -1,0 +1,14 @@
+#!/bin/bash
+# runs the given command and store the state file when it has has been successfully run
+
+state=$1
+cmd=$2
+
+if [[ -z $state || -z $cmd ]]; then
+    echo "Usage: $0 <state-file> <command>"
+    exit 1
+fi
+
+if eval "$cmd"; then
+    touch $state
+fi

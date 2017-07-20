@@ -3,7 +3,7 @@
 while read build; do
     echo make -f $build "$@"
     if ! make -f $build "$@"; then
-        exit $?
+        echo "Failed to build: $build"
     fi
 done < <(find build -name '*.mk')
 

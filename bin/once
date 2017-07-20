@@ -1,0 +1,16 @@
+#!/bin/bash
+# run a command once only if the state file doesn't exist
+
+state=$1
+cmd=$2
+
+if [[ -z $state || -z $cmd ]]; then
+    echo "Usage: $0 <state-file> <command>"
+    exit 1
+fi
+
+if [[ ! -f $state ]]; then
+    if eval "$cmd"; then
+        touch $state
+    fi
+fi

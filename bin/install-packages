@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -e
+
+distro=$(detect-distro)
+
+if [[ -z $distro ]]; then
+    echo "Could not detect distro"
+    exit 1
+fi
+
+case $distro in
+    "fedora")
+        install-if-newer "sudo dnf install" fedora
+        ;;
+    *)
+        echo "Unsupported distro: $distro"
+        exit 1
+        ;;
+esac

@@ -12,6 +12,7 @@ build+=$(HOME)/.mailcap
 build+=$(HOME)/repo/linux/.pvimrc
 
 dirs+=$(HOME)/.offlineimap
+dirs+=$(HOME)/repo
 
 units+=offlineimap@.service
 units+=offlineimap@.timer

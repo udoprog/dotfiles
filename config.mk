@@ -1,4 +1,3 @@
-secrets=$(ROOT)/secrets.yml
 config=$(ROOT)/config.yml
 systemd_user=$(HOME)/.config/systemd/user
 
@@ -23,10 +22,10 @@ $(systemd_user)/default.target.wants/%:
 $(systemd_user)/timer.target.wants/%:
 	$(systemctl) enable $*
 
-$(HOME)/.%: $(ROOT)/configs/% $(secrets) $(config)
+$(HOME)/.%: $(ROOT)/configs/% $(config)
 	m4tpl $@ $<
 
-$(G)/%: $(ROOT)/configs/% $(secrets) $(config)
+$(G)/%: $(ROOT)/configs/% $(config)
 	m4tpl $@ $<
 
 $(dirs):

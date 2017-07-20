@@ -139,6 +139,11 @@ def main(args):
 
     target = args[0]
     source = args[1]
+    target_dir = os.path.dirname(target)
+
+    if not os.path.isdir(target_dir):
+        print('creating directory: {}', target_dir)
+        os.makedirs(target_dir)
 
     print('{} -> {}'.format(source, target))
 

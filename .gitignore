@@ -3,3 +3,4 @@ secrets.yml
 gen
 vim/bundle/*
 !vim/bundle/vundle
+/.packages-*

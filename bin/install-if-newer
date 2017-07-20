@@ -1,0 +1,32 @@
+#!/bin/bash
+
+#!/bin/bash
+
+set -e
+
+cmd=$1
+src=$2
+
+if [[ -z $src ]]; then
+    echo "Usage: $0 <cmd> <src>"
+    exit 1
+fi
+
+packages=$ROOT/packages/$src
+packages_marker=$ROOT/.packages-$src
+
+if [[ ! -f $packages ]]; then
+    echo "No packages to install, missing: $packages"
+    exit 0
+fi
+
+if [[ $packages -ot $packages_marker ]]; then
+    echo "Packages up-to-date"
+    exit 0
+fi
+
+packages="$(grep -v '^#' $packages | tr '\n' ' ')"
+
+echo "Installing: $packages"
+eval "$cmd $packages"
+touch $packages_marker
