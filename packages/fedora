@@ -9,3 +9,4 @@ ruby
 # see: https://github.com/wincent/command-t
 ruby-devel
 rake
+quassel-client
