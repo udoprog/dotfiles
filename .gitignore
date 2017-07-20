@@ -1,6 +1,5 @@
 .*
 secrets.yml
-gen
-vim/bundle/*
-!vim/bundle/vundle
+/vim/bundle/*
+!/vim/bundle/repos/github.com/Shougo/dein.vim
 /.packages-*

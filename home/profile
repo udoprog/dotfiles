@@ -1,4 +1,4 @@
-paths=(
+candidates=(
     $HOME/usr/bin
     $HOME/.npm/bin
     $HOME/node_modules/.bin
@@ -8,9 +8,9 @@ paths=(
     $HOME/.cargo/bin
 )
 
-for path in ${paths[*]}; do
-    if [[ -d $path ]]; then
-        export PATH="$path:$PATH"
+for p in ${candidates[*]}; do
+    if [[ -d $p ]]; then
+        PATH="$p:$PATH"
     fi
 done
 

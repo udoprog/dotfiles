@@ -10,6 +10,8 @@ if [[ -z $state || -z $cmd ]]; then
 fi
 
 if [[ ! -f $state ]]; then
+    echo "Running: $state"
+
     if eval "$cmd"; then
         touch $state
     fi

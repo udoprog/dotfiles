@@ -1,9 +1,4 @@
 variables:
-    MUTT_SIGNATURE: John-John Tedro
-    PROFILE_NAME: John-John Tedro
-    PROFILE_EMAIL: udoprog@tedro.se
-    USER: udoprog
-    GPG_KEY: 3ECA40B9
     PRIMARY_MAIL: personal
     SECONDARY_MAIL: work
 
@@ -17,13 +12,14 @@ profiles:
     work:
         PRIMARY_MAIL: work
         SECONDARY_MAIL: personal
-        USER: udoprog
-        PROFILE_NAME: John-John Tedro
-        PROFILE_EMAIL: udoprog@spotify.com
         PROFILE_TMUX_PREFIX: C-a
         PROFILE_ZSH_THEME: robbyrussell
 
 secrets:
+  - GPG_KEY
+  - MUTT_SIGNATURE
+  - PROFILE_NAME
+  - USER
   - EMAIL
   - SMTP_PASS
   - IMAP_PASS

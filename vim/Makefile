@@ -1,25 +1,15 @@
 ROOT := $(HOME)/.dotfiles
-include $(ROOT)/env.mk
 
-build+=initialize
+steps+=initialize
+
 build+=$(HOME)/.vim
 build+=$(HOME)/.config/nvim
 build+=$(HOME)/.vimrc
 
-link=ln -sf
-
-.PHONY: all clean
-
-include ../env.mk
-
-all: $(build)
-	buildall all
+include $(ROOT)/lib.mk
 
 initialize:
 	@once dein "nvim -u setup.vim"
-
-clean:
-	buildall clean
 
 $(HOME)/.vimrc: $(CURDIR)/vimrc
 	$(link) $< $@

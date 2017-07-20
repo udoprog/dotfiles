@@ -1,5 +1,0 @@
-#!/bin/bash
-FACTER_root=$HOME puppet apply \
-    --modulepath=$PWD/modules \
-    --hiera_config $PWD/hiera.yaml \
-    system.pp

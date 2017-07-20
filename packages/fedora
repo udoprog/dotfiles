@@ -2,7 +2,10 @@ git
 nodejs
 tmux
 zsh
+# needed for bin/m4tpl
 python3
 ruby
+# needed to build command-t
+# see: https://github.com/wincent/command-t
 ruby-devel
 rake

@@ -21,12 +21,12 @@ if [[ ! -f $packages ]]; then
 fi
 
 if [[ $packages -ot $packages_marker ]]; then
-    echo "Packages up-to-date"
+    echo "$src: up-to-date"
     exit 0
 fi
 
 packages="$(grep -v '^#' $packages | tr '\n' ' ')"
 
-echo "Installing: $packages"
+echo "$src: installing: $packages"
 eval "$cmd $packages"
 touch $packages_marker

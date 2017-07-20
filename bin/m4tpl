@@ -51,13 +51,17 @@ def open_config(root):
     return path, profiles, variables, secret_keys
 
 
-def open_secrets(root):
+def open_secrets(root, config):
     path = os.path.join(root, 'secrets.yml')
+
+    _, _, _, expected_secrets = config
 
     if not os.path.isfile(path):
         with open(path, 'w') as f:
             os.fchmod(f.fileno(), secrets_mode)
-            yaml.dump(secrets_template, f)
+            values = dict(secrets_template)
+            values['secrets'] = dict((secret, None) for secret in expected_secrets)
+            yaml.dump(values, f)
 
         raise Exception(
             ('secrets does not exist, creating an empty one in ' +
@@ -88,6 +92,11 @@ def open_secrets(root):
 
     if type(secrets) != dict:
         raise Exception('{}: .secrets is not a dictionary'.format(path))
+
+    missing = list(sorted(set(expected_secrets) - set(secrets.keys())))
+
+    if len(missing) > 0:
+        raise Exception('{}: .secrets is missing keys: {}'.format(path, ', '.join(missing)))
 
     return path, profile_id, secrets
 
@@ -135,7 +144,8 @@ def replace_all(reps, line):
 
 def main(args):
     root = os.path.dirname(os.path.dirname(sys.argv[0]))
-    replacements = load_replacements(open_config(root), open_secrets(root))
+    config = open_config(root)
+    replacements = load_replacements(config, open_secrets(root, config))
 
     target = args[0]
     source = args[1]
