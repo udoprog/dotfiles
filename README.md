@@ -3,8 +3,8 @@
 I use a simple build-system which initially only depends on Make and Bash.
 
 The first step is to install system dependencies (listen in `packages/<distro>`).
-After this, all configuration files are run through [`m4tpl`](/bin/m4tpl), which is a custom
-templating engine written in python3.
+After this, all configuration files are run through [`render`](/bin/render), which runs the
+templates through pystache.
 
 You must manually populate a `secrets.yml` file, which contains passwords or other sensitive
 information.

@@ -20,6 +20,7 @@ $(ROOT)/.submodules: $(ROOT)/.gitmodules
 
 packages:
 	@bin/install-packages
+	@bin/install-if-newer "pip install --user" pip
 	@bin/install-if-newer "pip3 install --user" pip3
 	@bin/install-if-newer "gem install --user" gem
 

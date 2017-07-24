@@ -10,3 +10,13 @@ ruby
 ruby-devel
 rake
 quassel-client
+
+transmission
+transmission-cli
+
+mutt
+
+offlineimap
+
+ctags
+cscope

@@ -3,4 +3,4 @@ Description=OfflineIMAP
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/offlineimap -c ~/.offlineimap/%i.rc
+ExecStart={{HOME}}/.local/bin/offlineimap -c ~/.offlineimap/%i.rc

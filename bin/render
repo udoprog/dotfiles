@@ -1,0 +1,105 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import stat
+import re
+from string import Template
+
+from pystache.renderer import Renderer
+import yaml
+
+secrets_mode = 0o600
+secrets_template = {
+  'template': True,
+  'profile': 'changeme',
+  'variables': {  }
+}
+
+def load_variables(root):
+    config = os.path.join(root, 'config.yml')
+    secrets = os.path.join(root, 'secrets.yml')
+
+    paths = [config]
+
+    distro = os.getenv('DISTRO')
+
+    if distro is not None and distro != "":
+        paths.append(os.path.join(root, 'config.{}.yml'.format(distro)))
+
+    profiles = {}
+    variables = {}
+    expected_secrets = set()
+
+    for path in paths:
+        with open(path) as f:
+            config = yaml.load(f)
+
+        for (id, variables) in config.get('profiles', {}).items():
+            try:
+                profiles[id].update(variables)
+            except KeyError:
+                profiles[id] = dict(variables)
+
+        variables.update(config.get('variables', {}))
+        expected_secrets.update(set(config.get('secrets', [])))
+
+    if os.path.isfile(secrets):
+        with open(secrets) as f:
+            if (os.fstat(f.fileno()).st_mode & 0o777) != secrets_mode:
+                raise Exception(
+                    ('secrets ({}) must have {} permission since it contains ' +
+                     'sensitive data!').format(path, oct(secrets_mode)))
+
+            secrets = yaml.load(f)
+
+        if 'profile' in secrets:
+            profile = secrets['profile']
+            variables.update(dict(profiles.get(profile, {})))
+
+        if 'variables' in secrets:
+            variables.update(secrets['variables'])
+
+        expected_secrets = expected_secrets.difference(set(variables.keys()))
+
+    if len(expected_secrets) > 0:
+        raise Exception("missing secrets: {}".format(', '.join(expected_secrets)))
+
+    variables['HOME'] = os.path.expanduser('~')
+    return variables
+
+def main(args):
+    root = os.getenv('ROOT')
+
+    if root is None:
+        raise Exception('ROOT: missing environment variable')
+
+    variables = load_variables(root)
+
+    if len(args) != 2:
+        raise Exception('Usage: m4tpl <target> <source>')
+
+    target = args[0]
+    source = args[1]
+    target_dir = os.path.dirname(os.path.abspath(target))
+
+    if not os.path.isdir(target_dir):
+        print('creating directory: {}', target_dir)
+        os.makedirs(target_dir)
+
+    print('{} -> {}'.format(source, target))
+
+    with open(source, 'r') as s:
+        template = s.read()
+        renderer = Renderer(missing_tags='strict')
+
+        try:
+            out = renderer.render(template, variables)
+        except Exception as e:
+            raise Exception('{}: {}', source, e)
+
+    with open(target, 'w') as t:
+        t.write(out)
+
+if __name__ == "__main__":
+    main(sys.argv[1:])

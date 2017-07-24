@@ -4,8 +4,10 @@ endif
 
 export PATH := $(ROOT)/bin:$(PATH)
 export ROOT := $(ROOT)
+export DISTRO := $(shell $(ROOT)/bin/detect-distro)
 
 config=$(ROOT)/config.yml
+secrets=$(ROOT)/secrets.yml
 
 link=ln -sf
 copy=cp
@@ -20,5 +22,12 @@ all: $(build) $(steps) $(post_hooks) $(targets)
 target/%:
 	make -f $(ROOT)/targets/$*.mk all
 
-$(HOME)/.%: $(ROOT)/home/% $(config)
-	m4tpl $@ $<
+$(HOME)/.%: $(ROOT)/home/% $(config) $(secrets)
+	render $@ $<
+
+$(HOME)/%: $(ROOT)/home/% $(config) $(secrets)
+	render $@ $<
+
+$(secrets):
+	@echo "Missing $@"
+	@exit 1

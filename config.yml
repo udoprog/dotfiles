@@ -19,6 +19,7 @@ secrets:
   - GPG_KEY
   - MUTT_SIGNATURE
   - PROFILE_NAME
+  - NAME
   - USER
   - EMAIL
   - SMTP_PASS
