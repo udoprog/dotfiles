@@ -13,6 +13,9 @@ case $distro in
     "fedora")
         install-if-newer "sudo dnf install" fedora
         ;;
+    "gentoo")
+        install-if-newer "sudo emerge" gentoo
+        ;;
     *)
         echo "Unsupported distro: $distro"
         exit 1

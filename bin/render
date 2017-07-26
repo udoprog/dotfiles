@@ -32,6 +32,9 @@ def load_variables(root):
     expected_secrets = set()
 
     for path in paths:
+        if not os.path.isfile(path):
+            continue
+
         with open(path) as f:
             config = yaml.load(f)
 

@@ -2,7 +2,13 @@
 
 if [[ -f /etc/redhat-release ]] && grep Fedora /etc/redhat-release > /dev/null 2>&1; then
   echo "fedora"
-else
-  echo "unknown distro" 1>&2
-  exit 1
+  exit 0
 fi
+
+if [[ -f /etc/gentoo-release ]]; then
+  echo "gentoo"
+  exit 0
+fi
+
+echo "unknown distro" 1>&2
+exit 1
