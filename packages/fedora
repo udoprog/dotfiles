@@ -20,3 +20,6 @@ offlineimap
 
 ctags
 cscope
+
+clusterssh
+pssh
