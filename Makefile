@@ -10,6 +10,7 @@ steps+=jshint
 targets+=configs
 targets+=mutt
 targets+=systemd
+targets+=links
 
 include $(ROOT)/lib.mk
 
