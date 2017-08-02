@@ -1,6 +1,12 @@
-build += $(HOME)/usr/bin/vim
+HAS_NVIM := $(shell has-command nvim)
 
-$(HOME)/usr/bin/vim: /usr/bin/nvim
-	ln -f -s $$(realpath --relative-to="$$(dirname $@)" $<) $@
+build-$(HAS_NVIM) += $(BIN)/vim
+build-$(HAS_NVIM) += $(BIN)/view
+
+$(BIN)/vim: /usr/bin/nvim
+	relative-ln $@ $<
+
+$(BIN)/view: /usr/bin/nvim
+	relative-ln $@ $<
 
 include $(ROOT)/lib.mk

@@ -1,3 +1,7 @@
+# Useful environment variables:
+# build - unconditionally build
+# build-y - conditionally build, used in conjunction with some variable.
+
 ifndef ROOT
 $(error ROOT is not set, are you calling lib.mk directly?)
 endif
@@ -5,6 +9,7 @@ endif
 export PATH := $(ROOT)/bin:$(PATH)
 export ROOT := $(ROOT)
 export DISTRO := $(shell $(ROOT)/bin/detect-distro)
+export BIN := $(HOME)/usr/bin
 
 config := $(ROOT)/config.yml
 secrets := $(ROOT)/secrets.yml
@@ -23,7 +28,7 @@ build += $(enabled_timers:%=$(systemd_user)/timers.target.wants/%)
 
 .PHONY: all $(steps) $(post_hooks)
 
-all: $(build) $(steps) $(post_hooks) $(targets)
+all: $(build) $(build-y) $(steps) $(post_hooks) $(targets)
 
 $(systemd_user)/default.target.wants/%: $(units)
 	$(systemctl) enable $*

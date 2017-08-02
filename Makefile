@@ -1,16 +1,16 @@
 ROOT := $(CURDIR)
 
-steps+=submodules
-steps+=packages
-steps+=oh-my-zsh
-steps+=vim
-steps+=rust
-steps+=jshint
+steps += submodules
+steps += packages
+steps += vim
+steps += jshint
 
-targets+=configs
-targets+=mutt
-targets+=systemd
-targets+=links
+targets += configs
+targets += mutt
+targets += systemd
+targets += links
+targets += oh-my-zsh
+targets += rust
 
 include $(ROOT)/lib.mk
 
@@ -25,14 +25,8 @@ packages:
 	@bin/install-if-newer "pip3 install --user" pip3
 	@bin/install-if-newer "gem install --user" gem
 
-oh-my-zsh:
-	@once $(ROOT)/.oh-my-zsh 'sh -c "$$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"'
-
 vim:
 	make -C vim all
 
 jshint:
 	@once $(ROOT)/.jshint "npm install jshint"
-
-rust:
-	@once $(ROOT)/.rustup "curl https://sh.rustup.rs -sSf | sh"

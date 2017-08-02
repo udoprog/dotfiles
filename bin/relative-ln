@@ -1,0 +1,11 @@
+#!/bin/bash
+# Creates a relative symbolic link.
+
+if [[ $# != 2 ]]; then
+    echo "Usage: $0 <target> <file>"
+    exit 1
+fi
+
+dir=$(dirname $1)
+target=$(realpath --relative-to="$dir" $2)
+exec ln -f -s $target $1
