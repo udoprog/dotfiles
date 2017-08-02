@@ -14,15 +14,15 @@ has-maven := $(shell has-path $(MVN))
 build-$(has-maven) += $(BIN)/mvn
 
 $(BIN)/vim: /usr/bin/nvim
-	relative-ln $@ $<
+	$(Q)relative-ln $@ $<
 
 $(BIN)/view: /usr/bin/nvim
-	relative-ln $@ $<
+	$(Q)relative-ln $@ $<
 
 $(BIN)/idea: $(IDEA)
-	relative-ln $@ $<
+	$(Q)relative-ln $@ $<
 
 $(BIN)/mvn: $(MVN)
-	relative-ln $@ $<
+	$(Q)relative-ln $@ $<
 
 include $(ROOT)/lib.mk

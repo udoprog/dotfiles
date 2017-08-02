@@ -17,16 +17,16 @@ include $(ROOT)/lib.mk
 submodules: $(ROOT)/.submodules
 
 $(ROOT)/.submodules: $(ROOT)/.gitmodules
-	@run-with-state $@ "git submodule update --init"
+	$(Q)run-with-state $@ "git submodule update --init"
 
 packages:
-	@bin/install-packages
-	@bin/install-if-newer "pip install --user" pip
-	@bin/install-if-newer "pip3 install --user" pip3
-	@bin/install-if-newer "gem install --user" gem
+	$(Q)install-packages
+	$(Q)install-if-newer "pip install --user" pip
+	$(Q)install-if-newer "pip3 install --user" pip3
+	$(Q)install-if-newer "gem install --user" gem
 
 vim:
-	make -C vim all
+	$(Q)make $(make-opts) -C vim all
 
 jshint:
-	@once $(ROOT)/.jshint "npm install jshint"
+	$(Q)once $(ROOT)/.jshint "npm install jshint"

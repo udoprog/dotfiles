@@ -21,7 +21,6 @@ if [[ ! -f $packages ]]; then
 fi
 
 if [[ $packages -ot $packages_marker ]]; then
-    echo "$src: up-to-date"
     exit 0
 fi
 

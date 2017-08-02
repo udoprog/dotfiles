@@ -14,7 +14,7 @@ build += $(HOME)/repo/linux/.pvimrc
 post-hook += permissions
 
 permissions:
-	@chmod 0600 $(HOME)/.offlineimap/work.rc
-	@chmod 0600 $(HOME)/.offlineimap/personal.rc
+	$(Q)chmod 0600 $(HOME)/.offlineimap/work.rc
+	$(Q)chmod 0600 $(HOME)/.offlineimap/personal.rc
 
 include $(ROOT)/lib.mk

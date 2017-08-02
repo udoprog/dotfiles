@@ -11,6 +11,14 @@ export ROOT := $(ROOT)
 export DISTRO := $(shell $(ROOT)/bin/detect-distro)
 export BIN := $(HOME)/usr/bin
 
+ifeq ($(DEBUG),yes)
+make-opts :=
+Q :=
+else
+make-opts := -s --no-print-directory
+Q := @
+endif
+
 config := $(ROOT)/config.yml
 secrets := $(ROOT)/secrets.yml
 systemctl := systemctl --user
@@ -29,19 +37,19 @@ build += $(sd-timer:%=$(systemd-user)/timers.target.wants/%)
 all: $(build) $(build-y) $(steps) $(post-hook) $(targets)
 
 $(systemd-user)/default.target.wants/%: $(units)
-	$(systemctl) enable $*
+	$(Q)$(systemctl) enable $*
 
 $(systemd-user)/timers.target.wants/%: $(units)
-	$(systemctl) enable $*
+	$(Q)$(systemctl) enable $*
 
 target/%:
-	make -f $(ROOT)/targets/$*.mk all
+	$(Q)make $(make-opts) -f $(ROOT)/targets/$*.mk all
 
 $(HOME)/.%: $(ROOT)/home/% $(config) $(secrets)
-	render $@ $<
+	$(Q)render $@ $<
 
 $(HOME)/%: $(ROOT)/home/% $(config) $(secrets)
-	render $@ $<
+	$(Q)render $@ $<
 
 $(secrets):
 	@echo "Missing $@"

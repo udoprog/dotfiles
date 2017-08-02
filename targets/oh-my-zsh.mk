@@ -5,4 +5,4 @@ steps += oh-my-zsh
 include $(ROOT)/lib.mk
 
 oh-my-zsh:
-	@once $(ROOT)/.oh-my-zsh "curl -fsSL $(url) | sh"
+	$(Q)once $(ROOT)/.oh-my-zsh "curl -fsSL $(url) | sh"

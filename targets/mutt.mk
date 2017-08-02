@@ -14,5 +14,5 @@ include $(ROOT)/lib.mk
 
 # files containing passwords
 permissions:
-	@chmod 0600 $(home)/accounts/personal
-	@chmod 0600 $(home)/accounts/work
+	$(Q)chmod 0600 $(home)/accounts/personal
+	$(Q)chmod 0600 $(home)/accounts/work
