@@ -21,12 +21,12 @@ $(ROOT)/.submodules: $(ROOT)/.gitmodules
 
 packages:
 	$(Q)install-packages
-	$(Q)install-if-newer "pip install --user" pip
-	$(Q)install-if-newer "pip3 install --user" pip3
-	$(Q)install-if-newer "gem install --user" gem
+	$(Q)install-if-newer pip "pip install --user"
+	$(Q)install-if-newer pip3 "pip3 install --user"
+	$(Q)install-if-newer gem "gem install --user"
 
 vim:
 	$(Q)make $(make-opts) -C vim all
 
 jshint:
-	$(Q)once $(ROOT)/.jshint "npm install jshint"
+	$(Q)once jshint "npm install jshint"

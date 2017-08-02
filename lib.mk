@@ -48,7 +48,7 @@ target/%:
 $(HOME)/.%: $(ROOT)/home/% $(config) $(secrets)
 	$(Q)render $@ $<
 
-$(HOME)/%: $(ROOT)/home/% $(config) $(secrets)
+$(HOME)/repo/%: $(ROOT)/repo/% $(config) $(secrets)
 	$(Q)render $@ $<
 
 $(secrets):

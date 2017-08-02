@@ -4,16 +4,16 @@
 
 set -e
 
-cmd=$1
-src=$2
+src=$1
+cmd=$2
 
-if [[ -z $src ]]; then
-    echo "Usage: $0 <cmd> <src>"
+if [[ -z $src || -z $cmd ]]; then
+    echo "Usage: $0 <src> <cmd>"
     exit 1
 fi
 
 packages=$ROOT/packages/$src
-packages_marker=$ROOT/.packages-$src
+packages_marker=$ROOT/state/packages-$src
 
 if [[ ! -f $packages ]]; then
     echo "No packages to install, missing: $packages"
@@ -28,4 +28,5 @@ packages="$(grep -v '^#' $packages | tr '\n' ' ')"
 
 echo "$src: installing: $packages"
 eval "$cmd $packages"
+mkdir -p $(dirname $packages_marker)
 touch $packages_marker

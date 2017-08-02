@@ -9,10 +9,13 @@ if [[ -z $state || -z $cmd ]]; then
     exit 1
 fi
 
-if [[ ! -f $state ]]; then
-    echo "Running: $state"
+marker=$ROOT/state/$1
+
+if [[ ! -f $marker ]]; then
+    echo "$state: running once"
 
     if eval "$cmd"; then
-        touch $state
+        mkdir -p $(dirname $marker)
+        touch $marker
     fi
 fi

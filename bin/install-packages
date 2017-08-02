@@ -11,10 +11,10 @@ fi
 
 case $distro in
     "fedora")
-        install-if-newer "sudo dnf install" fedora
+        install-if-newer fedora "sudo dnf install"
         ;;
     "gentoo")
-        install-if-newer "sudo emerge" gentoo
+        install-if-newer gentoo "sudo emerge"
         ;;
     *)
         echo "Unsupported distro: $distro"

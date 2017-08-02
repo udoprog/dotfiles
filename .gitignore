@@ -1,5 +1,6 @@
-.*
+/.submodules
+/state/
 secrets.yml
-/vim/bundle/*
+/vim/bundle/
 !/vim/bundle/repos/github.com/Shougo/dein.vim
 /.packages-*
