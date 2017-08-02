@@ -1,5 +1,3 @@
-ROOT := $(HOME)/.dotfiles
-
 steps+=initialize
 
 build+=$(HOME)/.vim

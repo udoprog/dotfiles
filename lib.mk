@@ -34,7 +34,7 @@ build += $(sd-unit)
 build += $(sd-service:%=$(systemd-user)/default.target.wants/%)
 build += $(sd-timer:%=$(systemd-user)/timers.target.wants/%)
 
-all: $(build) $(build-y) $(steps) $(post-hook) $(targets)
+all: $(ROOT) $(build) $(build-y) $(steps) $(post-hook) $(targets)
 
 $(systemd-user)/default.target.wants/%: $(units)
 	$(Q)$(systemctl) enable $*
@@ -52,7 +52,11 @@ $(HOME)/%: $(ROOT)/home/% $(config) $(secrets)
 	$(Q)render $@ $<
 
 $(secrets):
-	@echo "Missing $@"
+	@echo "Missing: $@"
+	@exit 1
+
+$(ROOT):
+	@echo "Missing: $@"
 	@exit 1
 
 .PHONY: all $(steps) $(post-hook)
