@@ -11,7 +11,7 @@ build += $(HOME)/.dput.cf
 build += $(HOME)/.mailcap
 build += $(HOME)/repo/linux/.pvimrc
 
-post_hooks += permissions
+post-hook += permissions
 
 permissions:
 	@chmod 0600 $(HOME)/.offlineimap/work.rc

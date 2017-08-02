@@ -8,7 +8,7 @@ build += $(home)/gpg
 build += $(home)/muttrc
 build += $(home)/signature
 
-post_hook += permissions
+post-hook += permissions
 
 include $(ROOT)/lib.mk
 

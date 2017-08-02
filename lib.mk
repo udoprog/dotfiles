@@ -14,26 +14,24 @@ export BIN := $(HOME)/usr/bin
 config := $(ROOT)/config.yml
 secrets := $(ROOT)/secrets.yml
 systemctl := systemctl --user
-systemd_user := $(HOME)/.config/systemd/user
+systemd-user := $(HOME)/.config/systemd/user
 
 link := ln -sf
 copy := cp
 
 targets := $(targets:%=target/%)
-units := $(units:%=$(systemd_user)/%)
+sd-unit := $(sd-unit:%=$(systemd-user)/%)
 
-build += $(units)
-build += $(enabled_services:%=$(systemd_user)/default.target.wants/%)
-build += $(enabled_timers:%=$(systemd_user)/timers.target.wants/%)
+build += $(sd-unit)
+build += $(sd-service:%=$(systemd-user)/default.target.wants/%)
+build += $(sd-timer:%=$(systemd-user)/timers.target.wants/%)
 
-.PHONY: all $(steps) $(post_hooks)
+all: $(build) $(build-y) $(steps) $(post-hook) $(targets)
 
-all: $(build) $(build-y) $(steps) $(post_hooks) $(targets)
-
-$(systemd_user)/default.target.wants/%: $(units)
+$(systemd-user)/default.target.wants/%: $(units)
 	$(systemctl) enable $*
 
-$(systemd_user)/timers.target.wants/%: $(units)
+$(systemd-user)/timers.target.wants/%: $(units)
 	$(systemctl) enable $*
 
 target/%:
@@ -48,3 +46,5 @@ $(HOME)/%: $(ROOT)/home/% $(config) $(secrets)
 $(secrets):
 	@echo "Missing $@"
 	@exit 1
+
+.PHONY: all $(steps) $(post-hook)

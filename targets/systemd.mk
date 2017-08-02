@@ -1,7 +1,7 @@
-units += offlineimap@.service
-units += offlineimap@.timer
+sd-unit += offlineimap@.service
+sd-unit += offlineimap@.timer
 
-enabled_timers += offlineimap@work.timer
-enabled_timers += offlineimap@personal.timer
+sd-timer += offlineimap@work.timer
+sd-timer += offlineimap@personal.timer
 
 include $(ROOT)/lib.mk
