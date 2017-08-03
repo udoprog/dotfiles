@@ -6,12 +6,6 @@ ifndef ROOT
 $(error ROOT is not set, are you calling lib.mk directly?)
 endif
 
-export PATH := $(ROOT)/bin:$(PATH)
-export ROOT := $(ROOT)
-export DISTRO := $(shell $(ROOT)/bin/detect-distro)
-export BIN := $(HOME)/usr/bin
-export REPO := $(HOME)/repo
-
 ifeq ($(DEBUG),yes)
 make-opts :=
 Q :=
@@ -28,16 +22,18 @@ systemd-user := $(HOME)/.config/systemd/user
 link := ln -sf
 copy := cp
 
-targets := $(targets:%=target/%)
-sd-unit := $(sd-unit:%=$(systemd-user)/%)
+sd-unit := $(sd-unit) $(sd-unit-y)
+sd-timer := $(sd-timer) $(sd-timer-y)
+build := $(build) $(build-y)
+targets := $(targets) $(targets-y)
 
-sd-timer += $(sd-timer-y)
-
-build += $(sd-unit)
+build += $(sd-unit:%=$(systemd-user)/%)
 build += $(sd-service:%=$(systemd-user)/default.target.wants/%)
 build += $(sd-timer:%=$(systemd-user)/timers.target.wants/%)
 
-all: $(ROOT) $(REPO) $(build) $(build-y) $(steps) $(post-hook) $(targets)
+.PHONY: all $(steps) $(post-hook) $(targets)
+
+all: $(ROOT) $(REPO) $(build) $(steps) $(post-hook) $(targets)
 
 $(systemd-user)/default.target.wants/%: $(units)
 	$(Q)$(systemctl) enable $*
@@ -45,11 +41,11 @@ $(systemd-user)/default.target.wants/%: $(units)
 $(systemd-user)/timers.target.wants/%: $(units)
 	$(Q)$(systemctl) enable $*
 
-target/%:
-	$(Q)make $(make-opts) -f $(ROOT)/targets/$*.mk all
+$(targets):
+	$(Q)make $(make-opts) -f $(ROOT)/targets/$@.mk all
 
 $(HOME)/.%: $(ROOT)/home/% $(config) $(secrets)
-	$(Q)render $@ $(ROOT)/home/%
+	$(Q)render $@ $(ROOT)/home/$*
 
 $(HOME)/repo/%: $(REPO) $(ROOT)/repo/% $(config) $(secrets)
 	$(Q)render $@ $(ROOT)/repo/$*
@@ -64,5 +60,3 @@ $(ROOT):
 
 $(REPO):
 	$(Q)mkdir -p $@
-
-.PHONY: all $(steps) $(post-hook)

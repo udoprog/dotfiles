@@ -15,6 +15,7 @@ build-$(has-maven) += $(BIN)/mvn
 
 build += $(BIN)/reposync
 build += $(BIN)/repologs
+build += $(BIN)/dotup
 
 $(BIN)/vim: /usr/bin/nvim
 	$(Q)relative-ln $@ $<
@@ -32,6 +33,9 @@ $(BIN)/reposync: $(ROOT)/utils/reposync
 	$(Q)relative-ln $@ $<
 
 $(BIN)/repologs: $(ROOT)/utils/repologs
+	$(Q)relative-ln $@ $<
+
+$(BIN)/dotup: $(ROOT)/utils/dotup
 	$(Q)relative-ln $@ $<
 
 include $(ROOT)/lib.mk

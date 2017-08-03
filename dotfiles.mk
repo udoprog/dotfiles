@@ -1,13 +1,13 @@
-ROOT := $(CURDIR)
-
 steps += submodules
 steps += packages
 steps += vim
 steps += jshint
 
+has-systemd += $(shell has-command systemctl)
+
 targets += configs
 targets += mutt
-targets += systemd
+targets-$(has-systemd) += systemd
 targets += links
 targets += oh-my-zsh
 targets += rust

@@ -1,8 +1,8 @@
-steps+=initialize
+steps += initialize
 
-build+=$(HOME)/.vim
-build+=$(HOME)/.config/nvim
-build+=$(HOME)/.vimrc
+build += $(HOME)/.vim
+build += $(HOME)/.config/nvim
+build += $(HOME)/.vimrc
 
 include $(ROOT)/lib.mk
 
@@ -10,10 +10,10 @@ initialize:
 	@once dein "nvim -u setup.vim"
 
 $(HOME)/.vimrc: $(CURDIR)/vimrc
-	$(link) $< $@
+	$(Q)$(link) $< $@
 
 $(HOME)/.vim: $(CURDIR)
-	$(link) $< $@
+	$(Q)$(link) $< $@
 
 $(HOME)/.config/nvim: $(CURDIR)
-	$(link) $< $@
+	$(Q)$(link) $< $@

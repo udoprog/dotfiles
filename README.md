@@ -2,6 +2,12 @@
 
 I use a simple build-system which initially only depends on Make and Bash.
 
+To get started, run:
+
+```bash
+$> utils/dotup
+```
+
 The first step is to install system dependencies (listen in `packages/<distro>`).
 After this, all configuration files are run through [`render`](/bin/render), which runs the
 templates through pystache.
