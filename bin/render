@@ -92,7 +92,7 @@ def main(args):
         print('creating directory: {}', target_dir)
         os.makedirs(target_dir)
 
-    print('{} -> {}'.format(source, target))
+    print('{} →  {}'.format(source, target))
 
     with open(source, 'r') as s:
         template = s.read()
