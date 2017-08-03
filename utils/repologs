@@ -1,0 +1,25 @@
+#!/bin/bash
+# display the last repo syncs that have happened
+
+if [[ -z $ROOT ]]; then
+    ROOT=$(dirname $(dirname $(realpath $0)))
+fi
+
+logdir=$ROOT/reposync-log
+
+if [[ ! -d $logdir ]]; then
+    echo "Creating: $logdir"
+    mkdir -p $logdir
+fi
+
+empty=true
+
+while read file; do
+    empty=false
+    cat $file
+    rm -f $file
+done < <(find $logdir -name '*.log')
+
+if $empty; then
+    echo "no syncs recorded"
+fi

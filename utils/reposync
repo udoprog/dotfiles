@@ -1,0 +1,70 @@
+#!/bin/bash
+# Fetch latest changes for the given repository, and update master if it is the current HEAD.
+
+if [[ -z $ROOT ]]; then
+    ROOT=$(dirname $(dirname $(realpath $0)))
+fi
+
+logdir=$ROOT/reposync-log
+
+repo=$1
+
+if [[ -z $repo ]]; then
+    echo "Usage: $0 <repo>"
+    exit 1
+fi
+
+function git_do() {
+    env GIT_DIR=$repo/.git GIT_WORK_TREE=$repo git "$@"
+    return $?
+}
+
+function is_clean() {
+    git_do diff-index --quiet HEAD
+    return $?
+}
+
+if [[ ! -d $logdir ]]; then
+    echo "Creating: $logdir"
+    mkdir -p $logdir
+fi
+
+date=$(date -u +"%Y%m%d_%H%M%S")
+name=$(basename $(dirname $repo))
+log=$logdir/${name}_${date}.log
+tmp=$log.tmp
+
+any=false
+
+while read remote; do
+    needs_sync=false
+
+    while read remote_id name; do
+        local_ref=refs/remotes/$remote/${name#refs/heads/}
+
+        if local_id=$(git_do show-ref $local_ref); then
+            local_id=${local_id%% *}
+
+            if [[ $remote_id != $local_id ]]; then
+                needs_sync=true
+                break
+            fi
+        else
+            needs_sync=true
+            break
+        fi
+    done < <(git_do ls-remote --heads $remote)
+
+    if $needs_sync; then
+        any=true
+        echo "[$repo: $(date) syncing $remote]"
+        git_do fetch -a $remote 2>&1
+    fi
+done < <(git_do remote) > $tmp
+
+if $any; then
+    echo "Wrote: $log"
+    mv $tmp $log
+else
+    rm -f $tmp
+fi
