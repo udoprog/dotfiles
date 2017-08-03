@@ -1,6 +1,22 @@
 #!/bin/bash
 # display the last repo syncs that have happened
 
+CMD=repologs
+
+clean=false
+
+while getopts ":c" opt; do
+    case $opt in
+        c)
+            clean=true
+            ;;
+        \?)
+            echo "invalid option: -$OPTARG" >&2
+            exit 1
+            ;;
+    esac
+done
+
 if [[ -z $ROOT ]]; then
     ROOT=$(dirname $(dirname $(realpath $0)))
 fi
@@ -17,9 +33,11 @@ empty=true
 while read file; do
     empty=false
     cat $file
-    rm -f $file
-done < <(find $logdir -name '*.log')
 
-if $empty; then
-    echo "no syncs recorded"
-fi
+    if $clean; then
+        echo "removing: $(basename $file)"
+        rm -f $file
+    else
+        echo "use \`$CMD -c\` to clean"
+    fi
+done < <(find $logdir -name '*.log')

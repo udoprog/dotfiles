@@ -1,0 +1,6 @@
+[Unit]
+Description=RepoSync
+After=network.target
+
+[Service]
+ExecStart={{BIN}}/reposync {{REPO}}/%i

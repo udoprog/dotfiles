@@ -10,6 +10,7 @@ export PATH := $(ROOT)/bin:$(PATH)
 export ROOT := $(ROOT)
 export DISTRO := $(shell $(ROOT)/bin/detect-distro)
 export BIN := $(HOME)/usr/bin
+export REPO := $(HOME)/repo
 
 ifeq ($(DEBUG),yes)
 make-opts :=
@@ -30,11 +31,13 @@ copy := cp
 targets := $(targets:%=target/%)
 sd-unit := $(sd-unit:%=$(systemd-user)/%)
 
+sd-timer += $(sd-timer-y)
+
 build += $(sd-unit)
 build += $(sd-service:%=$(systemd-user)/default.target.wants/%)
 build += $(sd-timer:%=$(systemd-user)/timers.target.wants/%)
 
-all: $(ROOT) $(build) $(build-y) $(steps) $(post-hook) $(targets)
+all: $(ROOT) $(REPO) $(build) $(build-y) $(steps) $(post-hook) $(targets)
 
 $(systemd-user)/default.target.wants/%: $(units)
 	$(Q)$(systemctl) enable $*
@@ -46,10 +49,10 @@ target/%:
 	$(Q)make $(make-opts) -f $(ROOT)/targets/$*.mk all
 
 $(HOME)/.%: $(ROOT)/home/% $(config) $(secrets)
-	$(Q)render $@ $<
+	$(Q)render $@ $(ROOT)/home/%
 
-$(HOME)/repo/%: $(ROOT)/repo/% $(config) $(secrets)
-	$(Q)render $@ $<
+$(HOME)/repo/%: $(REPO) $(ROOT)/repo/% $(config) $(secrets)
+	$(Q)render $@ $(ROOT)/repo/$*
 
 $(secrets):
 	@echo "Missing: $@"
@@ -58,5 +61,8 @@ $(secrets):
 $(ROOT):
 	@echo "Missing: $@"
 	@exit 1
+
+$(REPO):
+	$(Q)mkdir -p $@
 
 .PHONY: all $(steps) $(post-hook)

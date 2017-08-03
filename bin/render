@@ -69,6 +69,8 @@ def load_variables(root):
         raise Exception("missing secrets: {}".format(', '.join(expected_secrets)))
 
     variables['HOME'] = os.path.expanduser('~')
+    variables['REPO'] = os.environ.get('REPO')
+    variables['BIN'] = os.environ.get('BIN')
     return variables
 
 def main(args):

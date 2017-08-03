@@ -29,8 +29,9 @@ if [[ ! -d $logdir ]]; then
     mkdir -p $logdir
 fi
 
+repo=$(realpath $repo)
 date=$(date -u +"%Y%m%d_%H%M%S")
-name=$(basename $(dirname $repo))
+name=$(basename $repo)
 log=$logdir/${name}_${date}.log
 tmp=$log.tmp
 
@@ -42,14 +43,18 @@ while read remote; do
     while read remote_id name; do
         local_ref=refs/remotes/$remote/${name#refs/heads/}
 
+        echo "checking: $local_ref"
+
         if local_id=$(git_do show-ref $local_ref); then
             local_id=${local_id%% *}
 
             if [[ $remote_id != $local_id ]]; then
+                echo "remote id mismatch: $local_ref: $remote_id (remote) != $local_id (local)"
                 needs_sync=true
                 break
             fi
         else
+            echo "no such local ref: $local_ref"
             needs_sync=true
             break
         fi
@@ -57,10 +62,10 @@ while read remote; do
 
     if $needs_sync; then
         any=true
-        echo "[$repo: $(date) syncing $remote]"
-        git_do fetch -a $remote 2>&1
+        echo "[$repo: $(date) syncing $remote]" >&4
+        git_do fetch -a $remote >&4 2>&4
     fi
-done < <(git_do remote) > $tmp
+done < <(git_do remote) 4> $tmp
 
 if $any; then
     echo "Wrote: $log"
