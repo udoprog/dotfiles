@@ -5,7 +5,7 @@ I use a simple build-system which initially only depends on Make and Bash.
 To get started, run:
 
 ```bash
-$> utils/dotup
+$> utils/upd
 ```
 
 The first step is to install system dependencies (listen in `packages/<distro>`).
