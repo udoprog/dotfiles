@@ -7,10 +7,11 @@ has-systemd += $(shell has-command systemctl)
 
 targets += configs
 targets += mutt
-targets-$(has-systemd) += systemd
 targets += links
 targets += oh-my-zsh
 targets += rust
+targets-$(has-systemd) += systemd
+targets-$(has-systemd) += reposync
 
 include $(ROOT)/lib.mk
 

@@ -37,7 +37,9 @@ while read file; do
     if $clean; then
         echo "removing: $(basename $file)"
         rm -f $file
-    else
-        echo "use \`$CMD -c\` to clean"
     fi
 done < <(find $logdir -name '*.log')
+
+if ! $empty && ! $clean; then
+    echo "use \`$CMD -c\` to clean"
+fi
