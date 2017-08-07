@@ -27,7 +27,6 @@ facts := $(ROOT)/facts.yml
 secrets := $(ROOT)/secrets.yml
 systemctl := systemctl --user
 systemd-user := $(HOME)/.config/systemd/user
-render = render render $(1) $(2)
 
 link := relative-ln
 copy := cp
@@ -49,10 +48,10 @@ post-hook :=
 targets :=
 
 $(HOME)/.%: $(ROOT)/home/% $(config) $(facts) $(secrets)
-	$(Q)render render $(ROOT)/home/$* $@
+	$(Q)tpl render $(ROOT)/home/$* $@
 
 $(HOME)/repo/%: $(REPO) $(ROOT)/repo/% $(config) $(facts) $(secrets)
-	$(Q)render render $(ROOT)/repo/$* $@
+	$(Q)tpl render $(ROOT)/repo/$* $@
 
 # include target file with build rules
 include $(target-file)

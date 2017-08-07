@@ -9,7 +9,7 @@ $> utils/upd
 ```
 
 The first step is to install system dependencies (listen in `packages/<distro>`).
-After this, all configuration files are run through [`render`](/bin/render), which runs the
+After this, all configuration files are run through [`tpl`](/bin/tpl), which runs the
 templates through pystache.
 
 You must manually populate a `secrets.yml` file, which contains passwords or other sensitive

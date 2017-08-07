@@ -1,6 +1,6 @@
 home := $(HOME)/.mutt
 
-profiles := $(shell render keys mail)
+profiles := $(shell tpl keys mail)
 
 build += $(foreach profile,$(profiles),$(home)/accounts/$(profile))
 build += $(foreach profile,$(profiles),$(HOME)/.offlineimap/$(profile).rc)
@@ -20,7 +20,7 @@ permissions:
 	$(Q)chmod 0600 $(HOME)/.offlineimap/personal.rc
 
 $(home)/accounts/%: $(ROOT)/home/mutt/accounts/template
-	render --set id=$* --scope mail.$* render $< $@
+	tpl --set id=$* --scope mail.$* render $< $@
 
 $(HOME)/.offlineimap/%.rc: $(ROOT)/home/offlineimap/template.rc
-	render --set id=$* --scope mail.$* render $< $@
+	tpl --set id=$* --scope mail.$* render $< $@
