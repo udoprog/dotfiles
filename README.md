@@ -47,3 +47,12 @@ All build configuration is handled using make, with a very simple dependency sys
 * `.profile` with paths to loads of user-local binary locations (`$HOME/usr/bin`,
   `$HOME/.local/bin`, ...), only added if they exist.
 * `oh-my-zsh`, with a custom `~/.zshrc_custom` for customization.
+
+# repolib
+
+This comes with two utility commands, `reposync` and `repologs`.
+
+If your system has systemd, reposync will be setup to track remote repositories for all repos
+mentioned in `targets/reposync.mk`.
+
+Latest syncs can be checked by running the `repologs` command.

@@ -1,36 +1,52 @@
 #!/bin/bash
 # display the last repo syncs that have happened
 
+set -e
+
 CMD=repologs
+
+if [[ -z $ROOT ]]; then
+    ROOT=$(dirname $(dirname $(realpath $0)))
+fi
+
+source $ROOT/utils/repolib.sh
+repolib_setup
 
 clean=false
 
-while getopts ":c" opt; do
+while getopts ":ch" opt; do
     case $opt in
         c)
             clean=true
+            ;;
+        h)
+            echo "Usage: $CMD [-c] [filter]"
+            echo "Display repository sync logs (from $LOGDIR)"
+            echo " -c - clean logs that are displayed."
+            echo " -h - show this help."
+            exit 0
             ;;
         \?)
             echo "invalid option: -$OPTARG" >&2
             exit 1
             ;;
     esac
+
+    shift $[ $OPTIND - 1 ]
 done
 
-if [[ -z $ROOT ]]; then
-    ROOT=$(dirname $(dirname $(realpath $0)))
-fi
-
-logdir=$ROOT/reposync-log
-
-if [[ ! -d $logdir ]]; then
-    echo "Creating: $logdir"
-    mkdir -p $logdir
-fi
+filter="$@"
 
 empty=true
 
 while read file; do
+    if [[ ! -z $filter ]]; then
+        case $file in
+            *$filter*) ;;
+            *) continue ;;
+        esac
+    fi
+
     empty=false
     cat $file
 
@@ -38,7 +54,7 @@ while read file; do
         echo "removing: $(basename $file)"
         rm -f $file
     fi
-done < <(find $logdir -name '*.log')
+done < <(find $LOGDIR -name '*.log')
 
 if ! $empty && ! $clean; then
     echo "use \`$CMD -c\` to clean"

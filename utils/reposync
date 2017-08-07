@@ -1,16 +1,38 @@
 #!/bin/bash
 # Fetch latest changes for the given repository, and update master if it is the current HEAD.
 
+set -e
+
+CMD=reposync
+
 if [[ -z $ROOT ]]; then
     ROOT=$(dirname $(dirname $(realpath $0)))
 fi
 
-logdir=$ROOT/reposync-log
+source $ROOT/utils/repolib.sh
+repolib_setup
+
+while getopts ":h" opt; do
+    case $opt in
+        h)
+            echo "Usage: $CMD <path>"
+            echo "Sync remote repositories and store logs (into $LOGDIR)"
+            echo " -h - show this help."
+            exit 0
+            ;;
+        \?)
+            echo "invalid option: -$OPTARG" >&2
+            exit 1
+            ;;
+    esac
+
+    shift $[ $OPTIND - 1 ]
+done
 
 repo=$1
 
 if [[ -z $repo ]]; then
-    echo "Usage: $0 <repo>"
+    echo "Usage: $CMD <repo>"
     exit 1
 fi
 
@@ -24,15 +46,10 @@ function is_clean() {
     return $?
 }
 
-if [[ ! -d $logdir ]]; then
-    echo "Creating: $logdir"
-    mkdir -p $logdir
-fi
-
 repo=$(realpath $repo)
 date=$(date -u +"%Y%m%d_%H%M%S")
 name=$(basename $repo)
-log=$logdir/${name}_${date}.log
+log=$LOGDIR/${name}_${date}.log
 tmp=$log.tmp
 
 any=false
