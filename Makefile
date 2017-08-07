@@ -7,4 +7,7 @@ export REPO := $(HOME)/repo
 M ?= $(ROOT)/dotfiles.mk
 
 all:
-	@$(MAKE) --no-print-directory -f $(ROOT)/utils/Makefile.build target-file=$(M)
+	@$(MAKE) --no-print-directory \
+		-C $(shell dirname $(M)) \
+		-f $(ROOT)/utils/Makefile.build \
+		target-file=$(M)
