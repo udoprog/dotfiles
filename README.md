@@ -15,28 +15,25 @@ templates through pystache.
 You must manually populate a `secrets.yml` file, which contains passwords or other sensitive
 information.
 
-This file should contain everything listen in [`config.yml`](/config.yml) under the `secrets`
-section, and should look something like this:
-
 ```
-# corresponds to the profile currently used
-id: home
+MUTT_SIGNATURE: John-John Tedro
+PROFILE_NAME: John-John Tedro
+NAME: John-John Tedro
+GPG_KEY: AABBCC
+USER: udoprog
 
-secrets:
-  EMAIL: <email>
-  SMTP_PASS: <password>
-  IMAP_PASS: <password>
-  SMTP_URL: <password>
-  IMAP_URL: <password>
-  WORK_EMAIL: <work-email>
-  WORK_SMTP_PASS: <password>
-  WORK_IMAP_PASS: <password>
-  WORK_SMTP_URL: <url-with-password>
-  WORK_IMAP_URL: <url-with-password>
+EMAIL: <email>
+SMTP_PASS: <password>
+IMAP_PASS: <password>
+SMTP_URL: <password>
+IMAP_URL: <password>
+
+WORK_EMAIL: <work-email>
+WORK_SMTP_PASS: <password>
+WORK_IMAP_PASS: <password>
+WORK_SMTP_URL: <url-with-password>
+WORK_IMAP_URL: <url-with-password>
 ```
-
-All build configuration is handled using make, with a very simple dependency system as defined in
-[`lib.mk`](/lib.mk).
 
 # Features
 
@@ -48,7 +45,7 @@ All build configuration is handled using make, with a very simple dependency sys
   `$HOME/.local/bin`, ...), only added if they exist.
 * `oh-my-zsh`, with a custom `~/.zshrc_custom` for customization.
 
-# repolib
+## repolib
 
 This comes with two utility commands, `reposync` and `repologs`.
 
