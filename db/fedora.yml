@@ -1,1 +1,1 @@
-CA_CERTS: /etc/ssl/certs/ca-bundle.crt
+ca_certs: /etc/ssl/certs/ca-bundle.crt

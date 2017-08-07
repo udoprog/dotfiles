@@ -16,11 +16,11 @@ You must manually populate a `secrets.yml` file, which contains passwords or oth
 information.
 
 ```
-MUTT_SIGNATURE: John-John Tedro
-PROFILE_NAME: John-John Tedro
-NAME: John-John Tedro
-GPG_KEY: AABBCC
-USER: udoprog
+mutt_signature: John-John Tedro
+profile_name: John-John Tedro
+name: John-John Tedro
+gpg_key: AABBCC
+user: udoprog
 
 mail:
     personal:

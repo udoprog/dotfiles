@@ -24,6 +24,6 @@ remoteuser = {{email}}
 remotepass = {{imap_pass}}
 realdelete = no
 maxconnections = 3
-sslcacertfile = {{.CA_CERTS}}
+sslcacertfile = {{.ca_certs}}
 folderfilter = lambda f: f not in ['[Gmail]/All Mail', '[Gmail]/Important', '[Gmail]/Starred', '[Gmail]/Trash', '[Gmail]/Bin']
 createfolders = false

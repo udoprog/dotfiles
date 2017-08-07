@@ -20,7 +20,7 @@ export RUST_SRC_PATH=$HOME/repo/rust/src
 export PATH
 export CORRECT_IGNORE='_*:.*'
 
-export DEBEMAIL="{{EMAIL}}"
-export DEBFULLNAME="{{NAME}}"
+export DEBEMAIL="{{email}}"
+export DEBFULLNAME="{{name}}"
 
 export GOPATH=$HOME/usr/go

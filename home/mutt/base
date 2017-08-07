@@ -7,7 +7,7 @@ set spoolfile = +inbox
 set move = no
 set copy = no
 
-set realname = '{{PROFILE_NAME}}'
+set realname = '{{profile_name}}'
 set use_from = yes
 set envelope_from = yes
 
@@ -91,7 +91,7 @@ set sidebar_width = 50
 source ~/.mutt/gpg
 
 set pgp_use_gpg_agent = yes
-set pgp_sign_as = {{GPG_KEY}}
+set pgp_sign_as = {{gpg_key}}
 set pgp_timeout = 3600
 set crypt_autosign = yes
 set crypt_replyencrypt = yes

@@ -1,1 +1,3 @@
-PRIMARY_MAIL: personal
+primary_mail: personal
+zsh_plugins:
+  - {name: git}

@@ -2,8 +2,8 @@
 [core]
     excludesfile = ~/.gitignore
 [user]
-    email = {{EMAIL}}
-    name = {{PROFILE_NAME}}
+    email = {{email}}
+    name = {{profile_name}}
 [alias]
     lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
     bl = for-each-ref --sort=committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'

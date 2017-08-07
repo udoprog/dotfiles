@@ -1,1 +1,1 @@
-source ~/.mutt/accounts/{{PRIMARY_MAIL}}
+source ~/.mutt/accounts/{{primary_mail}}
