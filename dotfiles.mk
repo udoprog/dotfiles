@@ -1,5 +1,3 @@
-has-systemd := $(shell has-command systemctl)
-
 steps += submodules
 steps += packages
 steps += jshint
@@ -9,7 +7,6 @@ targets += targets/mutt.mk
 targets += targets/links.mk
 targets += targets/oh-my-zsh.mk
 targets += targets/rust.mk
-targets-$(has-systemd) += targets/systemd.mk
 targets-$(has-systemd) += targets/reposync.mk
 targets += vim/build.mk
 

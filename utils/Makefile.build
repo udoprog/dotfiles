@@ -21,6 +21,7 @@ endif
 
 target-file := $(shell realpath $(target-file))
 target-dir := $(shell dirname $(target-file))
+has-systemd := $(shell has-command systemctl)
 
 config := $(ROOT)/config.yml
 facts := $(ROOT)/facts.yml
@@ -58,14 +59,15 @@ include $(target-file)
 
 sd-unit := $(sd-unit) $(sd-unit-y)
 sd-timer := $(sd-timer) $(sd-timer-y)
-build := $(build) $(build-y)
 targets := $(targets) $(targets-y)
 
 # convert special targets to regular build targets
-build += $(sd-unit:%=$(systemd-user)/%)
-build += $(sd-service:%=$(systemd-user)/default.target.wants/%)
-build += $(sd-timer:%=$(systemd-user)/timers.target.wants/%)
+build-$(has-systemd) += $(sd-unit:%=$(systemd-user)/%)
+build-$(has-systemd) += $(sd-service:%=$(systemd-user)/default.target.wants/%)
+build-$(has-systemd) += $(sd-timer:%=$(systemd-user)/timers.target.wants/%)
 build += $(utils:%=$(BIN)/%)
+
+build := $(build) $(build-y)
 
 # real entry point
 __all: $(ROOT) $(REPO) $(build) $(steps) $(post-hook) $(targets)

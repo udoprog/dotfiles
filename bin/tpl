@@ -10,6 +10,43 @@ from string import Template
 from pystache.renderer import Renderer
 import yaml
 
+class Lookup(object):
+    def __init__(self, renderer, root, scoped):
+        self._renderer = renderer
+        self._root = root
+        self._scoped = scoped
+
+    def _render(self, template):
+        return self._renderer.render(template, self)
+
+    def _keys(self, name):
+        value = self
+
+        for p in name.split('.'):
+            value = value.__getattr__(p)
+
+        if not isinstance(value._scoped, dict):
+            raise Exception('not a dict')
+
+        return value._scoped.keys()
+
+    def __getattr__(self, name):
+        if name == 'items()':
+            return [{
+                'key': key,
+                'value': Lookup(self._renderer, self._root, value),
+            } for (key, value) in self._scoped.items()]
+
+        if name == '':
+            value = self._root
+        else:
+            value = self._scoped[name]
+
+        return Lookup(self._renderer, self._root, value)
+
+    def __str__(self):
+        return str(self._scoped)
+
 def setup_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('--scope', dest='scopes', action='append', default=[])
@@ -49,6 +86,31 @@ def apply_scopes(db, scopes):
 
     return result
 
+def merge(target, key, value):
+    if isinstance(value, dict):
+        if not isinstance(target, dict):
+            raise Exception('target: not a dict')
+
+        try:
+            t = target[key]
+        except KeyError:
+            target[key] = t = dict()
+
+        for (k, v) in value.items():
+            merge(t, k, v)
+
+        return
+
+    if isinstance(value, list):
+        if not isinstance(target, list):
+            raise Exception('target: not a list')
+
+        target.extend(value)
+        return
+
+    if key not in target:
+        target[key] = value
+
 def load_lookup(ns):
     renderer = Renderer(missing_tags='strict')
 
@@ -74,8 +136,7 @@ def load_lookup(ns):
             continue
 
         for (k, v) in yaml.load(open(h)).items():
-            if k not in root:
-                root[k] = v
+            merge(root, k, v)
 
     root['HOME'] = os.path.expanduser('~')
     root['REPO'] = os.environ.get('REPO')
@@ -90,43 +151,6 @@ def load_lookup(ns):
         scoped[key] = value
 
     return Lookup(renderer, root, scoped)
-
-class Lookup(object):
-    def __init__(self, renderer, root, scoped):
-        self._renderer = renderer
-        self._root = root
-        self._scoped = scoped
-
-    def _render(self, template):
-        return self._renderer.render(template, self)
-
-    def _keys(self, name):
-        value = self
-
-        for p in name.split('.'):
-            value = value.__getattr__(p)
-
-        if not isinstance(value._scoped, dict):
-            raise Exception('not a dict')
-
-        return value._scoped.keys()
-
-    def __getattr__(self, name):
-        if name == 'items()':
-            return [{
-                'key': key,
-                'value': Lookup(self._renderer, self._root, value),
-            } for (key, value) in self._scoped.items()]
-
-        if name == '':
-            value = self._root
-        else:
-            value = self._scoped[name]
-
-        return Lookup(self._renderer, self._root, value)
-
-    def __str__(self):
-        return str(self._scoped)
 
 def setup_lookup(ns):
     ns.root = os.getenv('ROOT')
