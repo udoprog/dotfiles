@@ -1,9 +1,3 @@
 #!/bin/bash
-
-export ROOT=$(dirname $(dirname $(realpath $0)))
-export PATH=$ROOT/bin:$PATH
-export DISTRO=$($ROOT/bin/detect-distro)
-export BIN=$HOME/usr/bin
-export REPO=$HOME/repo
-
-exec make -C $ROOT -f $ROOT/lib.mk target-file=$ROOT/dotfiles.mk "$@"
+root=$(dirname $(dirname $(realpath $0)))
+exec make --no-print-directory -C $root "$@"

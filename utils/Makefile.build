@@ -3,7 +3,7 @@
 # declarative.
 
 ifndef ROOT
-$(error ROOT is not set, are you calling lib.mk directly?)
+$(error ROOT is not set, are you calling Makefile.build directly?)
 endif
 
 ifndef target-file
@@ -31,7 +31,7 @@ link := relative-ln
 copy := cp
 
 # default target
-__build: all
+all: __all
 
 # unconditional build
 build :=
@@ -60,7 +60,8 @@ build += $(sd-service:%=$(systemd-user)/default.target.wants/%)
 build += $(sd-timer:%=$(systemd-user)/timers.target.wants/%)
 build += $(utils:%=$(BIN)/%)
 
-all: $(ROOT) $(REPO) $(build) $(steps) $(post-hook) $(targets)
+# real entry point
+__all: $(ROOT) $(REPO) $(build) $(steps) $(post-hook) $(targets)
 
 $(systemd-user)/default.target.wants/%: $(units)
 	$(Q)$(systemctl) enable $*
@@ -71,7 +72,7 @@ $(systemd-user)/timers.target.wants/%: $(units)
 $(targets):
 	$(Q)$(MAKE) $(make-opts) \
 		-C $(shell dirname $(target-dir)/$@) \
-		-f $(ROOT)/lib.mk \
+		-f $(ROOT)/utils/Makefile.build \
 		target-file=$(target-dir)/$@
 
 $(HOME)/.%: $(ROOT)/home/% $(config) $(secrets)
@@ -95,4 +96,4 @@ $(ROOT):
 $(REPO):
 	$(Q)mkdir -p $@
 
-.PHONY: __build all $(steps) $(post-hook) $(targets)
+.PHONY: all __all $(steps) $(post-hook) $(targets)
