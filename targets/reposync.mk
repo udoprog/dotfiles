@@ -9,5 +9,3 @@ sd-timer-$(has-systemd) += reposync@systemd.timer
 
 has-rust := $(shell has-path $(REPO)/rust/.git)
 sd-timer-$(has-rust) += reposync@rust.timer
-
-include $(ROOT)/lib.mk

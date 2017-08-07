@@ -6,4 +6,6 @@ export DISTRO=$($ROOT/bin/detect-distro)
 export BIN=$HOME/usr/bin
 export REPO=$HOME/repo
 
-exec make --no-print-directory -C $ROOT -f $ROOT/dotfiles.mk "$@"
+exec make --no-print-directory \
+    -C $ROOT \
+    -f $ROOT/lib.mk TARGET=$ROOT/dotfiles.mk "$@"

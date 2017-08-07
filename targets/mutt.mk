@@ -10,8 +10,6 @@ build += $(home)/signature
 
 post-hook += permissions
 
-include $(ROOT)/lib.mk
-
 # files containing passwords
 permissions:
 	$(Q)chmod 0600 $(home)/accounts/personal

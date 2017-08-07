@@ -30,5 +30,3 @@ $(BIN)/idea: $(IDEA)
 
 $(BIN)/mvn: $(MVN)
 	$(Q)relative-ln $@ $<
-
-include $(ROOT)/lib.mk
