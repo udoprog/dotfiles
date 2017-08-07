@@ -1,2 +1,0 @@
-variables:
-    CA_CERTS: /etc/ssl/certs/ca-certificates.crt

@@ -23,6 +23,7 @@ target-file := $(shell realpath $(target-file))
 target-dir := $(shell dirname $(target-file))
 
 config := $(ROOT)/config.yml
+facts := $(ROOT)/facts.yml
 secrets := $(ROOT)/secrets.yml
 systemctl := systemctl --user
 systemd-user := $(HOME)/.config/systemd/user
@@ -75,11 +76,11 @@ $(targets):
 		-f $(ROOT)/utils/Makefile.build \
 		target-file=$(target-dir)/$@
 
-$(HOME)/.%: $(ROOT)/home/% $(config) $(secrets)
-	$(Q)render $@ $(ROOT)/home/$*
+$(HOME)/.%: $(ROOT)/home/% $(config) $(facts) $(secrets)
+	$(Q)render $(ROOT)/home/$* $@
 
-$(HOME)/repo/%: $(REPO) $(ROOT)/repo/% $(config) $(secrets)
-	$(Q)render $@ $(ROOT)/repo/$*
+$(HOME)/repo/%: $(REPO) $(ROOT)/repo/% $(config) $(facts) $(secrets)
+	$(Q)render $(ROOT)/repo/$* $@
 
 $(BIN)/%: $(ROOT)/utils/%
 	@echo "Linking $@ -> $<"

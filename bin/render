@@ -9,69 +9,43 @@ from string import Template
 from pystache.renderer import Renderer
 import yaml
 
-secrets_mode = 0o600
-secrets_template = {
-  'template': True,
-  'profile': 'changeme',
-  'variables': {  }
-}
-
-def load_variables(root):
+def load_lookup(root, renderer):
     config = os.path.join(root, 'config.yml')
-    secrets = os.path.join(root, 'secrets.yml')
+    facts = os.path.join(root, 'facts.yml')
 
-    paths = [config]
+    c = yaml.load(open(config))
+    f = yaml.load(open(facts))
 
-    distro = os.getenv('DISTRO')
+    f['distro'] = os.getenv('DISTRO')
 
-    if distro is not None and distro != "":
-        paths.append(os.path.join(root, 'config.{}.yml'.format(distro)))
+    hierarchy = c.get('hierarchy')
 
-    profiles = {}
-    variables = {}
-    expected_secrets = set()
+    if hierarchy is not None and isinstance(hierarchy, list):
+        hierarchy = [os.path.join(root, renderer.render(h, f)) for h in hierarchy]
+    else:
+        raise Exception(config + ": missing hierarchy")
 
-    for path in paths:
-        if not os.path.isfile(path):
+    db = dict()
+
+    for h in hierarchy:
+        if not os.path.isfile(h):
             continue
 
-        with open(path) as f:
-            config = yaml.load(f)
+        for (k, v) in yaml.load(open(h)).items():
+            if k not in db:
+                db[k] = v
 
-        for (id, variables) in config.get('profiles', {}).items():
-            try:
-                profiles[id].update(variables)
-            except KeyError:
-                profiles[id] = dict(variables)
+    db['HOME'] = os.path.expanduser('~')
+    db['REPO'] = os.environ.get('REPO')
+    db['BIN'] = os.environ.get('BIN')
+    return Lookup(db)
 
-        variables.update(config.get('variables', {}))
-        expected_secrets.update(set(config.get('secrets', [])))
+class Lookup(object):
+    def __init__(self, db):
+        self.__db = db
 
-    if os.path.isfile(secrets):
-        with open(secrets) as f:
-            if (os.fstat(f.fileno()).st_mode & 0o777) != secrets_mode:
-                raise Exception(
-                    ('secrets ({}) must have {} permission since it contains ' +
-                     'sensitive data!').format(path, oct(secrets_mode)))
-
-            secrets = yaml.load(f)
-
-        if 'profile' in secrets:
-            profile = secrets['profile']
-            variables.update(dict(profiles.get(profile, {})))
-
-        if 'variables' in secrets:
-            variables.update(secrets['variables'])
-
-        expected_secrets = expected_secrets.difference(set(variables.keys()))
-
-    if len(expected_secrets) > 0:
-        raise Exception("missing secrets: {}".format(', '.join(expected_secrets)))
-
-    variables['HOME'] = os.path.expanduser('~')
-    variables['REPO'] = os.environ.get('REPO')
-    variables['BIN'] = os.environ.get('BIN')
-    return variables
+    def __getattr__(self, name):
+        return self.__db[name]
 
 def main(args):
     root = os.getenv('ROOT')
@@ -79,13 +53,14 @@ def main(args):
     if root is None:
         raise Exception('ROOT: missing environment variable')
 
-    variables = load_variables(root)
+    renderer = Renderer(missing_tags='strict')
+    lookup = load_lookup(root, renderer)
 
     if len(args) != 2:
-        raise Exception('Usage: m4tpl <target> <source>')
+        raise Exception('Usage: m4tpl <source> <target>')
 
-    target = args[0]
-    source = args[1]
+    source = args[0]
+    target = args[1]
     target_dir = os.path.dirname(os.path.abspath(target))
 
     if not os.path.isdir(target_dir):
@@ -96,12 +71,11 @@ def main(args):
 
     with open(source, 'r') as s:
         template = s.read()
-        renderer = Renderer(missing_tags='strict')
 
         try:
-            out = renderer.render(template, variables)
+            out = renderer.render(template, lookup)
         except Exception as e:
-            raise Exception('{}: {}', source, e)
+            raise Exception('{}: {}'.format(source, e))
 
     with open(target, 'w') as t:
         t.write(out)
