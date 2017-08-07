@@ -41,10 +41,18 @@ empty=true
 
 while read file; do
     if [[ ! -z $filter ]]; then
-        case $file in
-            *$filter*) ;;
-            *) continue ;;
-        esac
+        any=false
+
+        for f in $filter; do
+            if grep $f $file 2>&1 > /dev/null; then
+                any=true
+                break
+            fi
+        done
+
+        if ! $any; then
+            continue
+        fi
     fi
 
     empty=false
