@@ -9,6 +9,7 @@ build += $(HOME)/.offlineimap/work.rc
 build += $(HOME)/.offlineimap/personal.rc
 build += $(HOME)/.dput.cf
 build += $(HOME)/.mailcap
+build += $(HOME)/.ccacherc
 build += $(HOME)/repo/linux/.pvimrc
 
 post-hook += permissions

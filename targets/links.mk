@@ -13,9 +13,11 @@ has-maven := $(shell has-path $(MVN))
 
 build-$(has-maven) += $(BIN)/mvn
 
-build += $(BIN)/reposync
-build += $(BIN)/repologs
-build += $(BIN)/upd
+utils += reposync
+utils += repologs
+utils += upd
+utils += patch-from-mutt
+utils += apply-incoming
 
 $(BIN)/vim: /usr/bin/nvim
 	$(Q)relative-ln $@ $<
@@ -27,15 +29,6 @@ $(BIN)/idea: $(IDEA)
 	$(Q)relative-ln $@ $<
 
 $(BIN)/mvn: $(MVN)
-	$(Q)relative-ln $@ $<
-
-$(BIN)/reposync: $(ROOT)/utils/reposync
-	$(Q)relative-ln $@ $<
-
-$(BIN)/repologs: $(ROOT)/utils/repologs
-	$(Q)relative-ln $@ $<
-
-$(BIN)/upd: $(ROOT)/utils/upd
 	$(Q)relative-ln $@ $<
 
 include $(ROOT)/lib.mk

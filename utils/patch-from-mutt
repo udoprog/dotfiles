@@ -1,0 +1,16 @@
+#!/bin/bash
+
+ROOT=$(dirname $(realpath $0))
+CLEANUP_SED=$ROOT/subject-cleanup.sed
+INCOMING=$HOME/incoming
+
+if [[ ! -d $INCOMING ]]; then
+    mkdir -p $INCOMING
+fi
+
+PATCH_FILE=$(mktemp --tmpdir="$INCOMING" mutt-patch.XXXXXX)
+cat > "$PATCH_FILE"
+
+MAILBOX=$(cat $PATCH_FILE | formail -c -xSubject: | tr "'" "." | sed -f $CLEANUP_SED | cut -c 1-70).patch
+
+mv "$PATCH_FILE" "$INCOMING/$MAILBOX"

@@ -43,3 +43,5 @@ fi
 
 alias mutt.{{PRIMARY_MAIL}}="mutt -F ~/.mutt/accounts/{{PRIMARY_MAIL}}"
 alias mutt.{{SECONDARY_MAIL}}="mutt -F ~/.mutt/accounts/{{SECONDARY_MAIL}}"
+
+alias ccache-enable="source $HOME/.ccacherc"

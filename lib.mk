@@ -30,6 +30,7 @@ targets := $(targets) $(targets-y)
 build += $(sd-unit:%=$(systemd-user)/%)
 build += $(sd-service:%=$(systemd-user)/default.target.wants/%)
 build += $(sd-timer:%=$(systemd-user)/timers.target.wants/%)
+build += $(utils:%=$(BIN)/%)
 
 .PHONY: all $(steps) $(post-hook) $(targets)
 
@@ -49,6 +50,10 @@ $(HOME)/.%: $(ROOT)/home/% $(config) $(secrets)
 
 $(HOME)/repo/%: $(REPO) $(ROOT)/repo/% $(config) $(secrets)
 	$(Q)render $@ $(ROOT)/repo/$*
+
+$(BIN)/%: $(ROOT)/utils/%
+	@echo "Linking $@ -> $<"
+	$(Q)relative-ln $@ $<
 
 $(secrets):
 	@echo "Missing: $@"

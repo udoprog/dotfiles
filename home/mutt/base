@@ -70,6 +70,9 @@ bind index,pager \Cd half-down
 
 macro index,pager \CL '<pipe-message> cd ~/repo/linux && git am -<enter>'
 
+set pipe_split=yes
+macro index \Ch "<enter-command>unset wait_key<enter><enter-command>set pipe_decode<enter><tag-prefix><pipe-entry>patch-from-mutt<enter><enter-command>unset pipe_decode<enter><enter-command>set wait_key<enter>" "output git patches"
+
 macro index A \
     "<tag-pattern>~N<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" \
     "mark all new as read"<Paste>
