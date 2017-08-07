@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import argparse
 import os
 import sys
 import stat
@@ -9,9 +10,50 @@ from string import Template
 from pystache.renderer import Renderer
 import yaml
 
-def load_lookup(root, renderer):
-    config = os.path.join(root, 'config.yml')
-    facts = os.path.join(root, 'facts.yml')
+def setup_parser():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--scope', dest='scopes', action='append', default=[])
+    parser.add_argument('--set', metavar='<key>=<value>', dest='values', type=lambda v: v.split('=', 2), action='append', default=[])
+
+    sp = parser.add_subparsers()
+
+    render = sp.add_parser('render')
+    render.add_argument('source')
+    render.add_argument('target')
+    render.set_defaults(action=render_action)
+
+    render = sp.add_parser('keys')
+    render.add_argument('name')
+    render.set_defaults(action=keys_action)
+
+    return parser
+
+def apply_scopes(db, scopes):
+    result = dict()
+
+    for scope in scopes:
+        current = db
+
+        for p in scope.split('.'):
+            p = p.strip()
+
+            if len(p) <= 0:
+                continue
+
+            try:
+                current = current[p]
+            except:
+                raise Exception('bad scope: {}'.format(scope))
+
+        result.update(current)
+
+    return result
+
+def load_lookup(ns):
+    renderer = Renderer(missing_tags='strict')
+
+    config = os.path.join(ns.root, 'config.yml')
+    facts = os.path.join(ns.root, 'facts.yml')
 
     c = yaml.load(open(config))
     f = yaml.load(open(facts))
@@ -21,46 +63,90 @@ def load_lookup(root, renderer):
     hierarchy = c.get('hierarchy')
 
     if hierarchy is not None and isinstance(hierarchy, list):
-        hierarchy = [os.path.join(root, renderer.render(h, f)) for h in hierarchy]
+        hierarchy = [os.path.join(ns.root, renderer.render(h, f)) for h in hierarchy]
     else:
         raise Exception(config + ": missing hierarchy")
 
-    db = dict()
+    root = dict()
 
     for h in hierarchy:
         if not os.path.isfile(h):
             continue
 
         for (k, v) in yaml.load(open(h)).items():
-            if k not in db:
-                db[k] = v
+            if k not in root:
+                root[k] = v
 
-    db['HOME'] = os.path.expanduser('~')
-    db['REPO'] = os.environ.get('REPO')
-    db['BIN'] = os.environ.get('BIN')
-    return Lookup(db)
+    root['HOME'] = os.path.expanduser('~')
+    root['REPO'] = os.environ.get('REPO')
+    root['BIN'] = os.environ.get('BIN')
+
+    scoped = root
+
+    if len(ns.scopes) > 0:
+        scoped = apply_scopes(root, ns.scopes)
+
+    for (key, value) in ns.values:
+        scoped[key] = value
+
+    return Lookup(renderer, root, scoped)
 
 class Lookup(object):
-    def __init__(self, db):
-        self.__db = db
+    def __init__(self, renderer, root, scoped):
+        self._renderer = renderer
+        self._root = root
+        self._scoped = scoped
+
+    def _render(self, template):
+        return self._renderer.render(template, self)
+
+    def _keys(self, name):
+        value = self
+
+        for p in name.split('.'):
+            value = value.__getattr__(p)
+
+        if not isinstance(value._scoped, dict):
+            raise Exception('not a dict')
+
+        return value._scoped.keys()
 
     def __getattr__(self, name):
-        return self.__db[name]
+        if name == 'items()':
+            return [{
+                'key': key,
+                'value': Lookup(self._renderer, self._root, value),
+            } for (key, value) in self._scoped.items()]
 
-def main(args):
-    root = os.getenv('ROOT')
+        if name == '':
+            value = self._root
+        else:
+            value = self._scoped[name]
 
-    if root is None:
+        return Lookup(self._renderer, self._root, value)
+
+    def __str__(self):
+        return str(self._scoped)
+
+def setup_lookup(ns):
+    ns.root = os.getenv('ROOT')
+
+    if ns.root is None:
         raise Exception('ROOT: missing environment variable')
 
-    renderer = Renderer(missing_tags='strict')
-    lookup = load_lookup(root, renderer)
+    return load_lookup(ns)
 
-    if len(args) != 2:
-        raise Exception('Usage: m4tpl <source> <target>')
+def keys_action(ns):
+    lookup = setup_lookup(ns)
 
-    source = args[0]
-    target = args[1]
+    for key in lookup._keys(ns.name):
+        print(key)
+
+def render_action(ns):
+    lookup = setup_lookup(ns)
+
+    source = ns.source
+    target = ns.target
     target_dir = os.path.dirname(os.path.abspath(target))
 
     if not os.path.isdir(target_dir):
@@ -73,7 +159,7 @@ def main(args):
         template = s.read()
 
         try:
-            out = renderer.render(template, lookup)
+            out = lookup._render(template)
         except Exception as e:
             raise Exception('{}: {}'.format(source, e))
 
@@ -81,4 +167,6 @@ def main(args):
         t.write(out)
 
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    parser = setup_parser()
+    ns = parser.parse_args()
+    ns.action(ns)

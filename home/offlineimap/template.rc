@@ -1,10 +1,10 @@
 [general]
 accounts = default
-metadata = ~/.offlineimap/work
+metadata = ~/.offlineimap/{{id}}
 
 [mbnames]
 enabled = yes
-filename = ~/.mutt/mailboxes.work
+filename = ~/.mutt/mailboxes.{{id}}
 header = "mailboxes "
 peritem = "+%(foldername)s"
 sep = " "
@@ -16,14 +16,14 @@ remoterepository = gmail
 
 [Repository local]
 type = Maildir
-localfolders = ~/Mail/work
+localfolders = ~/Mail/{{id}}
 
 [Repository gmail]
 type = Gmail
-remoteuser = {{WORK_EMAIL}}
-remotepass = {{WORK_IMAP_PASS}}
+remoteuser = {{email}}
+remotepass = {{imap_pass}}
 realdelete = no
 maxconnections = 3
-sslcacertfile = {{CA_CERTS}}
+sslcacertfile = {{.CA_CERTS}}
 folderfilter = lambda f: f not in ['[Gmail]/All Mail', '[Gmail]/Important', '[Gmail]/Starred', '[Gmail]/Trash', '[Gmail]/Bin']
 createfolders = false

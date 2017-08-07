@@ -27,6 +27,7 @@ facts := $(ROOT)/facts.yml
 secrets := $(ROOT)/secrets.yml
 systemctl := systemctl --user
 systemd-user := $(HOME)/.config/systemd/user
+render = render render $(1) $(2)
 
 link := relative-ln
 copy := cp
@@ -46,6 +47,12 @@ sd-timer-y :=
 steps :=
 post-hook :=
 targets :=
+
+$(HOME)/.%: $(ROOT)/home/% $(config) $(facts) $(secrets)
+	$(Q)render render $(ROOT)/home/$* $@
+
+$(HOME)/repo/%: $(REPO) $(ROOT)/repo/% $(config) $(facts) $(secrets)
+	$(Q)render render $(ROOT)/repo/$* $@
 
 # include target file with build rules
 include $(target-file)
@@ -75,12 +82,6 @@ $(targets):
 		-C $(shell dirname $(target-dir)/$@) \
 		-f $(ROOT)/utils/Makefile.build \
 		target-file=$(target-dir)/$@
-
-$(HOME)/.%: $(ROOT)/home/% $(config) $(facts) $(secrets)
-	$(Q)render $(ROOT)/home/$* $@
-
-$(HOME)/repo/%: $(REPO) $(ROOT)/repo/% $(config) $(facts) $(secrets)
-	$(Q)render $(ROOT)/repo/$* $@
 
 $(BIN)/%: $(ROOT)/utils/%
 	@echo "Linking $@ -> $<"

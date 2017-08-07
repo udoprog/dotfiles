@@ -41,7 +41,8 @@ if command -v nvim -> /dev/null; then
     alias vim=nvim
 fi
 
-alias mutt.{{PRIMARY_MAIL}}="mutt -F ~/.mutt/accounts/{{PRIMARY_MAIL}}"
-alias mutt.{{SECONDARY_MAIL}}="mutt -F ~/.mutt/accounts/{{SECONDARY_MAIL}}"
+{{#mail.items()}}
+alias mutt.{{key}}="mutt -F ~/.mutt/accounts/{{key}}"
+{{/mail.items()}}
 
 alias ccache-enable="source $HOME/.ccacherc"

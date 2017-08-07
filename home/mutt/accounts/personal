@@ -1,9 +1,0 @@
-set folder = ~/Mail/personal
-
-set from = '{{PROFILE_NAME}} <{{EMAIL}}>'
-set realname = '{{PROFILE_NAME}}'
-set smtp_url = '{{SMTP_URL}}'
-set smtp_pass = '{{SMTP_PASS}}'
-
-source ~/.mutt/mailboxes.personal
-source ~/.mutt/base
