@@ -1,9 +1,9 @@
+has-systemd := $(shell has-command systemctl)
+
 steps += submodules
 steps += packages
 steps += vim
 steps += jshint
-
-has-systemd += $(shell has-command systemctl)
 
 targets += targets/configs.mk
 targets += targets/mutt.mk

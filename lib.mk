@@ -1,15 +1,16 @@
-# Useful environment variables:
-# build - unconditionally build
-# build-y - conditionally build, used in conjunction with some variable.
+# Udoprog's Build Lib
+# This is a wrapper make script that surrounds a build-target in an attempt to make it a bit more
+# declarative.
 
 ifndef ROOT
 $(error ROOT is not set, are you calling lib.mk directly?)
 endif
 
-ifndef TARGET
-$(error TARGET is not set)
+ifndef target-file
+$(error target-file is not set)
 endif
 
+# Is debugging enabled?
 ifeq ($(DEBUG),yes)
 make-opts :=
 Q :=
@@ -18,8 +19,8 @@ make-opts := -s --no-print-directory
 Q := @
 endif
 
-TARGET := $(shell realpath $(TARGET))
-DIR := $(shell dirname $(TARGET))
+target-file := $(shell realpath $(target-file))
+target-dir := $(shell dirname $(target-file))
 
 config := $(ROOT)/config.yml
 secrets := $(ROOT)/secrets.yml
@@ -46,7 +47,7 @@ post-hook :=
 targets :=
 
 # include target file with build rules
-include $(TARGET)
+include $(target-file)
 
 sd-unit := $(sd-unit) $(sd-unit-y)
 sd-timer := $(sd-timer) $(sd-timer-y)
@@ -68,10 +69,10 @@ $(systemd-user)/timers.target.wants/%: $(units)
 	$(Q)$(systemctl) enable $*
 
 $(targets):
-	$(Q)make $(make-opts) \
-		-C $(shell dirname $(DIR)/$@) \
+	$(Q)$(MAKE) $(make-opts) \
+		-C $(shell dirname $(target-dir)/$@) \
 		-f $(ROOT)/lib.mk \
-		TARGET=$(DIR)/$@
+		target-file=$(target-dir)/$@
 
 $(HOME)/.%: $(ROOT)/home/% $(config) $(secrets)
 	$(Q)render $@ $(ROOT)/home/$*
