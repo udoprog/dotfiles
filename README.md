@@ -22,17 +22,19 @@ NAME: John-John Tedro
 GPG_KEY: AABBCC
 USER: udoprog
 
-EMAIL: <email>
-SMTP_PASS: <password>
-IMAP_PASS: <password>
-SMTP_URL: <password>
-IMAP_URL: <password>
-
-WORK_EMAIL: <work-email>
-WORK_SMTP_PASS: <password>
-WORK_IMAP_PASS: <password>
-WORK_SMTP_URL: <url-with-password>
-WORK_IMAP_URL: <url-with-password>
+mail:
+    personal:
+        email: <email>
+        smtp_url: <password>
+        smtp_pass: <password>
+        imap_url: <password>
+        imap_pass: <password>
+    other:
+        email: <other-email>
+        smtp_url: <password>
+        smtp_pass: <password>
+        imap_url: <password>
+        imap_pass: <password>
 ```
 
 # Features
