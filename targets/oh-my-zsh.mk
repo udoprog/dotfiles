@@ -3,4 +3,4 @@ url := https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/ins
 steps += oh-my-zsh
 
 oh-my-zsh:
-	$(Q)once oh-my-zsh "curl -fsSL $(url) | sh"
+	once oh-my-zsh "curl -fsSL $(url) | sh"

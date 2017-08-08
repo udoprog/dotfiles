@@ -6,8 +6,15 @@ export REPO := $(HOME)/repo
 
 M ?= $(ROOT)/dotfiles.mk
 
+ifeq ($(DEBUG),yes)
+make-opts :=
+else
+make-opts := -s --no-print-directory
+endif
+
 all:
-	@$(MAKE) --no-print-directory \
+	@$(MAKE) \
+		$(make-opts) \
 		-C $(shell dirname $(M)) \
 		-f $(ROOT)/helpers/Makefile.build \
 		target-file=$(M)

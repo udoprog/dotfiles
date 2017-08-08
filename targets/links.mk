@@ -20,13 +20,13 @@ bins += patch-from-mutt
 bins += apply-incoming
 
 $(BIN)/vim: /usr/bin/nvim
-	$(Q)relative-ln $@ $<
+	relative-ln $@ $<
 
 $(BIN)/view: /usr/bin/nvim
-	$(Q)relative-ln $@ $<
+	relative-ln $@ $<
 
 $(BIN)/idea: $(IDEA)
-	$(Q)relative-ln $@ $<
+	relative-ln $@ $<
 
 $(BIN)/mvn: $(MVN)
-	$(Q)relative-ln $@ $<
+	relative-ln $@ $<

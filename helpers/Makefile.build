@@ -10,13 +10,10 @@ ifndef target-file
 $(error target-file is not set)
 endif
 
-# Is debugging enabled?
 ifeq ($(DEBUG),yes)
 make-opts :=
-Q :=
 else
 make-opts := -s --no-print-directory
-Q := @
 endif
 
 target-file := $(shell realpath $(target-file))
@@ -52,7 +49,7 @@ post-hook :=
 targets :=
 
 $(HOME)/%: $(ROOT)/home/% $(cdeps)
-	$(Q)tpl render $(ROOT)/home/$* $@
+	tpl render $(ROOT)/home/$* $@
 
 # include target file with build rules
 include $(target-file)
@@ -73,26 +70,26 @@ build := $(build) $(build-y)
 __all: $(ROOT) $(REPO) $(build) $(steps) $(post-hook) $(targets)
 
 $(systemd-user)/default.target.wants/%: $(units)
-	$(Q)$(systemctl) enable $*
+	$(systemctl) enable $*
 
 $(systemd-user)/timers.target.wants/%: $(units)
-	$(Q)$(systemctl) enable $*
+	$(systemctl) enable $*
 
 $(targets):
-	$(Q)$(MAKE) $(make-opts) \
+	$(MAKE) $(make-opts) \
 		-C $(shell dirname $(target-dir)/$@) \
 		-f $(ROOT)/helpers/Makefile.build \
 		target-file=$(target-dir)/$@
 
 $(BIN)/%: $(ROOT)/bin/%
 	@echo "Linking $@ -> $<"
-	$(Q)$(link) $@ $<
+	$(link) $@ $<
 
 $(config) $(facts) $(secrets) $(db) $(ROOT):
 	@echo "Missing: $@"
 	@exit 1
 
 $(REPO):
-	$(Q)mkdir -p $@
+	mkdir -p $@
 
 .PHONY: all __all $(steps) $(post-hook) $(targets)

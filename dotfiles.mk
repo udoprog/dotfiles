@@ -11,13 +11,13 @@ targets-$(has-systemd) += targets/reposync.mk
 targets += vim/build.mk
 
 $(ROOT)/.submodules: $(ROOT)/.gitmodules
-	$(Q)run-with-state $@ "git submodule update --init"
+	run-with-state $@ "git submodule update --init"
 
 packages:
-	$(Q)install-packages
-	$(Q)install-if-newer pip "pip install --user"
-	$(Q)install-if-newer pip3 "pip3 install --user"
-	$(Q)install-if-newer gem "gem install --user"
+	install-packages
+	install-if-newer pip "pip install --user"
+	install-if-newer pip3 "pip3 install --user"
+	install-if-newer gem "gem install --user"
 
 jshint:
-	$(Q)once jshint "npm install jshint"
+	once jshint "npm install jshint"
