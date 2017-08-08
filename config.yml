@@ -1,5 +1,5 @@
 hierarchy:
   - secrets.yml
   - db/common.yml
-  - db/{{distro}}.yml
-  - db/{{profile}}.yml
+  - db/{distro}.yml
+  - db/{profile}.yml

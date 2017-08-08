@@ -5,58 +5,14 @@ import os
 import sys
 import stat
 import re
-from string import Template
 
-from pystache.renderer import Renderer
-import yaml
+sys.path.append(os.path.dirname(__file__))
 
-class Lookup(object):
-    def __init__(self, renderer, root, scoped):
-        self._renderer = renderer
-        self._root = root
-        self._scoped = scoped
-
-    def _items(self):
-        return [{
-            'key': k,
-            'value': Lookup(self._renderer, self._root, v),
-        } for (k, v) in self._scoped.items()]
-
-    def _render(self, template):
-        return self._renderer.render(template, self)
-
-    def _keys(self, name):
-        value = self
-
-        for p in name.split('.'):
-            value = value.__getattr__(p)
-
-        if not isinstance(value._scoped, dict):
-            raise Exception('not a dict')
-
-        return value._scoped.keys()
-
-    def __getattr__(self, name):
-        if name == 'items()':
-            return self._items()
-
-        if name == '':
-            value = self._root
-        else:
-            value = self._scoped[name]
-
-        if isinstance(value, list):
-            return [Lookup(self._renderer, self._root, v) for v in value]
-
-        return Lookup(self._renderer, self._root, value)
-
-    def __str__(self):
-        return str(self._scoped)
+from lib.lookup import Lookup
 
 def setup_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--scope', dest='scopes', action='append', default=[])
-    parser.add_argument('--set', metavar='<key>=<value>', dest='values', type=lambda v: v.split('=', 2), action='append', default=[])
+    Lookup.setup_parser(parser)
 
     sp = parser.add_subparsers()
 
@@ -71,107 +27,13 @@ def setup_parser():
 
     return parser
 
-def apply_scopes(db, scopes):
-    result = dict()
-
-    for scope in scopes:
-        current = db
-
-        for p in scope.split('.'):
-            p = p.strip()
-
-            if len(p) <= 0:
-                continue
-
-            try:
-                current = current[p]
-            except:
-                raise Exception('bad scope: {}'.format(scope))
-
-        result.update(current)
-
-    return result
-
-def merge(target, key, value):
-    if isinstance(value, dict):
-        try:
-            t = target[key]
-        except KeyError:
-            target[key] = value
-            return
-
-        if not isinstance(t, dict):
-            raise Exception('target: not a dict')
-
-        for (k, v) in value.items():
-            merge(t, k, v)
-
-        return
-
-    if isinstance(value, list):
-        try:
-            t = target[key]
-        except KeyError:
-            target[key] = value
-            return
-
-        if not isinstance(t, list):
-            raise Exception('target: not a list')
-
-        t.extend(value)
-        return
-
-    if key not in target:
-        target[key] = value
-
-def load_lookup(ns):
-    renderer = Renderer(missing_tags='strict')
-
-    config = os.path.join(ns.root, 'config.yml')
-    facts = os.path.join(ns.root, 'facts.yml')
-
-    c = yaml.load(open(config))
-    f = yaml.load(open(facts))
-
-    f['distro'] = os.getenv('DISTRO')
-
-    hierarchy = c.get('hierarchy')
-
-    if hierarchy is not None and isinstance(hierarchy, list):
-        hierarchy = [os.path.join(ns.root, renderer.render(h, f)) for h in hierarchy]
-    else:
-        raise Exception(config + ": missing hierarchy")
-
-    root = dict()
-
-    for h in hierarchy:
-        if not os.path.isfile(h):
-            continue
-
-        for (k, v) in yaml.load(open(h)).items():
-            merge(root, k, v)
-
-    root['HOME'] = os.path.expanduser('~')
-    root['REPO'] = os.environ.get('REPO')
-    root['BIN'] = os.environ.get('BIN')
-
-    scoped = root
-
-    if len(ns.scopes) > 0:
-        scoped = apply_scopes(root, ns.scopes)
-
-    for (key, value) in ns.values:
-        scoped[key] = value
-
-    return Lookup(renderer, root, scoped)
-
 def setup_lookup(ns):
     ns.root = os.getenv('ROOT')
 
     if ns.root is None:
         raise Exception('ROOT: missing environment variable')
 
-    return load_lookup(ns)
+    return Lookup.load(ns)
 
 def keys_action(ns):
     lookup = setup_lookup(ns)
