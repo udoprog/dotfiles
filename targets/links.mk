@@ -13,11 +13,11 @@ has-maven := $(shell has-path $(MVN))
 
 build-$(has-maven) += $(BIN)/mvn
 
-utils += reposync
-utils += repologs
-utils += upd
-utils += patch-from-mutt
-utils += apply-incoming
+bins += reposync
+bins += repologs
+bins += upd
+bins += patch-from-mutt
+bins += apply-incoming
 
 $(BIN)/vim: /usr/bin/nvim
 	$(Q)relative-ln $@ $<

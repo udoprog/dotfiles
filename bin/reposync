@@ -9,7 +9,7 @@ if [[ -z $ROOT ]]; then
     ROOT=$(dirname $(dirname $(realpath $0)))
 fi
 
-source $ROOT/utils/repolib.sh
+source $ROOT/bin/repolib.sh
 repolib_setup
 
 while getopts ":h" opt; do

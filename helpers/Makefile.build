@@ -67,7 +67,7 @@ targets := $(targets) $(targets-y)
 build-$(has-systemd) += $(sd-unit:%=$(systemd-user)/%)
 build-$(has-systemd) += $(sd-service:%=$(systemd-user)/default.target.wants/%)
 build-$(has-systemd) += $(sd-timer:%=$(systemd-user)/timers.target.wants/%)
-build += $(utils:%=$(BIN)/%)
+build += $(bins:%=$(BIN)/%)
 
 build := $(build) $(build-y)
 
@@ -83,10 +83,10 @@ $(systemd-user)/timers.target.wants/%: $(units)
 $(targets):
 	$(Q)$(MAKE) $(make-opts) \
 		-C $(shell dirname $(target-dir)/$@) \
-		-f $(ROOT)/utils/Makefile.build \
+		-f $(ROOT)/helpers/Makefile.build \
 		target-file=$(target-dir)/$@
 
-$(BIN)/%: $(ROOT)/utils/%
+$(BIN)/%: $(ROOT)/bin/%
 	@echo "Linking $@ -> $<"
 	$(Q)$(link) $@ $<
 

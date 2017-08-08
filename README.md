@@ -5,11 +5,11 @@ I use a simple build-system which initially only depends on Make and Bash.
 To get started, run:
 
 ```bash
-$> utils/upd
+$> bin/upd
 ```
 
 The first step is to install system dependencies (listen in `packages/<distro>`).
-After this, all configuration files are run through [`tpl`](/bin/tpl), which runs the
+After this, all configuration files are run through [`tpl`](/utils/tpl), which runs the
 templates through pystache.
 
 You must manually populate a `secrets.yml` file, which contains passwords or other sensitive
