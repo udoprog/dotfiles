@@ -7,8 +7,8 @@ sd-unit += offlineimap@.timer
 
 sd-timer += $(profiles:%=offlineimap@%.timer)
 
-build += $(foreach profile,$(profiles),$(mutt)/accounts/$(profile))
-build += $(foreach profile,$(profiles),$(HOME)/.offlineimap/$(profile).rc)
+build += $(profiles:%=$(mutt)/accounts/%)
+build += $(profiles:%=$(HOME)/.offlineimap/%.rc)
 build += $(mutt)/base
 build += $(mutt)/colors
 build += $(mutt)/gpg
