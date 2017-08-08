@@ -27,7 +27,8 @@ config := $(ROOT)/config.yml
 facts := $(ROOT)/facts.yml
 secrets := $(ROOT)/secrets.yml
 db := $(shell find $(ROOT)/db -type f)
-depends := $(config) $(facts) $(secrets) $(db)
+# common dependencies
+cdeps := $(config) $(facts) $(secrets) $(db)
 systemctl := systemctl --user
 systemd-user := $(HOME)/.config/systemd/user
 
@@ -50,7 +51,7 @@ steps :=
 post-hook :=
 targets :=
 
-$(HOME)/%: $(ROOT)/home/% $(depends)
+$(HOME)/%: $(ROOT)/home/% $(cdeps)
 	$(Q)tpl render $(ROOT)/home/$* $@
 
 # include target file with build rules

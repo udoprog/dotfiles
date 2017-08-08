@@ -15,10 +15,10 @@ build += $(mutt)/gpg
 build += $(mutt)/muttrc
 build += $(mutt)/signature
 
-$(mutt)/accounts/%: $(ROOT)/home/.mutt/accounts/template $(depends)
+$(mutt)/accounts/%: $(ROOT)/home/.mutt/accounts/template $(cdeps)
 	$(Q)tpl --set id=$* --scope mail.$* render $< $@
 	$(Q)chmod 0600 $<
 
-$(HOME)/.offlineimap/%.rc: $(ROOT)/home/.offlineimap/template.rc $(depends)
+$(HOME)/.offlineimap/%.rc: $(ROOT)/home/.offlineimap/template.rc $(cdeps)
 	$(Q)tpl --set id=$* --scope mail.$* render $< $@
 	$(Q)chmod 0600 $<
