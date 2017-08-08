@@ -26,6 +26,8 @@ has-systemd := $(shell has-command systemctl)
 config := $(ROOT)/config.yml
 facts := $(ROOT)/facts.yml
 secrets := $(ROOT)/secrets.yml
+db := $(shell find $(ROOT)/db -type f)
+depends := $(config) $(facts) $(secrets) $(db)
 systemctl := systemctl --user
 systemd-user := $(HOME)/.config/systemd/user
 
@@ -48,10 +50,10 @@ steps :=
 post-hook :=
 targets :=
 
-$(HOME)/.%: $(ROOT)/home/% $(config) $(facts) $(secrets)
+$(HOME)/.%: $(ROOT)/home/% $(depends)
 	$(Q)tpl render $(ROOT)/home/$* $@
 
-$(HOME)/repo/%: $(REPO) $(ROOT)/repo/% $(config) $(facts) $(secrets)
+$(HOME)/repo/%: $(REPO) $(ROOT)/repo/% $(depends)
 	$(Q)tpl render $(ROOT)/repo/$* $@
 
 # include target file with build rules
@@ -88,11 +90,7 @@ $(BIN)/%: $(ROOT)/utils/%
 	@echo "Linking $@ -> $<"
 	$(Q)$(link) $@ $<
 
-$(secrets):
-	@echo "Missing: $@"
-	@exit 1
-
-$(ROOT):
+$(config) $(facts) $(secrets) $(db) $(ROOT):
 	@echo "Missing: $@"
 	@exit 1
 
