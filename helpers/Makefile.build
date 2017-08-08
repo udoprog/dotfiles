@@ -50,11 +50,8 @@ steps :=
 post-hook :=
 targets :=
 
-$(HOME)/.%: $(ROOT)/home/% $(depends)
+$(HOME)/%: $(ROOT)/home/% $(depends)
 	$(Q)tpl render $(ROOT)/home/$* $@
-
-$(HOME)/repo/%: $(REPO) $(ROOT)/repo/% $(depends)
-	$(Q)tpl render $(ROOT)/repo/$* $@
 
 # include target file with build rules
 include $(target-file)
