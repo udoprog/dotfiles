@@ -1,7 +1,2 @@
 #!/bin/bash
-
-if command -v $1 > /dev/null 2>&1; then
-    echo "y"
-else
-    echo "n"
-fi
+command -v $1 > /dev/null 2>&1 && echo "y" || echo "n"

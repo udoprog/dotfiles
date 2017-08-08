@@ -1,32 +1,19 @@
 #!/bin/bash
 
-#!/bin/bash
-
-set -e
+[[ -z $ROOT ]] && echo "ROOT: missing" && exit 1
+[[ $# != 2 ]] && echo "Usage: $0 <src> <cmd>" && exit 1
 
 src=$1
 cmd=$2
 
-if [[ -z $src || -z $cmd ]]; then
-    echo "Usage: $0 <src> <cmd>"
-    exit 1
-fi
-
 packages=$ROOT/packages/$src
 packages_marker=$ROOT/state/packages-$src
 
-if [[ ! -f $packages ]]; then
-    echo "No packages to install, missing: $packages"
-    exit 0
-fi
-
-if [[ $packages -ot $packages_marker ]]; then
-    exit 0
-fi
+[[ ! -f $packages ]] && echo "No packages to install, missing: $packages" && exit 0
+[[ $packages -ot $packages_marker ]] && exit 0
 
 packages="$(grep -v '^#' $packages | tr '\n' ' ')"
 
 echo "$src: installing: $packages"
 eval "$cmd $packages"
-mkdir -p $(dirname $packages_marker)
 touch $packages_marker

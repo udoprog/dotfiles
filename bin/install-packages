@@ -1,23 +1,19 @@
 #!/bin/bash
 
-set -e
-
-distro=$(detect-distro)
-
-if [[ -z $distro ]]; then
+if ! distro=$(detect-distro); then
     echo "Could not detect distro"
     exit 1
 fi
 
 case $distro in
-    "fedora")
-        install-if-newer fedora "sudo dnf install"
-        ;;
-    "gentoo")
-        install-if-newer gentoo "sudo emerge"
-        ;;
-    *)
-        echo "Unsupported distro: $distro"
-        exit 1
-        ;;
+"fedora")
+    exec install-if-newer fedora "sudo dnf install"
+    ;;
+"gentoo")
+    exec install-if-newer gentoo "sudo emerge"
+    ;;
+*)
+    echo "Unsupported distro: $distro"
+    exit 1
+    ;;
 esac
