@@ -1,4 +1,4 @@
-steps += submodules
+steps += $(ROOT)/.submodules
 steps += packages
 steps += jshint
 
@@ -9,8 +9,6 @@ targets += targets/oh-my-zsh.mk
 targets += targets/rust.mk
 targets-$(has-systemd) += targets/reposync.mk
 targets += vim/build.mk
-
-submodules: $(ROOT)/.submodules
 
 $(ROOT)/.submodules: $(ROOT)/.gitmodules
 	$(Q)run-with-state $@ "git submodule update --init"
