@@ -3,8 +3,6 @@
 import argparse
 import os
 import sys
-import stat
-import re
 
 sys.path.append(os.path.dirname(__file__))
 
@@ -25,6 +23,11 @@ def setup_parser():
     render.add_argument('name')
     render.set_defaults(action=keys_action)
 
+    render = sp.add_parser('list')
+    render.add_argument('name')
+    render.add_argument('key', nargs='?')
+    render.set_defaults(action=list_action)
+
     return parser
 
 def setup_lookup(ns):
@@ -40,6 +43,15 @@ def keys_action(ns):
 
     for key in lookup._keys(ns.name):
         print(key)
+
+def list_action(ns):
+    lookup = setup_lookup(ns)
+
+    for value in lookup[ns.name]:
+        if ns.key is not None:
+            print(value[ns.key])
+        else:
+            print(str(value))
 
 def render_action(ns):
     lookup = setup_lookup(ns)

@@ -1,8 +1,10 @@
 import os
-from pystache.renderer import Renderer
 import yaml
+import json
 
 from .utils import merge
+
+from pystache.renderer import Renderer
 
 def apply_scopes(db, scopes):
     if len(scopes) == 0:
@@ -32,27 +34,43 @@ class Lookup(object):
     def __init__(self, renderer, root, scoped):
         self._renderer = renderer
         self._root = root
-        self._scoped = scoped
+        self._val = scoped
+
+    def _lookup(self, value):
+        return Lookup(self._renderer, self._root, value)
 
     def _items(self):
-        return [{
-            'key': k,
-            'value': Lookup(self._renderer, self._root, v),
-        } for (k, v) in self._scoped.items()]
+        return [{'key': k, 'value': self._lookup(v)} for (k, v) in self._val.items()]
 
     def _render(self, template):
         return self._renderer.render(template, self)
 
     def _keys(self, name):
+        value = self.__getitem__(name)
+
+        if not isinstance(value._val, dict):
+            raise Exception('not a dict')
+
+        return value._val.keys()
+
+    def __iter__(self):
+        if isinstance(self._val, list):
+            raise Exception('not a list')
+
+        return (self._lookup(v) for v in self._val)
+
+    def __getitem__(self, name):
         value = self
 
         for p in name.split('.'):
+            p = p.strip()
+
+            if len(p) == 0:
+                continue
+
             value = value.__getattr__(p)
 
-        if not isinstance(value._scoped, dict):
-            raise Exception('not a dict')
-
-        return value._scoped.keys()
+        return value
 
     def __getattr__(self, name):
         if name == 'items()':
@@ -61,15 +79,21 @@ class Lookup(object):
         if name == '':
             value = self._root
         else:
-            value = self._scoped[name]
+            value = self._val[name]
 
         if isinstance(value, list):
-            return [Lookup(self._renderer, self._root, v) for v in value]
+            return [self._lookup(v) for v in value]
 
-        return Lookup(self._renderer, self._root, value)
+        return self._lookup(value)
 
     def __str__(self):
-        return str(self._scoped)
+        if isinstance(self._val, list):
+            return json.dumps(self._val)
+
+        if isinstance(self._val, dict):
+            return json.dumps(self._val)
+
+        return str(self._val)
 
     @staticmethod
     def setup_parser(parser):
