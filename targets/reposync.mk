@@ -1,11 +1,11 @@
 sd-unit += reposync@.service
 sd-unit += reposync@.timer
 
-has-linux := $(shell has-path $(REPO)/linux/.git)
+has-linux := $(call has-dir,$(REPO)/linux/.git)
 sd-timer-$(has-linux) += reposync@linux.timer
 
-has-systemd := $(shell has-path $(REPO)/systemd/.git)
+has-systemd := $(call has-dir,$(REPO)/systemd/.git)
 sd-timer-$(has-systemd) += reposync@systemd.timer
 
-has-rust := $(shell has-path $(REPO)/rust/.git)
+has-rust := $(call has-dir,$(REPO)/rust/.git)
 sd-timer-$(has-rust) += reposync@rust.timer

@@ -16,9 +16,14 @@ else
 make-opts := -s --no-print-directory
 endif
 
+# helpers
+has-file = $(shell [ -f $(1) ] && echo "y" || echo "n")
+has-dir = $(shell [ -d $(1) ] && echo "y" || echo "n")
+has-command = $(shell command -v $(1) > /dev/null 2>&1 && echo "y" || echo "n")
+
 target-file := $(shell realpath $(target-file))
 target-dir := $(shell dirname $(target-file))
-has-systemd := $(shell has-command systemctl)
+has-systemd := $(call has-command,systemctl)
 
 config := $(ROOT)/config.yml
 facts := $(ROOT)/facts.yml

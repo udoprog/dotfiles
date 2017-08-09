@@ -1,15 +1,15 @@
-has-nvim := $(shell has-command nvim)
+has-nvim := $(call has-command,nvim)
 
 build-$(has-nvim) += $(BIN)/vim
 build-$(has-nvim) += $(BIN)/view
 
 IDEA := $(HOME)/usr/idea/bin/idea.sh
-has-idea := $(shell has-path $(IDEA))
+has-idea := $(call has-file,$(IDEA))
 
 build-$(has-idea) += $(BIN)/idea
 
 MVN := $(HOME)/usr/apache-maven/bin/mvn
-has-maven := $(shell has-path $(MVN))
+has-maven := $(call has-file,$(MVN))
 
 build-$(has-maven) += $(BIN)/mvn
 
