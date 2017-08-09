@@ -10,7 +10,7 @@ case $distro in
     exec install-if-newer fedora "sudo dnf install"
     ;;
 "gentoo")
-    exec install-if-newer gentoo "sudo emerge"
+    exec install-if-newer gentoo "gentoo-install"
     ;;
 "osx")
     exec install-if-newer brew "brew install"

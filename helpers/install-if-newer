@@ -15,5 +15,5 @@ packages_marker=$ROOT/state/packages-$src
 packages="$(grep -v '^#' $packages | tr '\n' ' ')"
 
 echo "$src: installing: $packages"
-eval "$cmd $packages"
-touch $packages_marker
+eval "$cmd $packages" && touch $packages_marker
+exit $?

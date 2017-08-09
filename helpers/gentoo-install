@@ -1,0 +1,17 @@
+#!/bin/bash
+# install the given set of packages, only if they are missing
+
+missing=""
+
+for pkg in "$@"; do
+    if equery --quiet list $pkg > /dev/null 2>&1; then
+        missing="$missing $pkg"
+    fi
+done
+
+if [[ -z $missing ]]; then
+    exit 0
+fi
+
+echo "installing missing: $missing"
+exec sudo emerge -avuDN --with-bdeps y --keep-going $missing
