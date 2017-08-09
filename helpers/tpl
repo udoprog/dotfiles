@@ -28,6 +28,9 @@ def setup_parser():
     render.add_argument('key', nargs='?')
     render.set_defaults(action=list_action)
 
+    render = sp.add_parser('hierarchy')
+    render.set_defaults(action=hierarchy_action)
+
     return parser
 
 def setup_lookup(ns):
@@ -52,6 +55,12 @@ def list_action(ns):
             print(value[ns.key])
         else:
             print(str(value))
+
+def hierarchy_action(ns):
+    lookup = setup_lookup(ns)
+
+    for h in lookup._hierarchy:
+        print(h)
 
 def render_action(ns):
     lookup = setup_lookup(ns)

@@ -31,13 +31,14 @@ def apply_scopes(db, scopes):
     return result
 
 class Lookup(object):
-    def __init__(self, renderer, root, scoped):
+    def __init__(self, hierarchy, renderer, root, scoped):
+        self._hierarchy = hierarchy
         self._renderer = renderer
         self._root = root
         self._val = scoped
 
     def _lookup(self, value):
-        return Lookup(self._renderer, self._root, value)
+        return Lookup(self._hierarchy, self._renderer, self._root, value)
 
     def _items(self):
         return [{'key': k, 'value': self._lookup(v)} for (k, v) in self._val.items()]
@@ -125,15 +126,13 @@ class Lookup(object):
 
         if hierarchy is not None and isinstance(hierarchy, list):
             hierarchy = [os.path.join(ns.root, h.format(**f)) for h in hierarchy]
+            hierarchy = list(filter(os.path.isfile, hierarchy))
         else:
             raise Exception(config + ": missing hierarchy")
 
         root = dict(os.environ)
 
         for h in hierarchy:
-            if not os.path.isfile(h):
-                continue
-
             for (k, v) in yaml.load(open(h)).items():
                 merge(root, k, v)
 
@@ -144,4 +143,4 @@ class Lookup(object):
         for (key, value) in ns.values:
             scoped[key] = value
 
-        return Lookup(renderer, root, scoped)
+        return Lookup(hierarchy, renderer, root, scoped)

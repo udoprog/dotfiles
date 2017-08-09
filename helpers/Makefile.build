@@ -27,10 +27,9 @@ has-systemd := $(call has-command,systemctl)
 
 config := $(ROOT)/config.yml
 facts := $(ROOT)/facts.yml
-secrets := $(ROOT)/secrets.yml
-db := $(shell find $(ROOT)/db -type f)
+hierarchy := $(shell tpl hierarchy)
 # common dependencies
-cdeps := $(config) $(facts) $(secrets) $(db)
+cdeps := $(config) $(facts) $(hierarchy)
 systemctl := systemctl --user
 systemd-user := $(HOME)/.config/systemd/user
 
@@ -90,7 +89,7 @@ $(BIN)/%: $(ROOT)/bin/%
 	@echo "Linking $@ -> $<"
 	$(link) $@ $<
 
-$(config) $(facts) $(secrets) $(db) $(ROOT):
+$(config) $(facts) $(hierarchy) $(ROOT):
 	@echo "Missing: $@"
 	@exit 1
 
