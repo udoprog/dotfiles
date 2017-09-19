@@ -17,11 +17,12 @@ make-opts := -s --no-print-directory
 endif
 
 # helpers
-has-file = $(shell [ -f $(1) ] && echo "y" || echo "n")
-has-dir = $(shell [ -d $(1) ] && echo "y" || echo "n")
-has-command = $(shell command -v $(1) > /dev/null 2>&1 && echo "y" || echo "n")
+has-file = $(shell test -f $(1) && echo "y" || echo "n")
+has-dir = $(shell test -d $(1) && echo "y" || echo "n")
+bin-path = $(shell command -v $(1))
+has-command = $(if $(call bin-path,$(1)),"y","n")
 
-target-file := $(shell realpath $(target-file))
+target-file := $(realpath $(target-file))
 target-dir := $(shell dirname $(target-file))
 has-systemd := $(call has-command,systemctl)
 

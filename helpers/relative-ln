@@ -1,7 +1,15 @@
-#!/bin/bash
-# Creates a relative symbolic link.
+#!/usr/bin/env python3
+"""
+Creates a relative symbolic link.
+"""
 
-[[ $# != 2 ]] && echo "Usage: $0 <target> <file>" && exit 1
-dir=$(dirname $1)
-target=$(realpath --relative-to="$dir" $2)
-exec ln -f -s $target $1
+import sys
+import os
+
+if __name__ == "__main__":
+    link_name = sys.argv[1]
+    source = sys.argv[2]
+    print(link_name, '->', source)
+    directory = os.path.dirname(link_name)
+    source = os.path.relpath(source, directory)
+    os.symlink(source, link_name)

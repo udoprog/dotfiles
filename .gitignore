@@ -1,6 +1,7 @@
 /.submodules
 /.ropeproject
 /state/
+/cache/
 /reposync-log/
 /secrets.yml
 /facts.yml

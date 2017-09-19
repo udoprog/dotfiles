@@ -1,4 +1,4 @@
-" setting upp all bundles
+" setting up all bundles
 source ~/.vim/bundles.vim
-call dein#update()
+call dein#install()
 q!

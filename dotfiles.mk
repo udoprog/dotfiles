@@ -1,3 +1,4 @@
+steps += $(CACHE)
 steps += $(ROOT)/.submodules
 steps += packages
 steps += jshint
@@ -6,6 +7,7 @@ targets += targets/configs.mk
 targets += targets/mutt.mk
 targets += targets/links.mk
 targets += targets/oh-my-zsh.mk
+targets += targets/dein.mk
 targets += targets/rust.mk
 targets-$(has-systemd) += targets/reposync.mk
 targets += vim/build.mk
@@ -21,3 +23,6 @@ packages:
 
 jshint:
 	once jshint "npm install jshint"
+
+$(CACHE):
+	mkdir -p $@

@@ -3,6 +3,7 @@ export PATH := $(ROOT)/helpers:$(PATH)
 export DISTRO := $(shell $(ROOT)/helpers/detect-distro)
 export BIN := $(HOME)/usr/bin
 export REPO := $(HOME)/repo
+export CACHE := $(ROOT)/cache
 
 M ?= $(ROOT)/dotfiles.mk
 

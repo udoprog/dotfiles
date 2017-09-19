@@ -1,4 +1,5 @@
-has-nvim := $(call has-command,nvim)
+source-nvim := $(call bin-path,nvim)
+has-nvim := $(if $(source-nvim),y,n)
 
 build-$(has-nvim) += $(BIN)/vim
 build-$(has-nvim) += $(BIN)/view
@@ -19,10 +20,10 @@ bins += upd
 bins += patch-from-mutt
 bins += apply-incoming
 
-$(BIN)/vim: /usr/bin/nvim
+$(BIN)/vim: $(source-nvim)
 	relative-ln $@ $<
 
-$(BIN)/view: /usr/bin/nvim
+$(BIN)/view: $(source-nvim)
 	relative-ln $@ $<
 
 $(BIN)/idea: $(IDEA)

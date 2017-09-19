@@ -10,5 +10,10 @@ if [[ -f /etc/gentoo-release ]]; then
   exit 0
 fi
 
+if [[ $OSTYPE == "darwin"* ]]; then
+  echo "osx"
+  exit 0
+fi
+
 echo "unknown distro" 1>&2
 exit 1

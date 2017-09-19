@@ -1,11 +1,11 @@
-steps += initialize
+steps += nvim-setup
 
 build += $(HOME)/.vim
 build += $(HOME)/.config/nvim
 build += $(HOME)/.vimrc
 
-initialize:
-	@once dein "nvim -u setup.vim"
+nvim-setup:
+	@once nvim-setup "nvim -u setup.vim"
 
 $(HOME)/.vimrc: vimrc
 	$(Q)$(link) $@ $<

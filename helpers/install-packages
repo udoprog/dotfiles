@@ -12,6 +12,9 @@ case $distro in
 "gentoo")
     exec install-if-newer gentoo "sudo emerge"
     ;;
+"osx")
+    exec install-if-newer brew "brew install"
+    ;;
 *)
     echo "Unsupported distro: $distro"
     exit 1
