@@ -5,13 +5,13 @@ build += $(HOME)/.config/nvim
 build += $(HOME)/.vimrc
 
 nvim-setup:
-	@once nvim-setup "nvim -u setup.vim"
+	@once nvim-setup "nvim -u $(ROOT)/vim/setup.vim"
 
-$(HOME)/.vimrc: vimrc
+$(HOME)/.vimrc: $(ROOT)/vim/vimrc
 	$(Q)$(link) $@ $<
 
-$(HOME)/.vim: .
+$(HOME)/.vim: $(ROOT)/vim
 	$(Q)$(link) $@ $<
 
-$(HOME)/.config/nvim: .
+$(HOME)/.config/nvim: $(ROOT)/vim
 	$(Q)$(link) $@ $<

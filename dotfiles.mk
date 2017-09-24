@@ -4,13 +4,13 @@ steps += packages
 steps += jshint
 
 targets += targets/configs.mk
-targets += targets/mutt.mk
-targets += targets/links.mk
-targets += targets/oh-my-zsh.mk
 targets += targets/dein.mk
+targets += targets/links.mk
+targets += targets/mutt.mk
+targets += targets/oh-my-zsh.mk
 targets += targets/rust.mk
+targets += targets/vim.mk
 targets-$(has-systemd) += targets/reposync.mk
-targets += vim/build.mk
 
 $(ROOT)/.submodules: $(ROOT)/.gitmodules
 	run-with-state $@ "git submodule update --init"
