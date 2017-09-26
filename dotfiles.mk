@@ -1,7 +1,6 @@
 steps += $(CACHE)
 steps += $(ROOT)/.submodules
 steps += packages
-steps += jshint
 
 targets += targets/configs.mk
 targets += targets/dein.mk
@@ -11,6 +10,8 @@ targets += targets/oh-my-zsh.mk
 targets += targets/rust.mk
 targets += targets/vim.mk
 targets-$(has-systemd) += targets/reposync.mk
+
+once += jshint
 
 $(ROOT)/.submodules: $(ROOT)/.gitmodules
 	run-with-state $@ "git submodule update --init"
@@ -22,7 +23,7 @@ packages:
 	install-if-newer gem "gem install --user"
 
 jshint:
-	once jshint "npm install jshint"
+	npm install jshint
 
 $(CACHE):
 	mkdir -p $@

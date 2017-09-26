@@ -1,11 +1,15 @@
-steps += nvim-setup
-
 build += $(HOME)/.vim
 build += $(HOME)/.config/nvim
 build += $(HOME)/.vimrc
 
-nvim-setup:
-	@once nvim-setup "nvim -u $(ROOT)/vim/setup.vim"
+once += nvim-setup
+once += nvim-python
+
+nvim-setup: nvim-python
+	nvim -u $(ROOT)/vim/setup.vim
+
+nvim-python:
+	pip3 install --user --upgrade neovim
 
 $(HOME)/.vimrc: $(ROOT)/vim/vimrc
 	$(Q)$(link) $@ $<

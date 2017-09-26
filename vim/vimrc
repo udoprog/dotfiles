@@ -14,6 +14,7 @@ colorscheme molokai
 set t_Co=256
 set sw=4
 set tabstop=4
+set number
 set expandtab
 set modelines=5
 set novisualbell
@@ -122,6 +123,7 @@ nmap <C-l> :tabn<CR>
 " }}}
 
 " {{{ Plugin Settings
+let g:deoplete#enable_at_startup = 1
 let g:vim_markdown_folding_disabled = 1
 
 let NERDTreeIgnore=['\.o$', '\.pyc$', '\~$']
@@ -313,4 +315,17 @@ set cscopetag
 if filereadable('cscope.out')
   cs add cscope.out
 endif
+" }}}
+
+" {{{ language client
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+    \ }
+
+" Automatically start language servers.
+let g:LanguageClient_autoStart = 1
+
+nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 " }}}

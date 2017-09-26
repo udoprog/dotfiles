@@ -6,6 +6,8 @@ ifndef ROOT
 $(error ROOT is not set, are you calling Makefile.build directly?)
 endif
 
+STATE := $(ROOT)/state
+
 ifndef target-file
 $(error target-file is not set)
 endif
@@ -17,6 +19,7 @@ make-opts := -s --no-print-directory
 endif
 
 # helpers
+missing-file = $(shell test -f $(1) && echo "n" || echo "y")
 has-file = $(shell test -f $(1) && echo "y" || echo "n")
 has-dir = $(shell test -d $(1) && echo "y" || echo "n")
 bin-path = $(shell command -v $(1))
@@ -25,6 +28,24 @@ has-command = $(if $(call bin-path,$(1)),"y","n")
 target-file := $(realpath $(target-file))
 target-dir := $(shell dirname $(target-file))
 has-systemd := $(call has-command,systemctl)
+
+# special newline variable
+define \n
+
+
+endef
+
+# create a setup-once rule that conditionally builds a target once if the state file is missing
+define setup-once
+missing-$(1) := $$(call missing-file,$$(STATE)/$(1))
+build-$$(missing-$(1)) += $$(STATE)/$(1)
+steps-$$(missing-$(1)) += $(1)
+
+.PHONY: $(1)
+
+$$(STATE)/$(1): | $(1)
+	touch $$(STATE)/$(1)
+endef
 
 config := $(ROOT)/config.yml
 facts := $(ROOT)/facts.yml
@@ -50,7 +71,11 @@ sd-unit-y :=
 sd-timer :=
 sd-timer-y :=
 steps :=
+steps-y :=
 post-hook :=
+# Targets that should be run once. Target will be set as PHONY.
+once :=
+# Additional target makefiles to run.
 targets :=
 
 $(HOME)/%: $(ROOT)/home/% $(cdeps)
@@ -63,6 +88,10 @@ sd-unit := $(sd-unit) $(sd-unit-y)
 sd-timer := $(sd-timer) $(sd-timer-y)
 targets := $(targets) $(targets-y)
 
+$(eval \
+	$(foreach c,$(once), \
+		$(call setup-once,$(c)) $(\n)))
+
 # convert special targets to regular build targets
 build-$(has-systemd) += $(sd-unit:%=$(systemd-user)/%)
 build-$(has-systemd) += $(sd-service:%=$(systemd-user)/default.target.wants/%)
@@ -70,6 +99,7 @@ build-$(has-systemd) += $(sd-timer:%=$(systemd-user)/timers.target.wants/%)
 build += $(bins:%=$(BIN)/%)
 
 build := $(build) $(build-y)
+steps := $(steps) $(steps-y)
 
 # real entry point
 __all: $(ROOT) $(REPO) $(build) $(steps) $(post-hook) $(targets)

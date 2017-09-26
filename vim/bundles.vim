@@ -11,7 +11,10 @@ if dein#load_state(resolve(expand("~/.dein")))
   call dein#begin(resolve(expand("~/.dein")))
 
   call dein#add('Shougo/dein.vim')
-  call dein#add('Shougo/neocomplete.vim')
+  call dein#add('Shougo/deoplete.nvim')
+
+  " language client (e.g. RLS)
+  call dein#add('autozimu/LanguageClient-neovim')
 
   " basics
   " call dein#add("scrooloose/syntastic")
