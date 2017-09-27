@@ -9,6 +9,7 @@ targets += targets/mutt.mk
 targets += targets/oh-my-zsh.mk
 targets += targets/rust.mk
 targets += targets/vim.mk
+targets += targets/vscode.mk
 targets-$(has-systemd) += targets/reposync.mk
 
 once += jshint

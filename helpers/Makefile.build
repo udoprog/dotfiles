@@ -6,7 +6,9 @@ ifndef ROOT
 $(error ROOT is not set, are you calling Makefile.build directly?)
 endif
 
-STATE := $(ROOT)/state
+export STATE := $(ROOT)/state
+export FILES := $(ROOT)/files
+export HELPERS := $(ROOT)/helpers
 
 ifndef target-file
 $(error target-file is not set)
@@ -18,6 +20,7 @@ else
 make-opts := -s --no-print-directory
 endif
 
+is-distro = $(if $(filter $(1),$(DISTRO)),y,n)
 # helpers
 missing-file = $(shell test -f $(1) && echo "n" || echo "y")
 has-file = $(shell test -f $(1) && echo "y" || echo "n")
@@ -75,6 +78,8 @@ steps-y :=
 post-hook :=
 # Targets that should be run once. Target will be set as PHONY.
 once :=
+# Conditionally build once.
+once-y :=
 # Additional target makefiles to run.
 targets :=
 
@@ -87,6 +92,7 @@ include $(target-file)
 sd-unit := $(sd-unit) $(sd-unit-y)
 sd-timer := $(sd-timer) $(sd-timer-y)
 targets := $(targets) $(targets-y)
+once := $(once) $(once-y)
 
 $(eval \
 	$(foreach c,$(once), \
