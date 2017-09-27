@@ -3,10 +3,15 @@ candidates=(
     $HOME/.npm/bin
     $HOME/node_modules/.bin
     $HOME/.local/bin
-    $HOME/.gem/ruby/2.3.0/bin
     $HOME/.rvm/bin
     $HOME/.cargo/bin
 )
+
+if [[ -d $HOME/.gem/ruby ]]; then
+    while read ver; do
+        candidates+=($HOME/.gem/ruby/$ver/bin)
+    done < <(ls -1 $HOME/.gem/ruby)
+fi
 
 for p in ${candidates[*]}; do
     if [[ -d $p ]]; then
