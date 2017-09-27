@@ -25,7 +25,7 @@ is-distro = $(if $(filter $(1),$(DISTRO)),y,n)
 missing-file = $(shell test -f $(1) && echo "n" || echo "y")
 has-file = $(shell test -f $(1) && echo "y" || echo "n")
 has-dir = $(shell test -d $(1) && echo "y" || echo "n")
-bin-path = $(shell command -v $(1))
+bin-path = $(shell command -v $(1) 2>&1 /dev/null)
 has-command = $(if $(call bin-path,$(1)),"y","n")
 
 target-file := $(realpath $(target-file))
