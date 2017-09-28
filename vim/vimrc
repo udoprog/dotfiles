@@ -123,7 +123,6 @@ nmap <C-l> :tabn<CR>
 " }}}
 
 " {{{ Plugin Settings
-let g:deoplete#enable_at_startup = 1
 let g:vim_markdown_folding_disabled = 1
 
 let NERDTreeIgnore=['\.o$', '\.pyc$', '\~$']
@@ -150,9 +149,9 @@ if exists("g:loaded_syntastic_plugin")
 endif
 " }}}
 
-nnoremap <leader>t :CommandT<cr>
+nnoremap <leader>t :Files<cr>
 nnoremap <leader>r :NERDTreeFind<cr>
-map <F2> :NERDTreeToggle<CR>
+map <F3> :NERDTreeToggle<CR>
 " }}}
 
 " {{{ FileType Setup
@@ -204,10 +203,14 @@ function! SetupRust()
   let $RUST_SRC_PATH = resolve(expand("~/repo/rust/src"))
   set expandtab
 
-  nmap gd <Plug>(rust-def)
-  nmap gs <Plug>(rust-def-split)
-  nmap gx <Plug>(rust-def-vertical)
-  nmap <leader>gd <Plug>(rust-doc)
+  " nmap gd <Plug>(rust-def)
+  " nmap gs <Plug>(rust-def-split)
+  " nmap gx <Plug>(rust-def-vertical)
+  " nmap <leader>gd <Plug>(rust-doc)
+
+  nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+  nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+  nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 endfunction
 
 function! SetupClojure()
@@ -323,9 +326,6 @@ let g:LanguageClient_serverCommands = {
     \ }
 
 " Automatically start language servers.
+let g:deoplete#enable_at_startup = 1
 let g:LanguageClient_autoStart = 1
-
-nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
 " }}}
