@@ -14,6 +14,11 @@ has-maven := $(call has-file,$(MVN))
 
 build-$(has-maven) += $(BIN)/mvn
 
+FIREFOX := $(HOME)/usr/firefox/firefox
+has-firefox := $(call has-file,$(FIREFOX))
+
+build-$(has-firefox) := $(BIN)/firefox
+
 bins += reposync
 bins += repologs
 bins += upd
@@ -30,4 +35,7 @@ $(BIN)/idea: $(IDEA)
 	relative-ln $@ $<
 
 $(BIN)/mvn: $(MVN)
+	relative-ln $@ $<
+
+$(BIN)/firefox: $(FIREFOX)
 	relative-ln $@ $<
