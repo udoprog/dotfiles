@@ -1,4 +1,4 @@
-# Udoprog's Dotfiles
+# udoprog's dotfiles
 
 I use a simple build-system which initially only depends on Make and Bash.
 
