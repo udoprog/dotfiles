@@ -1,8 +1,122 @@
 #!/usr/bin/env python3
 import os
 import sys
+import subprocess as sp
+import contextlib
+import time
 
-root=os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0])))
+# 10 minutes
+UPDATE_TIMEOUT = 60 * 10
+
+def touch_last_sync(last_sync):
+    def inner():
+        os.makedirs(os.path.dirname(last_sync), exist_ok=True)
+        open(last_sync, 'w')
+
+    return inner
+
+def needs_update(root):
+    last_sync = os.path.join(root, 'state', 'last-sync')
+    not_found = False
+
+    try:
+        st = os.stat(last_sync)
+    except FileNotFoundError as e:
+        not_found = True
+
+    if not not_found:
+        now = time.time()
+        diff = now - st.st_mtime
+
+        if diff < UPDATE_TIMEOUT:
+            return (False, lambda: None)
+
+    return True, touch_last_sync(last_sync)
+
+class Git:
+    def __init__(self, root):
+        self.root = root
+
+    def __git_run(self, *args):
+        full = ["git"] + list(args)
+        p = sp.Popen(full, cwd=self.root)
+        p.wait()
+
+        if p.returncode != 0:
+            raise Exception("non-zero exit status: {}: {}".format(full.join(" "), p.returncode))
+
+    def __git_status(self, *args):
+        p = sp.Popen(["git"] + list(args), cwd=self.root)
+        p.wait()
+        return p.returncode
+
+    def __git_out(self, *args):
+        full = ["git"] + list(args)
+        p = sp.Popen(full, stdout=sp.PIPE, cwd=self.root)
+        (out, _) = p.communicate()
+
+        if p.returncode != 0:
+            raise Exception("non-zero exit status: {}: {}".format(full.join(" "), p.returncode))
+
+        return out
+
+    def get_head(self):
+        return self.__git_out("rev-parse", "HEAD").strip()
+
+    def get_refs(self):
+        out = self.__git_out("ls-remote", "origin")
+
+        refs = dict()
+
+        for line in out.split(b'\n'):
+            line = line.strip()
+
+            if line == b'':
+                continue
+
+            commit, name = line.split(b'\t')
+            refs[name] = commit
+
+        return refs
+
+    def merge_base(self, a, b):
+        return self.__git_out("merge-base", a, b).strip()
+
+    def needs_update(self):
+        refs = self.get_refs()
+        head = self.get_head()
+        remote_head = refs.get(b'refs/heads/master')
+
+        if remote_head != head:
+            # check if remote is a base
+            return self.merge_base(remote_head, head) != remote_head
+
+        return False
+
+    def is_fresh(self):
+        """
+        Check if the local repository has not been modified without comitting.
+        """
+        return self.__git_status('diff-index', '--quiet', 'HEAD') == 0
+
+    def update(self):
+        self.__git_run('fetch', 'origin', 'master')
+        self.__git_run('merge', '--ff-only', 'FETCH_HEAD')
+
+root = os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0])))
+
+git = Git(root)
+
+(needs_update, touch) = needs_update(root)
+
+if needs_update:
+    if git.needs_update():
+        if git.is_fresh():
+            print('dotfiles: updating...')
+            git.update()
+
+    touch()
+
 args = ['make', '--no-print-directory', '-C', root]
 args.extend(sys.argv[1:])
 os.execvp('make', args)
