@@ -5,6 +5,7 @@ candidates=(
     $HOME/.local/bin
     $HOME/.rvm/bin
     $HOME/.cargo/bin
+    $HOME/google-cloud-sdk/bin
 )
 
 if [[ -d $HOME/.gem/ruby ]]; then
