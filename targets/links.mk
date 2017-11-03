@@ -21,6 +21,7 @@ build-$(has-firefox) := $(BIN)/firefox
 
 bins += reposync
 bins += repologs
+bins += git-remote-age
 bins += upd
 bins += patch-from-mutt
 bins += apply-incoming
