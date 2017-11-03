@@ -1,0 +1,78 @@
+#!/bin/bash
+#
+# Take a repo, move it into tmpfs.
+# tmpfs is an in-memory filesystem, and putting certain large repos *cough - linux - cough* is
+# beneficial.
+
+set -e
+
+SHM=${SHM:-/dev/shm}
+
+if [[ -z $SHM ]]; then
+    echo "SHM: not set"
+    exit 1
+fi
+
+if [[ ! -d $SHM ]]; then
+    echo "No such directory: $SHM"
+    exit 1
+fi
+
+action="setup"
+
+while true; do
+    case "$1" in
+        "-d") action="delete"; shift ;;
+        *) break ;;
+    esac
+done
+
+target=$1
+
+if [[ -z $target ]]; then
+    echo "Usage: $0 [-d] <path>"
+    exit 1
+fi
+
+if [[ -L $target ]]; then
+    echo "Target is a symlink: $target"
+    exit 1
+fi
+
+if ! target=$(realpath $target); then
+    exit 1
+fi
+
+base=repo-$UID-$(basename $target)
+shm_source=$SHM/$base
+shm_target=$target.shm
+
+function do_delete() {
+    if [[ ! -d $shm_source ]]; then
+        echo "No such directory: $shm_source"
+        exit 1
+    fi
+
+    echo "Deleting: $shm_target"
+    rm -f $shm_target
+    rm -rf $shm_source
+    echo "Done deleting: $shm_target"
+}
+
+function do_setup() {
+    echo "Syncing $target -> $shm_source"
+    rsync -ra $target/ $shm_source/
+    ln -s $shm_source $shm_target
+    echo "Done setting up: $shm_target"
+}
+
+case "$action" in
+    "delete") do_delete ;;
+    "setup") do_setup ;;
+    *)
+        echo "Unknown action: $action"
+        exit 1
+        ;;
+esac
+
+exit 0
