@@ -12,6 +12,9 @@ case $distro in
 "gentoo")
     exec install-if-newer gentoo "gentoo-install"
     ;;
+"debian")
+    exec install-if-newer debian "apt-get install -y"
+    ;;
 "osx")
     exec install-if-newer brew "brew install"
     ;;

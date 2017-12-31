@@ -94,6 +94,8 @@ sd-timer := $(sd-timer) $(sd-timer-y)
 targets := $(targets) $(targets-y)
 once := $(once) $(once-y)
 
+targets := $(filter-out $(EXCLUDE_TARGETS), $(targets))
+
 $(eval \
 	$(foreach c,$(once), \
 		$(call setup-once,$(c)) $(\n)))

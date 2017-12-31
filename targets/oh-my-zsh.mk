@@ -2,5 +2,10 @@ url := https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/ins
 
 once += oh-my-zsh
 
-oh-my-zsh:
-	curl -fsSL $(url) | sh
+setup := $(ROOT)/cache/oh-my-zsh.zsh
+
+$(setup):
+	curl -fsSL $(url) > $(setup)
+
+oh-my-zsh: $(setup)
+	sh $(setup) || true

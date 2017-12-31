@@ -7,6 +7,7 @@ once += nvim-python
 
 nvim-setup: nvim-python
 	nvim -u $(ROOT)/vim/setup.vim
+	nvim -c 'call dein#update() | q!'
 
 nvim-python:
 	pip3 install --user --upgrade neovim
@@ -18,4 +19,5 @@ $(HOME)/.vim: $(ROOT)/vim
 	$(Q)$(link) $@ $<
 
 $(HOME)/.config/nvim: $(ROOT)/vim
+	mkdir -p $(HOME)/.config
 	$(Q)$(link) $@ $<

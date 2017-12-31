@@ -2,8 +2,8 @@ mutt := $(HOME)/.mutt
 
 profiles := $(shell tpl keys mail)
 
-sd-unit += offlineimap@.service
-sd-unit += offlineimap@.timer
+# sd-unit += offlineimap@.service
+# sd-unit += offlineimap@.timer
 
 sd-timer += $(profiles:%=offlineimap@%.timer)
 

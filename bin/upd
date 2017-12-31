@@ -43,7 +43,7 @@ class Git:
         p.wait()
 
         if p.returncode != 0:
-            raise Exception("non-zero exit status: {}: {}".format(full.join(" "), p.returncode))
+            raise Exception("non-zero exit status: {}: {}".format(" ".join(full), p.returncode))
 
     def __git_status(self, *args):
         p = sp.Popen(["git"] + list(args), cwd=self.root)
@@ -56,7 +56,7 @@ class Git:
         (out, _) = p.communicate()
 
         if p.returncode != 0:
-            raise Exception("non-zero exit status: {}: {}".format(full.join(" "), p.returncode))
+            raise Exception("non-zero exit status: {}: {}".format(" ".join(full), p.returncode))
 
         return out
 
