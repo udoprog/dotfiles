@@ -39,29 +39,41 @@ class Git:
     def __init__(self, root):
         self.root = root
 
+    def __git(self, *args):
+        full = [b'git']
+
+        for arg in args:
+            if isinstance(arg, str):
+                full.append(arg.encode('utf-8'))
+            else:
+                full.append(arg)
+
+        return full
+
     def __git_run(self, *args):
-        full = ['git'] + list(args)
+        full = self.__git(*args)
         p = sp.Popen(full, cwd=self.root)
         p.wait()
 
         if p.returncode != 0:
-            cmd = " ".join(full)
+            cmd = b' '.join(full).decode('utf-8')
             raise Exception(
                 'non-zero exit status: {}: {}'.format(cmd, p.returncode)
             )
 
     def __git_status(self, *args):
-        p = sp.Popen(['git'] + list(args), cwd=self.root)
+        full = self.__git(*args)
+        p = sp.Popen(full, cwd=self.root)
         p.wait()
         return p.returncode
 
     def __git_out(self, *args):
-        full = ['git'] + list(args)
+        full = self.__git(*args)
         p = sp.Popen(full, stdout=sp.PIPE, cwd=self.root)
         (out, _) = p.communicate()
 
         if p.returncode != 0:
-            cmd = " ".join(full)
+            cmd = b' '.join(full).decode('utf-8')
             raise Exception(
                 'non-zero exit status: {}: {}'.format(cmd, p.returncode)
             )
@@ -69,31 +81,15 @@ class Git:
         return out
 
     def get_head(self):
-        return self.__git_out("rev-parse", "HEAD").strip()
-
-    def get_refs(self):
-        out = self.__git_out("ls-remote", "origin")
-
-        refs = dict()
-
-        for line in out.split(b'\n'):
-            line = line.strip()
-
-            if line == b'':
-                continue
-
-            commit, name = line.split(b'\t')
-            refs[name] = commit
-
-        return refs
+        return self.__git_out('rev-parse', 'HEAD').strip()
 
     def merge_base(self, a, b):
         return self.__git_out('merge-base', a, b).strip()
 
     def needs_update(self):
-        refs = self.get_refs()
+        self.__git_run('fetch', 'origin', 'master')
+        remote_head = self.__git_out('rev-parse', 'FETCH_HEAD').strip()
         head = self.get_head()
-        remote_head = refs.get(b'refs/heads/master')
 
         if remote_head != head:
             # check if remote is a base
