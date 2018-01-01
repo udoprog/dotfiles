@@ -118,10 +118,7 @@ class Git:
 
         if remote_head != head:
             # check if remote is a base
-            try:
-                return self.merge_base(remote_head, head) != remote_head
-            except:
-                return True
+            return self.merge_base(remote_head, head) != remote_head
 
         return False
 
@@ -164,12 +161,9 @@ if __name__ == '__main__':
             yes = query_yes_no('Do you want to check for dotfile updates?')
 
         if yes:
-            if not git.is_fresh() and not force:
-                print('Error: Git directory contains changes: {}'.format(root))
-                print('Ignore by defining: DOTFILES_UPDATE=force')
-            else:
+            if git.is_fresh() or force:
                 if git.needs_update():
-                    print('dotfiles: updating...')
+                    print('Updating dotfiles...')
 
                     if force:
                         git.force_update()
@@ -178,7 +172,10 @@ if __name__ == '__main__':
 
                     updated = True
 
-            touch()
+                touch()
+            else:
+                print('Error: Git directory contains changes: {}'.format(root))
+                print('Ignore by defining: DOTFILES_UPDATE=force')
 
     should_run = not updates_only or updates_only and updated
 
