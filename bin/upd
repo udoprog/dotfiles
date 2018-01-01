@@ -161,21 +161,17 @@ if __name__ == '__main__':
             yes = query_yes_no('Do you want to check for dotfile updates?')
 
         if yes:
-            if git.is_fresh() or force:
-                if git.needs_update():
-                    print('Updating dotfiles...')
+            if git.needs_update():
+                print('Updating dotfiles...')
 
-                    if force:
-                        git.force_update()
-                    else:
-                        git.update()
+                if force:
+                    git.force_update()
+                else:
+                    git.update()
 
-                    updated = True
+                updated = True
 
-                touch()
-            else:
-                print('Error: Git directory contains changes: {}'.format(root))
-                print('Ignore by defining: DOTFILES_UPDATE=force')
+            touch()
 
     should_run = not updates_only or updates_only and updated
 
