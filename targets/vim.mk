@@ -6,7 +6,7 @@ once += nvim-setup
 once += nvim-python
 
 nvim-setup: nvim-python
-	nvim -u $(ROOT)/vim/setup.vim
+	VIMINIT='source ~/.vim/bundles.vim | call dein#install() | q!' nvim
 	nvim -c 'call dein#update() | q!'
 
 nvim-python:
