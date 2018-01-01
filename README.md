@@ -1,5 +1,7 @@
 # udoprog's dotfiles
 
+This is a simple framework for managing dotfiles.
+
 To get started, run:
 
 ```bash
