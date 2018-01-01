@@ -6,4 +6,5 @@ plugins=(
 {{/zsh_plugins}}
 )
 source $ZSH/oh-my-zsh.sh
+source ~/.profile
 source ~/.zshrc_custom

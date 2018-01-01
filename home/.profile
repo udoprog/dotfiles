@@ -20,13 +20,21 @@ for p in ${candidates[*]}; do
     fi
 done
 
-export EDITOR=nvim
-export RUST_SRC_PATH=$HOME/repo/rust/src
+if [[ -d $HOME/repo/rust/src ]]; then
+    export RUST_SRC_PATH=$HOME/repo/rust/src
+fi
 
-export PATH
+if [[ -d $HOME/usr/go ]]; then
+    export GOPATH=$HOME/usr/go
+fi
+
+if command -t nvim > /dev/null 2>&1; then
+    export EDITOR=nvim
+else
+    export EDITOR=nano
+fi
+
 export CORRECT_IGNORE='_*:.*'
-
 export DEBEMAIL="{{email}}"
 export DEBFULLNAME="{{name}}"
-
-export GOPATH=$HOME/usr/go
+export PATH

@@ -1,5 +1,4 @@
 # vim: filetype=zsh
-source $HOME/.profile
 
 # Prefix PS1 with current schroot name if viable.
 if [[ -n $SCHROOT_CHROOT_NAME ]]; then
