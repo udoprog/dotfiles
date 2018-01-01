@@ -8,6 +8,31 @@ import time
 UPDATE_TIMEOUT = 60 * 10
 
 
+def query_yes_no(question, default="yes"):
+    valid = {"yes": True, "y": True, "ye": True, "no": False, "n": False}
+
+    if default is None:
+        prompt = " [y/n] "
+    elif default == "yes":
+        prompt = " [Y/n] "
+    elif default == "no":
+        prompt = " [y/N] "
+    else:
+        raise ValueError("invalid default answer: '%s'" % default)
+
+    while True:
+        sys.stdout.write(question + prompt)
+        choice = input().lower()
+
+        if default is not None and choice == '':
+            return valid[default]
+        elif choice in valid:
+            return valid[choice]
+        else:
+            sys.stdout.write("Please respond with 'yes' or 'no' "
+                             "(or 'y' or 'n').\n")
+
+
 def touch_last_sync(last_sync):
     def inner():
         os.makedirs(os.path.dirname(last_sync), exist_ok=True)
@@ -107,11 +132,9 @@ class Git:
         return self.__git_status('diff-index', '--quiet', 'HEAD') == 0
 
     def force_update(self):
-        self.__git_run('fetch', 'origin', 'master')
         self.__git_run('reset', '--hard', 'FETCH_HEAD')
 
     def update(self):
-        self.__git_run('fetch', 'origin', 'master')
         self.__git_run('merge', '--ff-only', 'FETCH_HEAD')
 
 
@@ -119,26 +142,50 @@ if __name__ == '__main__':
     root = os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0])))
 
     try:
-        force = os.environ['DOTFILES_UPDATE'] == 'force'
+        opts = os.environ['DOTFILES_UPDATE'].split(',')
     except KeyError:
-        force = False
+        opts = list()
+
+    force = 'force' in opts
+    noninteractive = 'noninteractive' in opts
+    # only run on updates
+    updates_only = 'updates-only' in opts
+
+    updated = False
 
     git = Git(root)
 
     (needs_update, touch) = needs_update(root)
 
     if needs_update:
-        if git.needs_update():
-            if git.is_fresh():
-                print('dotfiles: updating...')
+        yes = True
 
-                if force:
-                    git.force_update()
-                else:
-                    git.update()
+        if not noninteractive:
+            yes = query_yes_no('Do you want to check for dotfile updates?')
 
-        touch()
+        if yes:
+            if not git.is_fresh() and not force:
+                print('Error: Git directory contains changes: {}'.format(root))
+                print('Ignore by defining: DOTFILES_UPDATE=force')
+            else:
+                if git.needs_update():
+                    print('dotfiles: updating...')
 
-    args = ['make', '--no-print-directory', '-C', root]
-    args.extend(sys.argv[1:])
-    os.execvp('make', args)
+                    if force:
+                        git.force_update()
+                    else:
+                        git.update()
+
+                    updated = True
+
+            touch()
+
+    should_run = not updates_only or updates_only and updated
+
+    if should_run:
+        if updates_only:
+            print('Updates found, running `upd`...')
+
+        args = ['make', '--no-print-directory', '-C', root]
+        args.extend(sys.argv[1:])
+        os.execvp('make', args)

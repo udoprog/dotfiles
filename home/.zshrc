@@ -8,3 +8,7 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 source ~/.profile
 source ~/.zshrc_custom
+
+if command -v upd > /dev/null 2>&1; then
+    DOTFILES_UPDATE=updates-only upd
+fi
