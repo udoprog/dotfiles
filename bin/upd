@@ -122,11 +122,10 @@ class Git:
 if __name__ == '__main__':
     root = os.path.dirname(os.path.dirname(os.path.realpath(sys.argv[0])))
 
-    force = False
-
-    for arg in sys.argv[1:]:
-        if arg == '--force':
-            force = True
+    try:
+        force = os.environ['DOTFILES_UPDATE'] == 'force'
+    except KeyError:
+        force = False
 
     git = Git(root)
 

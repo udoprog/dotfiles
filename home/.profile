@@ -28,7 +28,7 @@ if [[ -d $HOME/usr/go ]]; then
     export GOPATH=$HOME/usr/go
 fi
 
-if command -t nvim > /dev/null 2>&1; then
+if command -v nvim > /dev/null 2>&1; then
     export EDITOR=nvim
 else
     export EDITOR=nano

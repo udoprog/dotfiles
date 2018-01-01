@@ -39,10 +39,14 @@ define \n
 endef
 
 # create a setup-once rule that conditionally builds a target once if the state file is missing
+# variables set up:
+# once-state-y - contains all state files that will be created, useful for depending on things that
+# should happen after all once have been setup.
 define setup-once
 missing-$(1) := $$(call missing-file,$$(STATE)/$(1))
 build-$$(missing-$(1)) += $$(STATE)/$(1)
 steps-$$(missing-$(1)) += $(1)
+once-state-$$(missing-$(1)) += $$(STATE)/$(1)
 
 .PHONY: $(1)
 
@@ -83,9 +87,6 @@ once-y :=
 # Additional target makefiles to run.
 targets :=
 
-$(HOME)/%: $(ROOT)/home/% $(cdeps)
-	tpl render $(ROOT)/home/$* $@
-
 # include target file with build rules
 include $(target-file)
 
@@ -109,6 +110,9 @@ build += $(bins:%=$(BIN)/%)
 build := $(build) $(build-y)
 steps := $(steps) $(steps-y)
 
+$(HOME)/%: $(ROOT)/home/% $(cdeps) | $(once-state-y)
+	tpl render $(ROOT)/home/$* $@
+
 # real entry point
 __all: $(ROOT) $(REPO) $(build) $(steps) $(post-hook) $(targets)
 
@@ -124,7 +128,7 @@ $(targets):
 		-f $(ROOT)/helpers/Makefile.build \
 		target-file=$(target-dir)/$@
 
-$(BIN)/%: $(ROOT)/bin/%
+$(BIN)/%: $(ROOT)/bin/% | $(once-state-y)
 	@echo "Linking $@ -> $<"
 	$(link) $@ $<
 
