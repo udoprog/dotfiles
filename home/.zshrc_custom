@@ -42,6 +42,7 @@ fi
 
 {{#mail.items()}}
 alias mutt.{{key}}="mutt -F ~/.mutt/accounts/{{key}}"
+alias offlineimap.{{key}}="offlineimap -c ~/.offlineimap/{{key}}.rc"
 {{/mail.items()}}
 
 alias ccache-enable="source $HOME/.ccacherc"
