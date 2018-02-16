@@ -149,7 +149,7 @@ if exists("g:loaded_syntastic_plugin")
 endif
 " }}}
 
-nnoremap <leader>t :Files<cr>
+nnoremap <leader>t :GFiles<cr>
 nnoremap <leader>r :NERDTreeFind<cr>
 map <F3> :NERDTreeToggle<CR>
 " }}}
@@ -197,10 +197,10 @@ endfunction
 function! SetupRust()
   "compiler cargo
   let g:rustfmt_autosave = 1
-  let g:racer_experimental_completer = 1
+  " let g:racer_experimental_completer = 1
   set hidden
-  let g:racer_cmd = resolve(expand("~/.cargo/bin/racer"))
-  let $RUST_SRC_PATH = resolve(expand("~/repo/rust/src"))
+  " let g:racer_cmd = resolve(expand("~/.cargo/bin/racer"))
+  " let $RUST_SRC_PATH = resolve(expand("~/repo/rust/src"))
   set expandtab
 
   " nmap gd <Plug>(rust-def)
@@ -282,7 +282,7 @@ if has("autocmd")
   autocmd BufNewFile,BufRead *.ts :call SetupTS()
   autocmd BufNewFile,BufRead pom.xml :call SetupPOM()
 
-  autocmd! BufWritePost *.rs Neomake cargo
+  " autocmd! BufWritePost *.rs Neomake cargo
 endif
 " }}}
 
