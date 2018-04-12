@@ -5,6 +5,7 @@ candidates=(
     $HOME/.local/bin
     $HOME/.rvm/bin
     $HOME/.cargo/bin
+    $HOME/.reproto/bin
     $HOME/google-cloud-sdk/bin
     $HOME/go/bin
 )
