@@ -4,9 +4,8 @@ import sys
 import subprocess as sp
 import time
 
-# 1 day
-UPDATE_TIMEOUT = 60 * 60 * 24
-
+# 3 day
+UPDATE_TIMEOUT = 60 * 60 * 24 * 3
 
 def query_yes_no(question, default="yes"):
     valid = {"yes": True, "y": True, "ye": True, "no": False, "n": False}
@@ -152,9 +151,12 @@ if __name__ == '__main__':
 
     git = Git(root)
 
-    (needs_update, touch) = needs_update(root)
+    (do_update, touch) = needs_update(root)
 
-    if needs_update:
+    if do_update and not os.isatty(sys.stdout.fileno()):
+        do_update = False
+
+    if do_update:
         yes = True
 
         if not noninteractive:
