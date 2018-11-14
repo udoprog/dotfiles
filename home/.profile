@@ -1,30 +1,36 @@
-candidates=(
-    $HOME/usr/bin
-    $HOME/.npm/bin
-    $HOME/node_modules/.bin
-    $HOME/.local/bin
-    $HOME/.rvm/bin
-    $HOME/.cargo/bin
-    $HOME/.reproto/bin
-    $HOME/google-cloud-sdk/bin
-    $HOME/go/bin
-)
+candidates=()
+# Directories which have a versioned release in them with a <version>/bin directory.
+version_dirs=()
 
-if [[ -d $HOME/.gem/ruby ]]; then
-    while read ver; do
-        candidates+=($HOME/.gem/ruby/$ver/bin)
-    done < <(ls -1 $HOME/.gem/ruby)
+if [[ ! -z $HOME ]]; then
+    candidates+=$HOME/usr/bin
+    candidates+=$HOME/.npm/bin
+    candidates+=$HOME/node_modules/.bin
+    candidates+=$HOME/.local/bin
+    candidates+=$HOME/.rvm/bin
+    candidates+=$HOME/.cargo/bin
+    candidates+=$HOME/.reproto/bin
+    candidates+=$HOME/google-cloud-sdk/bin
+    candidates+=$HOME/go/bin
+
+    version_dirs+=$HOME/.gem/ruby
+    # osx is special
+    version_dirs+=$HOME/Library/Python
 fi
+
+for d in ${version_dirs[*]}; do
+    if [[ -d $d ]]; then
+        while read ver; do
+            candidates+=($d/$ver/bin);
+        done < <(ls -1 $d)
+    fi
+done
 
 for p in ${candidates[*]}; do
     if [[ -d $p ]]; then
         PATH="$p:$PATH"
     fi
 done
-
-if [[ -d $HOME/repo/rust/src ]]; then
-    export RUST_SRC_PATH=$HOME/repo/rust/src
-fi
 
 if [[ -d $HOME/usr/go ]]; then
     export GOPATH=$HOME/usr/go
