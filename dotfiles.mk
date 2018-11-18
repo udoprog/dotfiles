@@ -1,6 +1,9 @@
 steps += $(CACHE)
 steps += $(ROOT)/.submodules
 steps += packages
+steps-$(call has-command,pip) += packages-pip
+steps-$(call has-command,pip3) += packages-pip3
+steps-$(call has-command,gem) += packages-gem
 
 targets += targets/configs.mk
 targets += targets/dein.mk
@@ -17,11 +20,17 @@ once += jshint
 $(ROOT)/.submodules: $(ROOT)/.gitmodules
 	run-with-state $@ "git submodule update --init"
 
+packages-pip:
+	install-if-newer pip "pip install --user"
+
+packages-pip3:
+	install-if-newer pip3 "pip3 install --user"
+
+packages-gem:
+	install-if-newer gem "gem install --user"
+
 packages:
 	install-packages
-	install-if-newer pip "pip install --user"
-	install-if-newer pip3 "pip3 install --user"
-	install-if-newer gem "gem install --user"
 
 jshint:
 	npm install jshint

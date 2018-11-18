@@ -30,6 +30,21 @@ def apply_scopes(db, scopes):
 
     return result
 
+
+# Used instead of None, since pystache can't cope with None.
+class EmptyType(object):
+    def __init__(self):
+        pass
+
+    def __str__(self):
+        return ""
+
+    def items(self):
+        return []
+
+
+Empty = EmptyType()
+
 class Lookup(object):
     def __init__(self, hierarchy, renderer, root, scoped):
         self._hierarchy = hierarchy
@@ -49,8 +64,9 @@ class Lookup(object):
     def _keys(self, name):
         value = self.__getitem__(name)
 
+        # NB: non-dicts have no keys
         if not isinstance(value._val, dict):
-            raise Exception('not a dict')
+            return []
 
         return value._val.keys()
 
@@ -80,7 +96,10 @@ class Lookup(object):
         if name == '':
             value = self._root
         else:
-            value = self._val[name]
+            try:
+                value = self._val[name]
+            except KeyError:
+                value = Empty
 
         if isinstance(value, list):
             return [self._lookup(v) for v in value]
@@ -120,12 +139,16 @@ class Lookup(object):
 
         c = yaml.load(open(config))
         f = yaml.load(open(facts))
+
+        if f is None:
+            f = dict()
+
         f['distro'] = os.getenv('DISTRO')
 
         hierarchy = c.get('hierarchy')
 
         if hierarchy is not None and isinstance(hierarchy, list):
-            hierarchy = [os.path.join(ns.root, h.format(**f)) for h in hierarchy]
+            hierarchy = [os.path.join(ns.root, p) for h in hierarchy for p in format_path_g(h, f)]
             hierarchy = list(filter(os.path.isfile, hierarchy))
         else:
             raise Exception(config + ": missing hierarchy")
@@ -144,3 +167,13 @@ class Lookup(object):
             scoped[key] = value
 
         return Lookup(hierarchy, renderer, root, scoped)
+
+def format_path_g(h, f):
+    try:
+        out = h.format(**f)
+    except KeyError:
+        # we don't generate the path on key error.
+        # this means we have a fact that is missing for this particular path.
+        return
+
+    yield out

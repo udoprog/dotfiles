@@ -105,6 +105,7 @@ $(eval \
 build-$(has-systemd) += $(sd-unit:%=$(systemd-user)/%)
 build-$(has-systemd) += $(sd-service:%=$(systemd-user)/default.target.wants/%)
 build-$(has-systemd) += $(sd-timer:%=$(systemd-user)/timers.target.wants/%)
+build += $(BIN)
 build += $(bins:%=$(BIN)/%)
 
 build := $(build) $(build-y)
@@ -128,13 +129,16 @@ $(targets):
 		-f $(ROOT)/helpers/Makefile.build \
 		target-file=$(target-dir)/$@
 
-$(BIN)/%: $(ROOT)/bin/% | $(once-state-y)
+$(BIN)/%: $(ROOT)/bin/% | $(BIN) $(once-state-y)
 	@echo "Linking $@ -> $<"
 	$(link) $@ $<
 
 $(config) $(facts) $(hierarchy) $(ROOT):
 	@echo "Missing: $@"
 	@exit 1
+
+$(BIN):
+	mkdir -p $@
 
 $(REPO):
 	mkdir -p $@
