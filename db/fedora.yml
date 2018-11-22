@@ -1,1 +1,27 @@
 ca_certs: /etc/ssl/certs/ca-bundle.crt
+
+packages:
+ - git
+ - nodejs
+ - tmux
+ - zsh
+ - python3
+ - ruby
+ - ruby-devel
+ - rake
+ - quassel-client
+ - transmission
+ - transmission-cli
+ - mutt
+ - offlineimap
+ - ctags
+ - cscope
+ - clusterssh
+ - pssh
+ - java-1.8.0-openjdk
+ - java-1.8.0-openjdk-devel
+ - jq
+ - gimp
+ - cmake
+ - gcc-c++
+ - procmail

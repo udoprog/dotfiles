@@ -1,1 +1,5 @@
 ca_certs: /usr/local/etc/openssl/cert.pem
+
+packages:
+ - neovim
+ - python3

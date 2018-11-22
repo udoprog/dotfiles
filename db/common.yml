@@ -3,3 +3,16 @@ primary_mail: personal
 zsh_plugins:
   - {name: git}
 mail: []
+
+gem::packages:
+ - neovim
+
+pip3::packages:
+ - pyyaml
+ - powerline-status
+ - pystache
+ - neovim
+ - typing
+
+pip::packages:
+ - offlineimap
