@@ -12,6 +12,6 @@ if [[ -f ~/.fzf.zsh ]]; then
     source ~/.fzf.zsh
 fi
 
-if command -v upd > /dev/null 2>&1; then
+if command -v quickcfg > /dev/null 2>&1; then
     quickcfg --updates-only --root $HOME/.dotfiles
 fi
