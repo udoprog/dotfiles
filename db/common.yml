@@ -8,7 +8,7 @@ gem::packages:
  - neovim
 
 pip3::packages:
- - pyyaml
+ - PyYAML
  - powerline-status
  - pystache
  - neovim

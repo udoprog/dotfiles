@@ -14,8 +14,6 @@ systems:
  - type: copy-dir
    from: vim
    to: home:.vim
- - type: install-packages
-   key: packages
  - type: download-and-run
    id: install-rust
    url: https://sh.rustup.rs
@@ -23,3 +21,8 @@ systems:
    id: install-oh-my-zsh
    url: https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh
    shell: true
+ - type: install-packages
+ - type: install-packages
+   provider: pip3
+ - type: install-packages
+   provider: pip
