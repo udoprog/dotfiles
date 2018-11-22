@@ -1,7 +1,7 @@
 set folder = ~/Mail/{{id}}
 
-set from = '{{.profile_name}} <{{email}}>'
-set realname = '{{.profile_name}}'
+set from = '{{profile_name}} <{{email}}>'
+set realname = '{{profile_name}}'
 set smtp_url = '{{smtp_url}}'
 set smtp_pass = '{{smtp_pass}}'
 

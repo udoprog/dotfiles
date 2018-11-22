@@ -1,1 +1,2 @@
+# quickcfg: primary_mail
 source ~/.mutt/accounts/{{primary_mail}}

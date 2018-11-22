@@ -1,3 +1,4 @@
+# quickcfg:
 [Unit]
 Description=RepoSync
 After=network.target

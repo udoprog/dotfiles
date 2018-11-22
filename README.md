@@ -2,10 +2,10 @@
 
 This is a simple framework for managing dotfiles.
 
-To get started, run:
+To get started, install [quickcfg] and run:
 
 ```bash
-$> bin/upd
+$> quickcfg
 ```
 
 The first step is to install system dependencies (listen in `packages/<distro>`).
@@ -21,21 +21,9 @@ profile_name: John-John Tedro
 name: John-John Tedro
 gpg_key: AABBCC
 user: udoprog
-
-mail:
-    personal:
-        email: <email>
-        smtp_url: <password>
-        smtp_pass: <password>
-        imap_url: <password>
-        imap_pass: <password>
-    other:
-        email: <other-email>
-        smtp_url: <password>
-        smtp_pass: <password>
-        imap_url: <password>
-        imap_pass: <password>
 ```
+
+[quickcfg]: https://github.com/udoprog/quickcfg
 
 # Features
 

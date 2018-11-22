@@ -1,9 +1,8 @@
+# quickcfg: zsh_theme, zsh_plugins:array
 ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="{{zsh_theme}}"
 plugins=(
-{{#zsh_plugins}}
-  {{name}}
-{{/zsh_plugins}}
+{{#each zsh_plugins}}  {{this.name}}{{/each}}
 )
 source $ZSH/oh-my-zsh.sh
 source ~/.profile
@@ -14,5 +13,5 @@ if [[ -f ~/.fzf.zsh ]]; then
 fi
 
 if command -v upd > /dev/null 2>&1; then
-    DOTFILES_UPDATE=updates-only upd
+    quickcfg --updates-only --root $HOME/.dotfiles
 fi

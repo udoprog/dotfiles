@@ -1,3 +1,4 @@
+# quickcfg: mail
 # vim: filetype=zsh
 
 # Prefix PS1 with current schroot name if viable.
@@ -40,9 +41,9 @@ if command -v nvim -> /dev/null; then
     alias vim=nvim
 fi
 
-{{#mail.items()}}
-alias mutt.{{key}}="mutt -F ~/.mutt/accounts/{{key}}"
-alias offlineimap.{{key}}="offlineimap -c ~/.offlineimap/{{key}}.rc"
-{{/mail.items()}}
+{{#each mail}}
+alias mutt.{{this}}="mutt -F ~/.mutt/accounts/{{this}}"
+alias offlineimap.{{this}}="offlineimap -c ~/.offlineimap/{{this}}.rc"
+{{/each}}
 
 alias ccache-enable="source $HOME/.ccacherc"

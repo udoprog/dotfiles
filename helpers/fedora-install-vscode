@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-set -e
-
-rpm --import https://packages.microsoft.com/keys/microsoft.asc
-cp $FILES/vscode.repo /etc/yum.repos.d/vscode.repo
-dnf check-update || true
-dnf install code

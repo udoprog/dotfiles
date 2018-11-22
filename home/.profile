@@ -1,3 +1,4 @@
+# quickcfg: email, name
 candidates=()
 # Directories which have a versioned release in them with a <version>/bin directory.
 version_dirs=()

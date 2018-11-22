@@ -1,5 +1,0 @@
-#!/bin/bash
-# runs the given command and store the state file when it has has been successfully run
-
-[[ $# != 2 ]] && echo "Usage: $0 <state-file> <command>" && exit 1
-eval "$2" && touch $1

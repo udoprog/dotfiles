@@ -1,13 +1,4 @@
-/.submodules
-/.ropeproject
-/state/
-/cache/
-/reposync-log/
 /secrets.yml
-/facts.yml
-/vim/bundle/
-!/vim/bundle/repos/github.com/Shougo/dein.vim
-/.packages-*
-__pycache__
-*.pyc
-/node_modules/
+/.state.yml
+/.state
+/.submodules

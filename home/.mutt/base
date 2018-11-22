@@ -1,3 +1,4 @@
+# quickcfg: profile_name, gpg_key
 # vim: filetype=muttrc
 
 set postponed = +drafts

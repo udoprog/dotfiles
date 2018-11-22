@@ -1,3 +1,4 @@
+# quickcfg: HOME:env
 [Unit]
 Description=OfflineIMAP
 After=network.target

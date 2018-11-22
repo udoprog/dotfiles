@@ -1,0 +1,7 @@
+packages:
+ - neovim
+ - zsh
+ - htop
+ - sysstat
+ - quassel-client
+ - emacs

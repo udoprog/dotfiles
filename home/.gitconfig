@@ -1,3 +1,4 @@
+# quickcfg: email, profile_name
 # vim: filetype=gitconfig
 [core]
     excludesfile = ~/.gitignore
