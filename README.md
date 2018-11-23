@@ -2,17 +2,13 @@
 
 This is a simple framework for managing dotfiles.
 
-To get started, install [quickcfg] and run:
+To get started you need to install [quickcfg]:
 
 ```bash
-$> quickcfg
+$> cargo +nightly install quickcfg
 ```
 
-The first step is to install system dependencies (listen in `packages/<distro>`).
-After this, all configuration files are run through [`tpl`](/utils/tpl), which runs the
-templates through pystache.
-
-You must manually populate a `secrets.yml` file, which contains passwords or other sensitive
+You must manually populate a `secrets.yml` file, which might contain passwords or other sensitive
 information.
 
 ```
@@ -23,23 +19,16 @@ gpg_key: AABBCC
 user: udoprog
 ```
 
+Make sure to chmod it to something suitable:
+
+```bash
+$> chmod 0200 secrets.yml
+```
+
+After this you can now run `quickcfg`:
+
+```bash
+$> quickcfg
+```
+
 [quickcfg]: https://github.com/udoprog/quickcfg
-
-# Features
-
-* powerline for tmux
-* airline for vim
-* mutt, configured for two different mailboxes (work and home) with corresponding aliases
-  (`mutt.work` and `mutt.home`).
-* `.profile` with paths to loads of user-local binary locations (`$HOME/usr/bin`,
-  `$HOME/.local/bin`, ...), only added if they exist.
-* `oh-my-zsh`, with a custom `~/.zshrc_custom` for customization.
-
-## repolib
-
-This comes with two utility commands, `reposync` and `repologs`.
-
-If your system has systemd, reposync will be setup to track remote repositories for all repos
-mentioned in `targets/reposync.mk`.
-
-Latest syncs can be checked by running the `repologs` command.
