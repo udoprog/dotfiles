@@ -1,4 +1,5 @@
 git_refresh: 3d
+package_refresh: 1d
 
 hierarchy:
   - secrets.yml
@@ -8,12 +9,15 @@ hierarchy:
 
 systems:
  - type: copy-dir
-   from: home
+   from: root:./home
    to: home:.
    templates: true
  - type: copy-dir
-   from: vim
+   from: root:./vim
    to: home:.vim
+ - type: link
+   path: home:.vimrc
+   link: .vim/vimrc
  - type: download-and-run
    id: install-rust
    url: https://sh.rustup.rs
@@ -26,3 +30,5 @@ systems:
    provider: pip3
  - type: install-packages
    provider: pip
+ - type: install-packages
+   provider: gem
