@@ -8,30 +8,40 @@ hierarchy:
   - db/{profile}.yml
 
 systems:
+ # copy files into my home directory.
  - type: copy-dir
    from: home
    to: home:.
    templates: true
+ # copy files into my vim directory.
  - type: copy-dir
    from: vim
    to: home:.vim
+ # symlink $HOME/.vimrc -> $HOME/.vim/vimrc
  - type: link
    path: home:.vimrc
    link: home:.vim/vimrc
+ # Download and install Rust
  - type: download-and-run
    id: install-rust
    url: https://sh.rustup.rs
+ # Download and install oh-my-zsh.
  - type: download-and-run
    id: install-oh-my-zsh
    url: https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh
    shell: true
+ # Install packages from `packages` using default provider.
  - type: install-packages
+ # Install packages from `pip3::packages` using pip3.
  - type: install-packages
    provider: pip3
+ # Install packages from `pip::packages` using pip.
  - type: install-packages
    provider: pip
+ # Install packages from `gem::packages` using gem.
  - type: install-packages
    provider: gem
+ # Symbolically link the bin directory to $HOME/usr/bin.
  - type: link-dir
    from: bin
    to: home:usr/bin
