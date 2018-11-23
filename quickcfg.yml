@@ -11,25 +11,26 @@ systems:
  # copy files into my home directory.
  - type: copy-dir
    from: home
-   to: home:.
+   to: home://
    templates: true
  # copy files into my vim directory.
  - type: copy-dir
    from: vim
-   to: home:.vim
+   to: home://.vim
  # symlink $HOME/.vimrc -> $HOME/.vim/vimrc
  - type: link
-   path: home:.vimrc
-   link: home:.vim/vimrc
+   path: home://.vimrc
+   link: home://.vim/vimrc
  # Download and install Rust
  - type: download-and-run
    id: install-rust
    url: https://sh.rustup.rs
+   args: ["-y"]
  # Download and install oh-my-zsh.
- - type: download-and-run
+ - type: git-sync
    id: install-oh-my-zsh
-   url: https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh
-   shell: true
+   remote: https://github.com/robbyrussell/oh-my-zsh.git
+   path: home://.oh-my-zsh
  # Install packages from `packages` using default provider.
  - type: install-packages
  # Install packages from `pip3::packages` using pip3.
@@ -44,4 +45,4 @@ systems:
  # Symbolically link the bin directory to $HOME/usr/bin.
  - type: link-dir
    from: bin
-   to: home:usr/bin
+   to: home://usr/bin
