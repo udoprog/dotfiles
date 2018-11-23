@@ -10,9 +10,10 @@ gem::packages:
 pip3::packages:
  - PyYAML
  - powerline-status
- - pystache
  - neovim
  - typing
+ - jupyter
+ - matplotlib
 
 pip::packages:
  - offlineimap

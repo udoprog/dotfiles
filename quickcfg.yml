@@ -9,15 +9,15 @@ hierarchy:
 
 systems:
  - type: copy-dir
-   from: root:./home
+   from: home
    to: home:.
    templates: true
  - type: copy-dir
-   from: root:./vim
+   from: vim
    to: home:.vim
  - type: link
    path: home:.vimrc
-   link: .vim/vimrc
+   link: home:.vim/vimrc
  - type: download-and-run
    id: install-rust
    url: https://sh.rustup.rs
@@ -32,3 +32,6 @@ systems:
    provider: pip
  - type: install-packages
    provider: gem
+ - type: link-dir
+   from: bin
+   to: home:usr/bin
