@@ -6,6 +6,7 @@ mail: []
 
 gem::packages:
  - neovim
+ - travis
 
 pip3::packages:
  - PyYAML
