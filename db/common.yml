@@ -4,6 +4,9 @@ zsh_plugins:
   - {name: git}
 mail: []
 
+cargo::packages:
+ - ripgrep
+
 gem::packages:
  - neovim
  - travis
