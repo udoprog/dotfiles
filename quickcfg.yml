@@ -50,10 +50,6 @@ systems:
  # Install packages from `cargo::packages` using cargo.
  - type: install-packages
    provider: cargo
- # create symlink for rg -> ripgrep
- - type: link
-   path: home://usr/bin/rg
-   link: home://.cargo/bin/ripgrep
  # Symbolically link the bin directory to $HOME/usr/bin.
  - type: link-dir
    from: bin
