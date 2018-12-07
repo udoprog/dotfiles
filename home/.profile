@@ -29,7 +29,7 @@ done
 
 for p in ${candidates[*]}; do
     if [[ -d $p ]]; then
-        PATH="$p:$PATH"
+        PATH="$PATH:$p"
     fi
 done
 
