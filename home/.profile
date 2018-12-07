@@ -1,3 +1,7 @@
+if [[ -z $HAS_PROFILE ]]; then
+    return 0
+fi
+
 # quickcfg: email, name
 candidates=()
 # Directories which have a versioned release in them with a <version>/bin directory.
@@ -47,3 +51,4 @@ export CORRECT_IGNORE='_*:.*'
 export DEBEMAIL="{{email}}"
 export DEBFULLNAME="{{name}}"
 export PATH
+export HAS_PROFILE=yes
