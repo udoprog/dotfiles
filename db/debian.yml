@@ -7,3 +7,4 @@ packages:
  - quassel-client
  - emacs
  - jq
+ - ifstat
