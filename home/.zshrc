@@ -5,8 +5,12 @@ plugins=(
 {{#each zsh_plugins}}  {{this.name}}{{/each}}
 )
 source $ZSH/oh-my-zsh.sh
-source ~/.profile
 source ~/.zshrc_custom
+
+if [[ $ZSH_HAS_PROFILE != "yes" ]]; then
+    source ~/.profile
+    export ZSH_HAS_PROFILE=yes
+fi
 
 if [[ -f ~/.fzf.zsh ]]; then
     source ~/.fzf.zsh
