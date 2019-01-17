@@ -11,6 +11,15 @@ gem::packages:
  - neovim
  - travis
 
+rustup-components::packages:
+ - clippy-preview
+ - rls-preview
+ - rustfmt-preview
+ - miri-preview
+
+rustup-toolchains::packages:
+ - nightly
+
 pip3::packages:
  - PyYAML
  - powerline-status

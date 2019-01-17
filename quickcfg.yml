@@ -8,49 +8,68 @@ hierarchy:
   - db/{profile}.yml
 
 systems:
- # copy files into my home directory.
- - type: copy-dir
-   from: home
-   to: home://
-   templates: true
- # copy files into my vim directory.
- - type: copy-dir
-   from: vim
-   to: home://.vim
- # symlink $HOME/.vimrc -> $HOME/.vim/vimrc
- - type: link
-   path: home://.vimrc
-   link: home://.vim/vimrc
- # Download and install Rust
- - type: download-and-run
-   id: install-rust
-   url: https://sh.rustup.rs
-   args: ["-y"]
- # Download and install oh-my-zsh.
- - type: git-sync
-   id: install-oh-my-zsh
-   remote: https://github.com/robbyrussell/oh-my-zsh.git
-   path: home://.oh-my-zsh
- # Keep a rust clone in sync.
- - type: git-sync
-   id: clone-rust
-   remote: https://github.com/rust-lang/rust
-   path: home://repo/rust
- # Install packages from `packages` using default provider.
- - type: install-packages
- # Install packages from `pip3::packages` using pip3.
- - type: install-packages
-   provider: pip3
- # Install packages from `pip::packages` using pip.
- - type: install-packages
-   provider: pip
- # Install packages from `gem::packages` using gem.
- - type: install-packages
-   provider: gem
+ - type: install
+   provider: rust components
+ - type: install
+   provider: rust toolchains
  # Install packages from `cargo::packages` using cargo.
- - type: install-packages
+ - type: install
    provider: cargo
- # Symbolically link the bin directory to $HOME/usr/bin.
- - type: link-dir
-   from: bin
-   to: home://usr/bin
+ - type: only-for
+   os: windows
+   systems:
+    # Download and install Rust
+    - type: download-and-run
+      name: rustup-init.exe
+      id: install-rust
+      url: https://win.rustup.rs/x86_64
+      args: ["-y"]
+ - type: only-for
+   os: unix
+   systems:
+    # copy files into my home directory.
+    - type: copy-dir
+      from: home
+      to: home://
+      templates: true
+    # copy files into my vim directory.
+    - type: copy-dir
+      from: vim
+      to: home://.vim
+    # symlink $HOME/.vimrc -> $HOME/.vim/vimrc
+    - type: link
+      path: home://.vimrc
+      link: home://.vim/vimrc
+    # Download and install Rust
+    - type: download-and-run
+      id: install-rust
+      url: https://sh.rustup.rs
+      args: ["-y"]
+    # Download and install oh-my-zsh.
+    - type: git-sync
+      id: install-oh-my-zsh
+      remote: https://github.com/robbyrussell/oh-my-zsh.git
+      path: home://.oh-my-zsh
+    # Keep a rust clone in sync.
+    - type: git-sync
+      id: clone-rust
+      remote: https://github.com/rust-lang/rust
+      path: home://repo/rust
+    # Install packages from `packages` using default provider.
+    - type: install
+    # Install packages from `pip3::packages` using pip3.
+    - type: install
+      provider: pip3
+    # Install packages from `pip::packages` using pip.
+    - type: install
+      provider: pip
+    # Install packages from `gem::packages` using gem.
+    - type: install
+      provider: gem
+    # Install packages from `cargo::packages` using cargo.
+    - type: install
+      provider: cargo
+    # Symbolically link the bin directory to $HOME/usr/bin.
+    - type: link-dir
+      from: bin
+      to: home://usr/bin
