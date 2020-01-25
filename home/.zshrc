@@ -17,6 +17,6 @@ if [[ -f ~/.fzf.zsh ]]; then
 fi
 
 if command -v quickcfg > /dev/null 2>&1; then
-    quickcfg --updates-only --root $HOME/.dotfiles
-    alias upd="quickcfg --root $HOME/.dotfiles"
+    quickcfg --updates-only
+    alias upd="quickcfg"
 fi
