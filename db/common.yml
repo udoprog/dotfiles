@@ -11,14 +11,14 @@ gem::packages:
  - neovim
  - travis
 
-rustup-components::packages:
- - clippy-preview
- - rls-preview
- - rustfmt-preview
- - miri-preview
+rust::components:
+ - clippy
+ - rustfmt
+ - miri
 
-rustup-toolchains::packages:
+rust::toolchains:
  - nightly
+ - stable
 
 pip3::packages:
  - PyYAML

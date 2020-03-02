@@ -8,11 +8,16 @@ hierarchy:
   - db/{profile}.yml
 
 systems:
+ # Install components from `rust::components` using rustup.
  - type: install
+   requires:
+    - rust-toolchains
    provider: rust components
+ # Install toolchains from `rust::toolchains` using rustup.
  - type: install
+   id: rust-toolchains
    provider: rust toolchains
- # Install packages from `cargo::packages` using cargo.
+ # Install crates from `cargo::packages` using cargo.
  - type: install
    provider: cargo
  - type: only-for
