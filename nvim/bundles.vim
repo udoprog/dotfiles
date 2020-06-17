@@ -14,7 +14,7 @@ if dein#load_state(resolve(expand("~/.dein")))
   call dein#add('Shougo/deoplete.nvim')
 
   " language client (e.g. RLS)
-  call dein#add('autozimu/LanguageClient-neovim', {'rev': 'next', 'build': './install.sh'})
+  " call dein#add('autozimu/LanguageClient-neovim', {'rev': 'next', 'build': './install.sh'})
 
   " basics
   " call dein#add("scrooloose/syntastic")
@@ -52,10 +52,7 @@ if dein#load_state(resolve(expand("~/.dein")))
   call dein#add('leafgarland/typescript-vim')
   call dein#add('joe-skb7/cscope-maps')
   call dein#add('reproto/reproto-vim')
-
-  " rust
-  call dein#add('mckinnsb/rust.vim')
-  call dein#add('racer-rust/vim-racer')
+  call dein#add("neoclide/coc.nvim", {'rev': 'release'})
 
   " javascript
   call dein#add('pangloss/vim-javascript')

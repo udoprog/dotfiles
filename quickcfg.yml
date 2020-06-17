@@ -39,12 +39,8 @@ systems:
       templates: true
     # copy files into my vim directory.
     - type: copy-dir
-      from: vim
-      to: home://.vim
-    # symlink $HOME/.vimrc -> $HOME/.vim/vimrc
-    - type: link
-      path: home://.vimrc
-      link: home://.vim/vimrc
+      from: nvim
+      to: home://.config/nvim
     # Download and install Rust
     - type: download-and-run
       id: install-rust

@@ -8,3 +8,4 @@ packages:
  - emacs
  - jq
  - ifstat
+ - python3-pip
