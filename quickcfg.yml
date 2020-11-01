@@ -25,6 +25,7 @@ systems:
  - type: install
  # Like up things to download and run from the `download-and-run` key.
  - type: from-db
+   id: download-and-run
    system: download-and-run
    key: download-and-run
  - type: only-for
