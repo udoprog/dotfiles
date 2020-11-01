@@ -1,0 +1,16 @@
+packages:
+ - VideoLAN.VLC
+ - Microsoft.VisualStudioCode
+
+download-and-run:
+  # Download and install Rust
+  - name: rustup-init.exe
+    url: https://win.rustup.rs/x86_64
+    args: ["-y"]
+  # Install Spotify
+  - url: https://download.scdn.co/SpotifySetup.exe
+    args: ["/Silent"]
+  # Install VLC
+  - url: https://mirror.zetup.net/videolan/vlc/3.0.11/win64/vlc-3.0.11-win64.exe
+    args: ["/S"]
+    root: true

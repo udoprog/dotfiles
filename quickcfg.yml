@@ -4,7 +4,8 @@ package_refresh: 1d
 hierarchy:
   - secrets.yml
   - db/common.yml
-  - db/{distro}.yml
+  - db/os/{os}.yml
+  - db/distro/{distro}.yml
   - db/{profile}.yml
 
 systems:
@@ -20,15 +21,12 @@ systems:
  # Install crates from `cargo::packages` using cargo.
  - type: install
    provider: cargo
- - type: only-for
-   os: windows
-   systems:
-    # Download and install Rust
-    - type: download-and-run
-      name: rustup-init.exe
-      id: install-rust
-      url: https://win.rustup.rs/x86_64
-      args: ["-y"]
+ # Install packages from `packages` using default provider.
+ - type: install
+ # Like up things to download and run from the `download-and-run` key.
+ - type: from-db
+   system: download-and-run
+   key: download-and-run
  - type: only-for
    os: unix
    systems:
@@ -41,11 +39,6 @@ systems:
     - type: copy-dir
       from: nvim
       to: home://.config/nvim
-    # Download and install Rust
-    - type: download-and-run
-      id: install-rust
-      url: https://sh.rustup.rs
-      args: ["-y"]
     # Download and install oh-my-zsh.
     - type: git-sync
       id: install-oh-my-zsh
@@ -56,8 +49,6 @@ systems:
       id: clone-rust
       remote: https://github.com/rust-lang/rust
       path: home://repo/rust
-    # Install packages from `packages` using default provider.
-    - type: install
     # Install packages from `pip3::packages` using pip3.
     - type: install
       provider: pip3

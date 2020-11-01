@@ -1,0 +1,5 @@
+download-and-run:
+  # Download and install Rust
+  - id: install-rust
+    url: https://sh.rustup.rs
+    args: ["-y"]
