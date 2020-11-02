@@ -17,6 +17,8 @@ systems:
  # Install toolchains from `rust::toolchains` using rustup.
  - type: install
    id: rust-toolchains
+   requires:
+    - download-and-run
    provider: rust toolchains
  # Install crates from `cargo::packages` using cargo.
  - type: install

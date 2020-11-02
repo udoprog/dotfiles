@@ -1,18 +1,24 @@
 packages: []
 
 download-and-run:
-  # Download and install Rust
-  - name: rustup-init.exe
+  - name: rustup-init
     url: https://win.rustup.rs/x86_64
     args: ["-y"]
-  # Install Spotify
-  - url: https://download.scdn.co/SpotifySetup.exe
+  - name: Spotify
+    url: https://download.scdn.co/SpotifySetup.exe
     args: ["/Silent"]
-  # Install VLC
-  - url: https://mirror.zetup.net/videolan/vlc/3.0.11/win64/vlc-3.0.11-win64.exe
+  - name: VLC
+    url: https://mirror.zetup.net/videolan/vlc/3.0.11/win64/vlc-3.0.11-win64.exe
     args: ["/S"]
     root: true
-  - url: https://aka.ms/win32-x64-user-stable
+  - name: VScode
+    url: https://aka.ms/win32-x64-user-stable
     args: ["/VERYSILENT", "/MERGETASKS=!runcode"]
-  - url: https://github.com/git-for-windows/git/releases/download/v2.29.2.windows.1/Git-2.29.2-64-bit.exe
+  - name: Git
+    url: https://github.com/git-for-windows/git/releases/download/v2.29.2.windows.1/Git-2.29.2-64-bit.exe
     args: ["/VERYSILENT", "/NORESTART"]
+  - name: Chatty
+    url: https://github.com/chatty/chatty/releases/download/v0.13/Chatty_0.13_win_standalone_setup.exe
+    args: ["/VERYSILENT"]
+  - name: Discord
+    url: https://discord.com/api/download?platform=win
