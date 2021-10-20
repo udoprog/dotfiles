@@ -47,11 +47,6 @@ systems:
       id: install-oh-my-zsh
       remote: https://github.com/robbyrussell/oh-my-zsh.git
       path: home://.oh-my-zsh
-    # Keep a rust clone in sync.
-    - type: git-sync
-      id: clone-rust
-      remote: https://github.com/rust-lang/rust
-      path: home://repo/rust
     # Install packages from `pip3::packages` using pip3.
     - type: install
       provider: pip3
