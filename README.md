@@ -5,11 +5,22 @@ This is a simple framework for managing dotfiles.
 To get started you need to install [quickcfg]:
 
 ```bash
-$> cargo +nightly install quickcfg
+$> cargo install quickcfg
 ```
 
-You must manually populate a `secrets.yml` file, which might contain passwords or other sensitive
-information.
+Initialize the basic configuration:
+
+```bash
+$ qc --init https://github.com/udoprog/dotfiles
+```
+
+Edit `secrets.yml`:
+
+```bash
+$ nvim $(c --paths | grep "^Root:" | awk '{print $2}')/secrets.yml
+```
+
+With this:
 
 ```
 mutt_signature: John-John Tedro
