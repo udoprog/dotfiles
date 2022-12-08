@@ -17,7 +17,7 @@ $ qc --init https://github.com/udoprog/dotfiles
 Edit `secrets.yml`:
 
 ```bash
-$ nvim $(c --paths | grep "^Root:" | awk '{print $2}')/secrets.yml
+$ nvim $(qc --paths | grep "^Root:" | awk '{print $2}')/secrets.yml
 ```
 
 With this:
