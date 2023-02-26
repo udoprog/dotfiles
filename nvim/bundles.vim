@@ -7,7 +7,6 @@ endif
 
 call plug#begin(stdpath('data') . '/plugged')
 
-Plug 'Shougo/dein.vim'
 Plug 'bling/vim-airline'
 Plug 'godlygeek/tabular'
 Plug 'jceb/vim-orgmode'
