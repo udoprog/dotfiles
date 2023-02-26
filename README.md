@@ -35,7 +35,7 @@ email: udoprog@example.com
 Make sure to chmod it to something suitable:
 
 ```bash
-$> chmod 0200 $(qc --paths | grep "^Root:" | awk '{print $2}')/secrets.yml
+$> chmod 0600 $(qc --paths | grep "^Root:" | awk '{print $2}')/secrets.yml
 ```
 
 After this you can now run `quickcfg`:
