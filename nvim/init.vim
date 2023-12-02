@@ -1,17 +1,13 @@
 " vim: sw=2 foldmethod=marker
 
-" {{{ Bundles
 source ~/.config/nvim/bundles.vim
-""" }}}
 
-" {{{ Basic Settings
 syntax enable
 filetype plugin on
 filetype indent on
 
 silent! colorscheme molokai
 
-" {{{ FileType Setup
 function! SetupJava()
   set path=src/main/java,src/test/java,$JAVA_HOME/src
   set suffixesadd=.java
@@ -127,9 +123,7 @@ if has("autocmd")
 
   " autocmd! BufWritePost *.rs Neomake cargo
 endif
-" }}}
 
-" {{{ Learn Vim The Hard Way
 " Learn vim the hard way.
 " Disable movement keys and escape.
 noremap <Left> <NOP>
@@ -142,10 +136,7 @@ noremap <Down> <NOP>
 inoremap <Down> <NOP>
 
 " Escape remapping to tab.
-inoremap jk <Esc>
-" }}}
 
-" {{{ coc
 " TextEdit might fail if hidden is not set.
 set hidden
 
@@ -278,6 +269,8 @@ command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organize
 " provide custom statusline: lightline.vim, vim-airline.
 set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
 
+let mapleader=','
+
 " Mappings for CoCList
 " Show all diagnostics.
 nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
@@ -295,4 +288,8 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
-" }}}
+
+inoremap jk <Esc>
+noremap <leader><space> :nohl<cr>
+noremap <leader>t :call fzf#run()<cr>
+

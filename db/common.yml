@@ -27,6 +27,3 @@ pip3::packages:
  - typing
  - jupyter
  - matplotlib
-
-pip::packages:
- - offlineimap
