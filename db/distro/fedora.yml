@@ -11,3 +11,4 @@ packages:
  - cmake
  - gcc-c++
  - offlineimap
+ - zsh

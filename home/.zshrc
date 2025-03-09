@@ -16,7 +16,7 @@ if [[ -f ~/.fzf.zsh ]]; then
     source ~/.fzf.zsh
 fi
 
-if command -v quickcfg > /dev/null 2>&1; then
-    quickcfg --updates-only
-    alias upd="quickcfg"
+if command -v qc > /dev/null 2>&1; then
+    qc --updates-only
+    alias upd="qc"
 fi
