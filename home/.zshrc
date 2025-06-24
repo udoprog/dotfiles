@@ -4,13 +4,14 @@ ZSH_THEME="{{zsh_theme}}"
 plugins=(
 {{#each zsh_plugins}}  {{this.name}}{{/each}}
 )
-source $ZSH/oh-my-zsh.sh
-source ~/.zshrc_custom
 
 if [[ $ZSH_HAS_PROFILE != "yes" ]]; then
     source ~/.profile
     export ZSH_HAS_PROFILE=yes
 fi
+
+source $ZSH/oh-my-zsh.sh
+source ~/.zshrc_custom
 
 if [[ -f ~/.fzf.zsh ]]; then
     source ~/.fzf.zsh

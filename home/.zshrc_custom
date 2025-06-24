@@ -47,3 +47,9 @@ alias offlineimap.{{this}}="offlineimap -c ~/.offlineimap/{{this}}.rc"
 {{/each}}
 
 alias ccache-enable="source $HOME/.ccacherc"
+
+_prompt_info() {
+  jj_prompt_template 'self.change_id().shortest(3)' || git_prompt_info
+}
+
+PROMPT='%{$fg[cyan]%}%1~%{$reset_color%}%{$fg[red]%}|%{$reset_color%}$(_prompt_info)%{$fg[cyan]%}⇒%{$reset_color%} '

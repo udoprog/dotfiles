@@ -2,6 +2,7 @@ zsh_theme: robbyrussell
 primary_mail: personal
 zsh_plugins:
   - {name: git}
+  - {name: jj}
 mail: []
 
 cargo::packages:
