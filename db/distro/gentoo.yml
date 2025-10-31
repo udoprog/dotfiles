@@ -8,12 +8,9 @@ packages:
  - app-shells/zsh
  - dev-lang/python
  - dev-lang/ruby
-# needed to build command-t
-# see: https://github.com/wincent/command-t
  - dev-ruby/rake
  - net-irc/quassel
  - net-p2p/transmission
- - mail-client/mutt
  - dev-util/ctags
  - dev-util/cscope
  - net-misc/clusterssh
@@ -22,4 +19,3 @@ packages:
  - media-gfx/gimp
  - dev-util/cmake
  - mail-filter/procmail
-# - sys-devel/gcc

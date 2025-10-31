@@ -1,4 +1,0 @@
-export CCACHE_DIR="$HOME/.ccache"
-export CC="ccache gcc"
-export CXX="ccache g++"
-export PATH="/usr/lib/ccache:$PATH"

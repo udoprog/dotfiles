@@ -1,2 +1,0 @@
-text/html; google-chrome %s >/dev/null 2>&1; needsterminal
-text/html; links -dump %s; nametemplate=%s.html; copiousoutput

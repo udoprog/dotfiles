@@ -60,9 +60,9 @@ systems:
     - type: install
       provider: cargo
     # Symbolically link the bin directory to $HOME/usr/bin.
-    - type: link-dir
-      from: bin
-      to: home://usr/bin
+    #- type: link-dir
+    #  from: bin
+    #  to: home://usr/bin
     - type: download
       url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
       path: home://.config/nvim/autoload/plug.vim

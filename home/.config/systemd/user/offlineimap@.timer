@@ -1,8 +1,0 @@
-[Unit]
-Description=OfflineIMAP Timer
-
-[Timer]
-OnCalendar=*-*-* *:*:00
-
-[Install]
-WantedBy=timers.target

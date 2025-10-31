@@ -1,0 +1,33 @@
+#!/bin/bash
+
+common_args=('--expire-time=5000')
+
+error_args=()
+error_args+=$common_args
+
+ok_args=()
+ok_args+=$common_args
+
+error_icon='/usr/share/icons/Adwaita/symbolic/status/computer-fail-symbolic.svg'
+
+if [[ -f $error_icon ]]; then
+    error_args+=('-i' $error_icon)
+fi
+
+/usr/bin/rclone bisync \
+    Personal: \
+    /home/udoprog/GoogleDrive/ \
+    --create-empty-src-dirs \
+    --compare size,modtime,checksum \
+    --slow-hash-sync-only \
+    --resilient \
+    -M \
+    --drive-skip-gdocs \
+    --fix-case \
+    "$@"
+
+if [[ $? -ne 0 ]]; then
+    /usr/bin/notify-send ${error_args[@]} -u critical -a rclone "rclone failed"
+else
+    /usr/bin/notify-send ${error_args[@]} -u critical -a rclone "rclone succeeded"
+fi

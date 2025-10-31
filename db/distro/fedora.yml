@@ -7,8 +7,6 @@ packages:
  - zsh
  - python3
  - jq
- - gimp
  - cmake
  - gcc-c++
- - offlineimap
  - zsh

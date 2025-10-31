@@ -1,0 +1,10 @@
+[Unit]
+Description=rclone timer
+
+[Timer]
+OnCalendar=*:0/30
+AccuracySec=1m
+Persistent=true
+
+[Install]
+WantedBy=timers.target

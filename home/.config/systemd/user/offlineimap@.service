@@ -1,7 +1,0 @@
-# quickcfg: HOME:env
-[Unit]
-Description=OfflineIMAP
-After=network.target
-
-[Service]
-ExecStart={{HOME}}/.local/bin/offlineimap -c ~/.offlineimap/%i.rc
