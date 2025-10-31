@@ -28,6 +28,4 @@ fi
 
 if [[ $? -ne 0 ]]; then
     /usr/bin/notify-send ${error_args[@]} -u critical -a rclone "rclone failed"
-else
-    /usr/bin/notify-send ${error_args[@]} -u critical -a rclone "rclone succeeded"
 fi
