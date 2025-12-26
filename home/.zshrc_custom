@@ -1,4 +1,3 @@
-# quickcfg: mail
 # vim: filetype=zsh
 
 # Prefix PS1 with current schroot name if viable.
@@ -40,16 +39,3 @@ alias system-update="sudo eix-sync"
 if command -v nvim -> /dev/null; then
     alias vim=nvim
 fi
-
-{{#each mail}}
-alias mutt.{{this}}="mutt -F ~/.mutt/accounts/{{this}}"
-alias offlineimap.{{this}}="offlineimap -c ~/.offlineimap/{{this}}.rc"
-{{/each}}
-
-alias ccache-enable="source $HOME/.ccacherc"
-
-_prompt_info() {
-  jj_prompt_template 'self.change_id().shortest(3)' || git_prompt_info
-}
-
-PROMPT='%{$fg[cyan]%}%1~%{$reset_color%}%{$fg[red]%}|%{$reset_color%}$(_prompt_info)%{$fg[cyan]%}⇒%{$reset_color%} '
