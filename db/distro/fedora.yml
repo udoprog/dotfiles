@@ -2,7 +2,6 @@ ca_certs: /etc/ssl/certs/ca-bundle.crt
 
 packages:
  - git
- - nodejs
  - tmux
  - zsh
  - python3
