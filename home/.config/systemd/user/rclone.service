@@ -3,4 +3,4 @@ Description=rclone bisync
 
 [Service]
 Type=oneshot
-ExecStart=/home/udoprog/.local/bin/rclone-bisync
+ExecStart=/home/me/.local/bin/rclone-bisync

@@ -16,7 +16,7 @@ fi
 
 /usr/bin/rclone bisync \
     Personal: \
-    /home/udoprog/GoogleDrive/ \
+    /home/me/GoogleDrive/ \
     --create-empty-src-dirs \
     --compare size,modtime,checksum \
     --slow-hash-sync-only \
