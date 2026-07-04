@@ -1,36 +1,63 @@
--- Link bluetooth capture nodes to the "bluetooth" virtual source so the
--- software mixer picks them up.
+-- Link bluetooth device nodes to the stable virtual nodes used by the
+-- software mixer:
+--
+--   bluez_input.* (Audio/Source)  ->  "bluetooth_in" virtual source
+--   "bluetooth_out" virtual sink  ->  bluez_output.* (Audio/Sink)
 --
 -- PipeWire exposes a headset-head-unit input as two nodes: an internal
 -- hardware node (Audio/Source/Internal, name like bluez_input.XX_XX....N)
 -- and a public loopback node (Audio/Source, name like bluez_input.XX:XX:...).
--- Only the public one is meant to be consumed, and only it has a stable
--- name, so that is what we match here.
+-- Only the public one is meant to be consumed, so that is what we match.
+-- Output sinks have no such split, but their names carry a volatile .N
+-- suffix, hence the pattern matches on both sides.
+--
+-- Channel mapping: a single source port fans out to every destination
+-- port, multiple source ports feeding a single destination port are all
+-- linked to it (pipewire mixes them, downmixing stereo to mono), and
+-- otherwise ports are paired by audio.channel with an index fallback.
 --
 -- Links are made per-port and re-evaluated whenever nodes or ports appear,
 -- because ports show up some time after their node does.
 
-local log = Log.open_topic("bt-input-autolink")
-
-local TARGET_NODE_NAME = "bluetooth"
-
-local bt_om = ObjectManager {
-  Interest {
-    type = "node",
-    Constraint { "media.class", "equals", "Audio/Source" },
-    Constraint { "node.name", "matches", "bluez_input.*" },
-  }
-}
-
-local target_om = ObjectManager {
-  Interest {
-    type = "node",
-    Constraint { "node.name", "equals", TARGET_NODE_NAME },
-  }
-}
+local log = Log.open_topic("bt-autolink")
 
 local ports_om = ObjectManager {
   Interest { type = "port" }
+}
+
+-- each rule links output ports of nodes matching `out_om` to input ports
+-- of nodes matching `in_om`
+local rules = {
+  {
+    out_om = ObjectManager {
+      Interest {
+        type = "node",
+        Constraint { "media.class", "equals", "Audio/Source" },
+        Constraint { "node.name", "matches", "bluez_input.*" },
+      }
+    },
+    in_om = ObjectManager {
+      Interest {
+        type = "node",
+        Constraint { "node.name", "equals", "bluetooth_in" },
+      }
+    },
+  },
+  {
+    out_om = ObjectManager {
+      Interest {
+        type = "node",
+        Constraint { "node.name", "equals", "bluetooth_out" },
+      }
+    },
+    in_om = ObjectManager {
+      Interest {
+        type = "node",
+        Constraint { "media.class", "equals", "Audio/Sink" },
+        Constraint { "node.name", "matches", "bluez_output.*" },
+      }
+    },
+  },
 }
 
 -- links we created, keyed by "<output-port-id>:<input-port-id>"
@@ -77,12 +104,21 @@ local function make_link(out_port, in_port)
   link:activate(1)
 end
 
-local function link_nodes(bt_node, target_node)
-  local outs = node_ports(bt_node, "out")
-  local ins = node_ports(target_node, "in")
+local function link_nodes(out_node, in_node)
+  local outs = node_ports(out_node, "out")
+  local ins = node_ports(in_node, "in")
 
   -- ports not created yet; rescan runs again when they appear
   if #outs == 0 or #ins == 0 then
+    return
+  end
+
+  -- multiple channels into a single port: link all of them, pipewire
+  -- mixes multiple links on one input port (stereo -> mono downmix)
+  if #ins == 1 and #outs > 1 then
+    for _, out_port in ipairs(outs) do
+      make_link(out_port, ins[1])
+    end
     return
   end
 
@@ -90,7 +126,7 @@ local function link_nodes(bt_node, target_node)
     local out_port = nil
 
     if #outs == 1 then
-      -- mono source feeds every target channel
+      -- single source port feeds every destination channel
       out_port = outs[1]
     else
       for _, o in ipairs(outs) do
@@ -108,18 +144,15 @@ local function link_nodes(bt_node, target_node)
 end
 
 local function rescan()
-  local target = target_om:lookup()
-  if target == nil then
-    return
-  end
-
-  for bt_node in bt_om:iterate() do
-    link_nodes(bt_node, target)
+  for _, rule in ipairs(rules) do
+    for out_node in rule.out_om:iterate() do
+      for in_node in rule.in_om:iterate() do
+        link_nodes(out_node, in_node)
+      end
+    end
   end
 end
 
-bt_om:connect("object-added", rescan)
-target_om:connect("object-added", rescan)
 ports_om:connect("object-added", rescan)
 
 -- pipewire destroys links whose ports go away; just drop our references so
@@ -134,6 +167,11 @@ ports_om:connect("object-removed", function(_, port)
   end
 end)
 
-bt_om:activate()
-target_om:activate()
 ports_om:activate()
+
+for _, rule in ipairs(rules) do
+  rule.out_om:connect("object-added", rescan)
+  rule.in_om:connect("object-added", rescan)
+  rule.out_om:activate()
+  rule.in_om:activate()
+end
