@@ -7,6 +7,9 @@ local bt_om = ObjectManager {
   Interest {
     type = "node",
     Constraint { "node.name", "equals", "bluez_input.3C_B0_ED_A8_CA_98.0" },
+    -- Constraint { "api.bluez5.codec", "equals", "msbc" },
+    -- Constraint { "api.bluez5.profile", "equals", "headset-head-unit" },
+    -- Constraint { "api.bluez5.internal", "is-absent" },
   }
 }
 
