@@ -11,10 +11,13 @@
 -- Output sinks have no such split, but their names carry a volatile .N
 -- suffix, hence the pattern matches on both sides.
 --
--- Channel mapping: a single source port fans out to every destination
--- port, multiple source ports feeding a single destination port are all
--- linked to it (pipewire mixes them, downmixing stereo to mono), and
--- otherwise ports are paired by audio.channel with an index fallback.
+-- Channel mapping: ports are paired by audio.channel (FL->FL, FR->FR, ...).
+-- When an input channel is not part of the source node's declared layout
+-- (audio.position) it is a genuine format conversion, so every source port is
+-- routed into it and pipewire mixes them (FL/FR -> MONO downmix, MONO -> FL/FR
+-- fan-out). An input channel that the source *is* expected to expose but hasn't
+-- materialised yet is left for a later rescan, so ports never get mislinked
+-- while the graph is still filling in.
 --
 -- Links are made per-port and re-evaluated whenever nodes or ports appear,
 -- because ports show up some time after their node does.
@@ -62,6 +65,20 @@ local rules = {
 
 -- links we created, keyed by "<output-port-id>:<input-port-id>"
 local links = {}
+
+-- ordered channel layout declared by a node, e.g. "[ FL FR ]" -> {"FL","FR"};
+-- nil when the node has no audio.position (the bluez_* device nodes)
+local function node_positions(node)
+  local pos = node.properties["audio.position"]
+  if pos == nil then
+    return nil
+  end
+  local list = {}
+  for ch in pos:gmatch("[%w_]+") do
+    table.insert(list, ch)
+  end
+  return list
+end
 
 local function node_ports(node, direction)
   local result = {}
@@ -113,33 +130,49 @@ local function link_nodes(out_node, in_node)
     return
   end
 
-  -- multiple channels into a single port: link all of them, pipewire
-  -- mixes multiple links on one input port (stereo -> mono downmix)
-  if #ins == 1 and #outs > 1 then
-    for _, out_port in ipairs(outs) do
-      make_link(out_port, ins[1])
+  -- map each present output port by its channel, and record the set of
+  -- channels the output node is *expected* to expose. audio.position gives
+  -- the declared layout (virtual nodes); when absent (bluez_* nodes) fall
+  -- back to whatever ports are present so far.
+  local out_by_channel = {}
+  for _, o in ipairs(outs) do
+    local channel = o.properties["audio.channel"]
+    if channel ~= nil then
+      out_by_channel[channel] = o
     end
-    return
   end
 
-  for i, in_port in ipairs(ins) do
-    local out_port = nil
-
-    if #outs == 1 then
-      -- single source port feeds every destination channel
-      out_port = outs[1]
-    else
-      for _, o in ipairs(outs) do
-        local channel = o.properties["audio.channel"]
-        if channel ~= nil and channel == in_port.properties["audio.channel"] then
-          out_port = o
-          break
-        end
-      end
-      out_port = out_port or outs[((i - 1) % #outs) + 1]
+  local out_expected = {}
+  local positions = node_positions(out_node)
+  if positions ~= nil then
+    for _, channel in ipairs(positions) do
+      out_expected[channel] = true
     end
+  else
+    for channel in pairs(out_by_channel) do
+      out_expected[channel] = true
+    end
+  end
 
-    make_link(out_port, in_port)
+  for _, in_port in ipairs(ins) do
+    local channel = in_port.properties["audio.channel"]
+    local match = channel ~= nil and out_by_channel[channel] or nil
+
+    if match ~= nil then
+      -- same channel on both sides: pair them directly (FL->FL, FR->FR, ...)
+      make_link(match, in_port)
+    elseif channel ~= nil and out_expected[channel] then
+      -- the matching output port is expected but hasn't appeared yet; skip
+      -- and let a later rescan pair them, rather than mislinking now
+    else
+      -- the input channel is not part of the output layout: this is a real
+      -- format conversion (e.g. FL/FR -> MONO downmix, or MONO -> FL/FR
+      -- fan-out). Route every present output port into it; pipewire mixes
+      -- multiple links landing on one input port.
+      for _, out_port in ipairs(outs) do
+        make_link(out_port, in_port)
+      end
+    end
   end
 end
 
