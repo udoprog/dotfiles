@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+REPO="${LOCAL_REPO:-$HOME/rpms-local}"
+
+src=("$@")
+[[ ${#src[@]} -gt 0 ]] || src=("$HOME/rpmbuild/RPMS/x86_64")
+
+for dir in "${src[@]}"; do
+	[[ -e $dir ]] || {
+		echo "error: no such path: $dir" >&2
+		exit 1
+	}
+done
+
+mkdir -p "$REPO"
+
+find "${src[@]}" -name '*.rpm' \
+	! -name '*.src.rpm' \
+	! -name '*debuginfo*' \
+	! -name '*debugsource*' \
+	-exec cp -t "$REPO" {} +
+
+createrepo_c --update "$REPO"
