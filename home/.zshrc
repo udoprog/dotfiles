@@ -19,17 +19,6 @@ if [[ -n $SCHROOT_CHROOT_NAME ]]; then
     export PS1="<$SCHROOT_CHROOT_NAME> $PS1"
 fi
 
-# Shared auth socket for tmux.
-SSH_AUTH_SOCK_LINK="$HOME/ssh_auth_sock"
-
-if [[ -n $TMUX ]]; then
-    export SSH_AUTH_SOCK="$SSH_AUTH_SOCK_LINK"
-else
-    if [[ -n $SSH_AUTH_SOCK ]]; then
-        ln -sf "$SSH_AUTH_SOCK" "$SSH_AUTH_SOCK_LINK"
-    fi
-fi
-
 _zsh_terminal_set_256color()
 {
     [[ $TERM =~ "-256color$" ]] && return
