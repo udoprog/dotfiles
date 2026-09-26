@@ -8,10 +8,6 @@ mail: []
 cargo::packages:
  - ripgrep
 
-gem::packages:
- - neovim
- - travis
-
 rust::components:
  - clippy
  - rustfmt
@@ -23,8 +19,3 @@ rust::toolchains:
 
 pip3::packages:
  - PyYAML
- - powerline-status
- - neovim
- - typing
- - jupyter
- - matplotlib
